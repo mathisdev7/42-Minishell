@@ -74,9 +74,9 @@ void	loop_shell(void)
 			break ;
 		}
 		if (is_valid_cmd(ft_split(line, ' ')))
-            parse_cmd(line);
-        else
-            printf("not a valid cmd\n");
+			parse_cmd(line);
+		else
+			printf("not a valid cmd\n");
 		free(line);
 	}
 	write_history(HISTORY_FILE_PATH);

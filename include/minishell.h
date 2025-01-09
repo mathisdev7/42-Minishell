@@ -33,15 +33,14 @@ typedef struct s_cmd
 {
 	char	*name;
 	char	**args;
-}	t_cmd;
+}			t_cmd;
 
-
-void    init_shell(void);
-void    loop_shell(void);
-void	handle_cmd(char *cmd_line);
-t_cmd	parse_cmd(char *cmd_line);
-int		count_cmd(char *str);
-void    free_split(char **splitted);
-int	ft_strcmp(char *s1, char *s2);
+void		init_shell(void);
+void		loop_shell(void);
+void		handle_cmd(char *cmd_line);
+t_cmd		parse_cmd(char *cmd_line);
+int			count_cmd(char *str);
+void		free_split(char **splitted);
+int			ft_strcmp(char *s1, char *s2);
 
 #endif
