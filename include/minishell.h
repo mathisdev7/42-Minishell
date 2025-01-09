@@ -37,7 +37,7 @@ void add_history(t_history **history, char *s);
 void print_history(t_history *history);
 void free_history(t_history **history);
 
-void    init_shell();
-void    loop_shell();
+void    init_shell(t_history *history);
+void    loop_shell(t_history *history);
 
 #endif
