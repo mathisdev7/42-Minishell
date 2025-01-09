@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/09 14:56:29 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:34:05 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_cmd	parse_cmd(char *cmd_line)
 		j++;
 	}
 	cmd.args[j] = NULL;
+	exec_cmd(cmd);
 	free_split(splitted_cmd);
 	return (cmd);
 }
