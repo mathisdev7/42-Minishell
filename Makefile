@@ -14,7 +14,7 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude -I/usr/include/readline
 LDFLAGS = -L/usr/lib -lreadline -lncurses
-SRCS = src/main.c src/minishell.c src/utils/utils.c src/history/history.c src/history/show_history.c
+SRCS = src/main.c src/minishell.c src/utils/utils.c
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = include/libft
 LIBFT = $(LIBFT_DIR)/libft.a

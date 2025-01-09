@@ -18,25 +18,6 @@ void	init_shell(void)
 	loop_shell();
 }
 
-void	handle_cmd(char *cmd_line)
-{
-	int		i;
-	char	**cmd;
-
-	i = 0;
-	cmd = ft_split(cmd_line, ' ');
-	while (cmd[i])
-	{
-		printf("[%s] ", cmd[i]);
-		i++;
-	}
-	printf("\n");
-	i = 0;
-	while (cmd[i])
-		free(cmd[i++]);
-	free(cmd);
-}
-
 int	is_valid_cmd(char **splitted_cmd)
 {
 	if (ft_strcmp(splitted_cmd[0], "echo") == 0)
@@ -92,7 +73,10 @@ void	loop_shell(void)
 			free(line);
 			break ;
 		}
-		handle_cmd(line);
+		if (is_valid_cmd(ft_split(line, ' ')))
+            parse_cmd(line);
+        else
+            printf("not a valid cmd\n");
 		free(line);
 	}
 	write_history(HISTORY_FILE_PATH);
