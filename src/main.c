@@ -10,12 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "../include/main.h"
 
 int main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
-	printf("salut");
+ 	t_history *history = NULL;
+
+    add_history(&history, "ls -la");
+    add_history(&history, "cd /");
+    add_history(&history, "echo Hello, World!");
+
+    printf("Historique des commandes :\n");
+    print_history(history);
+
+    free_history(&history);
 	return (0);
 }

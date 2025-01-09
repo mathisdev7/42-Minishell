@@ -26,5 +26,14 @@
 #ifndef MAIN_H
 # define MAIN_H
 
+typedef struct s_history
+{
+    char *command;
+    struct s_history *next;
+} t_history;
+
+void add_history(t_history **history, char *s);
+void print_history(t_history *history);
+void free_history(t_history **history);
 
 #endif
