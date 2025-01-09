@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/09 14:56:29 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:34:05 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,6 @@ void	init_shell(void)
 {
 	read_history(HISTORY_FILE_PATH);
 	loop_shell();
-}
-
-void	handle_cmd(char *cmd_line)
-{
-	int		i;
-	char	**cmd;
-
-	i = 0;
-	cmd = ft_split(cmd_line, ' ');
-	while (cmd[i])
-	{
-		printf("[%s] ", cmd[i]);
-		i++;
-	}
-	printf("\n");
-	i = 0;
-	while (cmd[i])
-		free(cmd[i++]);
-	free(cmd);
 }
 
 int	is_valid_cmd(char **splitted_cmd)
@@ -69,6 +50,7 @@ t_cmd	parse_cmd(char *cmd_line)
 		j++;
 	}
 	cmd.args[j] = NULL;
+	exec_cmd(cmd);
 	free_split(splitted_cmd);
 	return (cmd);
 }
@@ -92,7 +74,10 @@ void	loop_shell(void)
 			free(line);
 			break ;
 		}
-		handle_cmd(line);
+		if (is_valid_cmd(ft_split(line, ' ')))
+			parse_cmd(line);
+		else
+			printf("not a valid cmd\n");
 		free(line);
 	}
 	write_history(HISTORY_FILE_PATH);
