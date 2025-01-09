@@ -10,21 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/main.h"
+#include "../include/minishell.h"
 
-int main(int argc, char **argv)
+int main(void)
 {
+	init_shell();
 	(void)argc;
 	(void)argv;
- 	t_history *history = NULL;
-
-    add_history(&history, "ls -la");
-    add_history(&history, "cd /");
-    add_history(&history, "echo Hello, World!");
-
-    printf("Historique des commandes :\n");
-    print_history(history);
-
-    free_history(&history);
 	return (0);
 }
