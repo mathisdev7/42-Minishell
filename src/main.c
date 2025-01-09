@@ -10,12 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "../include/minishell.h"
 
-int main(int argc, char **argv)
+int main(void)
 {
-	(void)argc;
-	(void)argv;
-	printf("salut");
+	init_shell();
 	return (0);
 }

@@ -4,7 +4,7 @@
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
+#                                                 +#+#+#+#+#+   +#+           #
 #    Created: 2025/01/09 14:31:23 by mazeghou          #+#    #+#              #
 #    Updated: 2025/01/09 14:31:23 by mazeghou         ###   ########.fr        #
 #                                                                              #
@@ -12,8 +12,9 @@
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iinclude/libft
-SRCS = src/main.c
+CFLAGS = -Wall -Wextra -Werror -Iinclude -I/usr/include/readline
+LDFLAGS = -L/usr/lib -lreadline -lncurses
+SRCS = src/main.c src/minishell.c
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = include/libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -21,7 +22,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
