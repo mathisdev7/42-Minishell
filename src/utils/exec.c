@@ -22,4 +22,6 @@ void    exec_cmd(t_cmd cmd)
     }
 	else if (ft_strcmp(cmd.name, "echo") == 0)
 		exec_echo(cmd);
+	else if (ft_strcmp(cmd.name, "pwd") == 0)
+		exec_pwd();
 }

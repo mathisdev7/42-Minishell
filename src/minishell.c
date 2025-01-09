@@ -14,7 +14,6 @@
 
 void	init_shell(void)
 {
-	read_history(HISTORY_FILE_PATH);
 	loop_shell();
 }
 
@@ -90,14 +89,15 @@ void	loop_shell(void)
 			add_history(line);
 		if (ft_strncmp(line, "exit", ft_strlen(line)) == 0)
 		{
+			rl_clear_history();
+			printf("Bye ✌️\n");
 			free(line);
 			break ;
 		}
 		if (is_valid_cmd(ft_split(line, ' ')))
             parse_cmd(line);
         else
-            printf("not a valid cmd\n");
+            printf("[❌] - %s not found\n", line);
 		free(line);
 	}
-	write_history(HISTORY_FILE_PATH);
 }
