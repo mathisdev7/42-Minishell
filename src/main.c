@@ -15,5 +15,7 @@
 int main(void)
 {
 	init_shell();
+	(void)argc;
+	(void)argv;
 	return (0);
 }
