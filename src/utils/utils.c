@@ -12,15 +12,15 @@
 
 #include "../include/libft/libft.h"
 
-void    free_split(char **splitted)
+void	free_split(char **splitted)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (splitted[i])
-    {
-        free(splitted[i]);
-        i++;
-    }
-    free(splitted);
+	i = 0;
+	while (splitted[i])
+	{
+		free(splitted[i]);
+		i++;
+	}
+	free(splitted);
 }
