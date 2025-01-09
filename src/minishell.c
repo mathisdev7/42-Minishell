@@ -29,7 +29,6 @@ void    handle_cmd(char *cmd_line)
         printf("[%s] ", cmd[i]);
         i++;
     }
-
     printf("\n");
 }
 
