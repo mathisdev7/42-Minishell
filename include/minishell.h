@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/09 16:44:12 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/09 20:17:17 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,15 @@ typedef struct s_cmd
 	char	**args;
 }			t_cmd;
 
-void		init_shell(void);
-void		loop_shell(void);
-void		handle_cmd(char *cmd_line);
-t_cmd		parse_cmd(char *cmd_line);
-int			count_cmd(char *str);
-void		free_split(char **splitted);
-int			ft_strcmp(char *s1, char *s2);
+void    init_shell(void);
+void    loop_shell(void);
+void	handle_cmd(char *cmd_line);
+t_cmd	parse_cmd(char *cmd_line);
+int		count_args(char *str);
+void    free_split(char **splitted);
+int		ft_strcmp(char *s1, char *s2);
+void	exec_cmd(t_cmd cmd);
+void	exec_echo(t_cmd cmd);
+int			exec_cd(char *path);
 
 #endif
