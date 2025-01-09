@@ -12,9 +12,9 @@
 
 #include "../include/minishell.h"
 
-void    init_shell()
+void    init_shell(t_history *history)
 {
-    loop_shell();
+    loop_shell(history);
 }
 
 void    handle_cmd(char *cmd_line)
@@ -29,19 +29,20 @@ void    handle_cmd(char *cmd_line)
         printf("[%s] ", cmd[i]);
         i++;
     }
+
     printf("\n");
 }
 
-void    loop_shell()
+void    loop_shell(t_history *history)
 {
     char	*line;
 
 	while (1)
     {
-	    line = readline("minishell>");
+	    line = readline("minishell> ");
         if (ft_strncmp(line, "exit", ft_strlen(line)) == 0)
             return ;
+    	add_history(&history, line);
         handle_cmd(line);
-        
     }
 }
