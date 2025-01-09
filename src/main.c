@@ -14,6 +14,7 @@
 
 int main(void)
 {
-	init_shell();
+	t_history *history = NULL;
+	init_shell(history);
 	return (0);
 }

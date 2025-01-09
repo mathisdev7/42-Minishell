@@ -10,16 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/main.h"
+#include "../../include/minishell.h"
 
-void add_history(t_history **history, char *s)
+t_history *create_history_entry(char *s)
 {
-	t_history *new_entry;
-	t_history *current;
+    t_history *new_entry;
 
-    if (!s || !*s)
-        return;
-    new_entry = malloc(sizeof(t_history));
+	new_entry = malloc(sizeof(t_history));
     if (!new_entry)
     {
         perror("malloc");
@@ -33,6 +30,17 @@ void add_history(t_history **history, char *s)
         exit(EXIT_FAILURE);
     }
     new_entry->next = NULL;
+    return new_entry;
+}
+
+void add_history(t_history **history, char *s)
+{
+	t_history *new_entry;
+	t_history *current;
+
+    if (!s || !*s)
+        return;
+    new_entry = create_history_entry(s);
     if (!*history)
         *history = new_entry;
     else
@@ -46,9 +54,11 @@ void add_history(t_history **history, char *s)
 
 void print_history(t_history *history)
 {
-    t_history *current = history;
-    int index = 1;
+    t_history *current;
+    int index;
 
+	current = history;
+	index = 1;
     while (current)
     {
         printf("%d: %s\n", index++, current->command);
@@ -58,9 +68,10 @@ void print_history(t_history *history)
 
 void free_history(t_history **history)
 {
-    t_history *current = *history;
+    t_history *current;
     t_history *next;
 
+	current = *history;
     while (current)
     {
         next = current->next;
