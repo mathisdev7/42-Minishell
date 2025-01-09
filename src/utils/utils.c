@@ -39,12 +39,15 @@ int	ft_strcmp(char *s1, char *s2)
 	return (0);
 }
 
-int count_cmd(char *str)
+int count_args(char *str)
 {
-    int count = 0;
+    int count;
+
+	count = 0;
     char *ptr = str;
 
-    while (*ptr) {
+    while (*ptr)
+	{
         while (*ptr && *ptr == ' ')
             ptr++;
         if (*ptr)
@@ -54,6 +57,5 @@ int count_cmd(char *str)
                 ptr++;
         }
     }
-
-    return count;
+    return (count - 1);
 }

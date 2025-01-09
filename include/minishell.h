@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/09 16:44:12 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/09 20:46:15 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ void    init_shell(void);
 void    loop_shell(void);
 void	handle_cmd(char *cmd_line);
 t_cmd	parse_cmd(char *cmd_line);
-int		count_cmd(char *str);
+int		count_args(char *str);
 void    free_split(char **splitted);
-int	ft_strcmp(char *s1, char *s2);
+int		ft_strcmp(char *s1, char *s2);
+void	exec_cmd(t_cmd cmd);
+void	exec_echo(t_cmd cmd);
 
 #endif
