@@ -5,7 +5,8 @@
 		"stdio.h": "c",
 		"libft.h": "c",
 		"string.h": "c",
-		"stat.h": "c"
+		"stat.h": "c",
+		"signal.h": "c"
 	},
     "editor.tabSize": 4,
     "editor.insertSpaces": false,
