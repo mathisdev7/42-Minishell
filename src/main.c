@@ -12,9 +12,8 @@
 
 #include "../include/minishell.h"
 
-int main(void)
+int	main(void)
 {
-	t_history *history = NULL;
-	init_shell(history);
+	init_shell();
 	return (0);
 }

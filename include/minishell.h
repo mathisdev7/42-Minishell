@@ -6,26 +6,28 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/09 16:41:37 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/09 16:44:12 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#include <signal.h>
-#include <termios.h>
-#include <curses.h>
-#include <term.h>
-#include <stdio.h>
-#include "libft/libft.h"
-#include <readline/readline.h>
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define HISTORY_FILE_PATH ".minishell_history"
+
+# include "libft/libft.h"
+# include <curses.h>
+# include <dirent.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <term.h>
+# include <termios.h>
+# include <unistd.h>
 
 typedef struct s_cmd
 {
@@ -34,17 +36,9 @@ typedef struct s_cmd
 }	t_cmd;
 
 
-typedef struct s_history
-{
-    char *command;
-    struct s_history *next;
-} t_history;
-
-void add_history(t_history **history, char *s);
-void print_history(t_history *history);
-void free_history(t_history **history);
-void    init_shell(t_history *history);
-void    loop_shell(t_history *history);
+void    init_shell(void);
+void    loop_shell(void);
+void	handle_cmd(char *cmd_line);
 t_cmd	parse_cmd(char *cmd_line);
 int		count_cmd(char *str);
 void    free_split(char **splitted);
