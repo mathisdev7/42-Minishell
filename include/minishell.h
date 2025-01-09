@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/09 20:17:17 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/09 21:13:34 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void    free_split(char **splitted);
 int		ft_strcmp(char *s1, char *s2);
 void	exec_cmd(t_cmd cmd);
 void	exec_echo(t_cmd cmd);
-int			exec_cd(char *path);
+int		exec_cd(char *path);
+void	exec_pwd(void);
 
 #endif
