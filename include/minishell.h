@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/09 15:16:58 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/09 15:54:43 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void add_history(t_history **history, char *s);
 void print_history(t_history *history);
 void free_history(t_history **history);
 
-void    init_shell();
-void    loop_shell();
+void    init_shell(t_history *history);
+void    loop_shell(t_history *history);
 
 #endif

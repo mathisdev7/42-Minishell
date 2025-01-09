@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 14:27:07 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/09 14:27:07 by mazeghou         ###   ########.fr       */
+/*   Created: 2025/01/09 15:22:32 by nopareti          #+#    #+#             */
+/*   Updated: 2025/01/09 15:22:32 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/libft/libft.h"
 
-int main(void)
+void    free_split(char **splitted)
 {
-	t_history *history = NULL;
-	init_shell(history);
-	return (0);
+    int i;
+
+    i = 0;
+    while (splitted[i])
+    {
+        free(splitted[i]);
+        i++;
+    }
+    free(splitted);
 }

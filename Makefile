@@ -14,18 +14,15 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude -I/usr/include/readline
 LDFLAGS = -L/usr/lib -lreadline -lncurses
-SRCS = src/main.c src/minishell.c
+SRCS = src/main.c src/minishell.c src/utils/utils.c src/utils/history.c
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = include/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-HISTORY = src/utils/history.c
-
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) $(HISTORY) -o $(NAME)
-
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
