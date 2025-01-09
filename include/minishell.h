@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
 /*   Updated: 2025/01/09 16:44:12 by mazeghou         ###   ########.fr       */
@@ -29,8 +29,19 @@
 # include <termios.h>
 # include <unistd.h>
 
-void	init_shell(void);
+typedef struct s_cmd
+{
+	char	*name;
+	char	**args;
+}	t_cmd;
+
+
+void    init_shell(void);
+void    loop_shell(void);
 void	handle_cmd(char *cmd_line);
-void	loop_shell(void);
+t_cmd	parse_cmd(char *cmd_line);
+int		count_cmd(char *str);
+void    free_split(char **splitted);
+int	ft_strcmp(char *s1, char *s2);
 
 #endif
