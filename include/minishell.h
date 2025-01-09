@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/09 15:08:50 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/09 15:16:58 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+typedef struct s_history
+{
+    char *command;
+    struct s_history *next;
+} t_history;
+
+void add_history(t_history **history, char *s);
+void print_history(t_history *history);
+void free_history(t_history **history);
 
 void    init_shell();
 void    loop_shell();
