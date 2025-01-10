@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:07:59 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/10 14:58:24 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:04:47 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	exec_cd(char *path)
 			return (1);
 		}
 	}
-	path[strcspn(path, "\n")] = '\0';
+	path[ft_strcspn(path, "\n")] = '\0';
 	if (chdir(path) != 0)
 	{
 		perror("[❌] Error");
