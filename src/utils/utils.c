@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/libft/libft.h"
+#include "../include/minishell.h"
 
 void    free_split(char **splitted)
 {
@@ -77,3 +78,38 @@ int count_args(char *str)
     }
     return (count - 1);
 }
+
+t_env *init_env(char **envp)
+{
+    t_env *env = NULL;
+    t_env *new_node;
+    int i = 0;
+
+    while (envp[i])
+    {
+        new_node = malloc(sizeof(t_env));
+        if (!new_node)
+            return NULL;
+        new_node->name = strdup(strtok(envp[i], "="));
+        new_node->value = strdup(strtok(NULL, "="));
+        new_node->next = env;
+        env = new_node;
+        i++;
+    }
+    return env;
+}
+
+void free_env(t_env *env)
+{
+    t_env *temp;
+    while (env)
+    {
+        temp = env;
+        env = env->next;
+        free(temp->name);
+        free(temp->value);
+        free(temp);
+    }
+}
+
+
