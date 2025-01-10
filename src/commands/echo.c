@@ -24,7 +24,7 @@ void	print_env_var(char *arg, int *i)
 		|| ft_isalnum(arg[*i + k]) || arg[*i + k] == '_')
 		k++;
 	var_name = malloc(sizeof(char) * (k + 1));
-	strncpy(var_name, &arg[*i], k);
+	ft_strncpy(var_name, &arg[*i], k);
 	var_name[k] = '\0';
 	var_value = getenv(var_name);
 	if (var_value)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:07:59 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/09 21:29:19 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/10 14:58:24 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	exec_cd(char *path)
 {
 	char	current_path[PATH_MAX];
 
-	if (path == NULL || strcmp(path, "none") == 0)
+	if (path == NULL || ft_strcmp(path, "none") == 0)
 	{
 		path = getenv("HOME");
 		if (path == NULL)

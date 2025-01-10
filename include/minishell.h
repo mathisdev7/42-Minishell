@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/10 14:31:37 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:02:03 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	exec_unset(t_cmd cmd);
 int   exec_export(t_cmd cmd, t_env **envp);
 
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
+size_t	ft_strcspn(const char *s, const char *reject);
 t_env	*init_env(char **envp);
 void	free_env(t_env *env);
 
