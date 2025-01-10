@@ -53,6 +53,17 @@ void update_env(t_env **envp, char *name, char *value)
     *envp = new_env;
 }
 
+void	update_status(t_env **envp, int status)
+{
+	char	*status_str;
+
+	status_str = ft_itoa(status);
+	if (!status_str)
+		return ;
+	update_env(envp, "?", status_str);
+	free(status_str);
+}
+
 int exec_export(t_cmd cmd, t_env **envp)
 {
     char *arg;
@@ -76,5 +87,5 @@ int exec_export(t_cmd cmd, t_env **envp)
     value = equal_sign + 1;
     update_env(envp, name, value);
     free(arg);
-	return (1);
+	return (0);
 }

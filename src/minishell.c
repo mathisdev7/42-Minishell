@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/09 14:56:29 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/10 21:04:58 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	is_builtin_cmd(char **cmd_args)
 	else if (ft_strcmp(cmd_args[0], "export") == 0)
 		return (1);
 	else if (ft_strcmp(cmd_args[0], "unset") == 0)
+		return (1);
+	else if (ft_strcmp(cmd_args[0], "env") == 0)
 		return (1);
 	return (0);
 }

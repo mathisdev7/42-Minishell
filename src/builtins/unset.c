@@ -13,7 +13,7 @@
 #include "../include/minishell.h"
 
 
-void    exec_unset(t_cmd cmd, t_env **envp)
+int    exec_unset(t_cmd cmd, t_env **envp)
 {
     cmd.args++;
     while (*cmd.args)
@@ -21,4 +21,5 @@ void    exec_unset(t_cmd cmd, t_env **envp)
         ft_env_remove_if(envp, *cmd.args, ft_strcmp);
         cmd.args++;
     }
+	return (0);
 }

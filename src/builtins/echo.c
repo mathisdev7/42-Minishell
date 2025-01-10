@@ -21,7 +21,7 @@ void    print_env_var(char *arg, int *i, t_env **envp)
     k = 0;
     *i += 1;
     while (ft_isalpha(arg[*i + k])
-        || ft_isalnum(arg[*i + k]) || arg[*i + k] == '_')
+        || ft_isalnum(arg[*i + k]) || arg[*i + k] == '_' || arg[*i + k] == '?')
         k++;
     var_name = malloc(sizeof(char) * (k + 1));
     ft_strncpy(var_name, &arg[*i], k);
@@ -44,7 +44,7 @@ void    print_args(int j, int new_line, t_cmd cmd, t_env **envp)
         while (cmd.args[j][i])
         {
             if (cmd.args[j][i] == '$' && (ft_isalpha(cmd.args[j][i + 1])
-                    || cmd.args[j][i + 1] == '_'))
+                    || cmd.args[j][i + 1] == '_' || cmd.args[j][i + 1] == '?'))
             {
                 print_env_var(cmd.args[j], &i, envp);
             }
@@ -62,7 +62,7 @@ void    print_args(int j, int new_line, t_cmd cmd, t_env **envp)
         printf("\n");
 }
 
-void    exec_echo(t_cmd cmd, t_env **envp)
+int    exec_echo(t_cmd cmd, t_env **envp)
 {
     int    j;
     int    new_line;
@@ -72,7 +72,7 @@ void    exec_echo(t_cmd cmd, t_env **envp)
     if (cmd.args[1] == NULL)
     {
         printf("\n");
-        return ;
+        return (0);
     }
     if (ft_strcmp(cmd.args[1], "-n") == 0)
     {
@@ -80,4 +80,5 @@ void    exec_echo(t_cmd cmd, t_env **envp)
         j++;
     }
     print_args(j, new_line, cmd, envp);
+    return (0);
 }

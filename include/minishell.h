@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/10 20:44:10 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/10 21:18:57 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,12 @@ char	*remove_quotes(char *arg);
 
 void	exec_builtin(t_cmd cmd, t_env **envp);
 void	exec_cmd(t_cmd cmd, t_env **envp);
-void	exec_echo(t_cmd cmd, t_env **envp);
+int	exec_echo(t_cmd cmd, t_env **envp);
 int		exec_cd(t_cmd cmd, t_env **envp);
-void	exec_pwd(void);
-void	exec_unset(t_cmd cmd, t_env **envp);
+int	exec_pwd(void);
+int	exec_unset(t_cmd cmd, t_env **envp);
 int		exec_export(t_cmd cmd, t_env **envp);
+int		exec_env(t_cmd cmd, t_env **envp);
 
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
 size_t	ft_strcspn(const char *s, const char *reject);
@@ -69,5 +70,7 @@ int		is_builtin_cmd(char **cmd_args);
 void	ft_env_remove_if(t_env **begin_list, char *data_ref, int (*cmp)(char *, char *));
 
 char	**ft_split_args(char *cmd_line);
+
+void	update_status(t_env **envp, int status);
 
 #endif

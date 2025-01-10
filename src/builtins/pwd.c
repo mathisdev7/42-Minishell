@@ -12,12 +12,16 @@
 
 #include "../../include/minishell.h"
 
-void exec_pwd(void)
+int exec_pwd(void)
 {
 	char current_path[PATH_MAX];
 
     if (getcwd(current_path, sizeof(current_path)) != NULL)
         printf("[🧭] -> %s\n", current_path);
 	else
+	{
         perror("Error retrieving the current directory");
+		return (1);
+	}
+	return (0);
 }
