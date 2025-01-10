@@ -27,6 +27,8 @@ int	is_valid_cmd(char **splitted_cmd)
 		return (1);
 	else if (ft_strcmp(splitted_cmd[0], "export") == 0)
 		return (1);
+	else if (ft_strcmp(splitted_cmd[0], "unset") == 0)
+		return (1);
 	return (0);
 }
 
