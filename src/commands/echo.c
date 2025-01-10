@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-void	print_env_var(char *arg, int *i)
+void	print_env_var(char *arg, int *i, t_env **envp)
 {
 	int		k;
 	char	*var_name;
@@ -26,14 +26,14 @@ void	print_env_var(char *arg, int *i)
 	var_name = malloc(sizeof(char) * (k + 1));
 	ft_strncpy(var_name, &arg[*i], k);
 	var_name[k] = '\0';
-	var_value = getenv(var_name);
+	var_value = ft_getenv(var_name, *envp);
 	if (var_value)
 		printf("%s", var_value);
 	free(var_name);
 	*i += k;
 }
 
-void	print_args(int j, int new_line, t_cmd cmd)
+void	print_args(int j, int new_line, t_cmd cmd, t_env **envp)
 {
 	int	i;
 
@@ -46,7 +46,7 @@ void	print_args(int j, int new_line, t_cmd cmd)
 			if (cmd.args[j][i] == '$' && (ft_isalpha(cmd.args[j][i + 1])
 					|| cmd.args[j][i + 1] == '_'))
 			{
-				print_env_var(cmd.args[j], &i);
+				print_env_var(cmd.args[j], &i, envp);
 			}
 			else
 			{
@@ -62,7 +62,7 @@ void	print_args(int j, int new_line, t_cmd cmd)
 		printf("\n");
 }
 
-void	exec_echo(t_cmd cmd)
+void	exec_echo(t_cmd cmd, t_env **envp)
 {
 	int	j;
 	int	new_line;
@@ -79,5 +79,5 @@ void	exec_echo(t_cmd cmd)
 		new_line = 0;
 		j++;
 	}
-	print_args(j, new_line, cmd);
+	print_args(j, new_line, cmd, envp);
 }

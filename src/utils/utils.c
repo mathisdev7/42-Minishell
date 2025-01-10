@@ -58,6 +58,23 @@ char	*ft_strncpy(char *dest, char *src, unsigned int n)
 	return (dest);
 }
 
+char *ft_getenv(char *name, t_env *envp)
+{
+    t_env *current;
+
+    if (!name || !envp)
+        return (NULL);
+
+    current = envp;
+    while (current)
+    {
+        if (ft_strcmp(current->name, name) == 0)
+            return current->value;
+        current = current->next;
+    }
+    return (NULL);
+}
+
 int count_args(char *str)
 {
     int count;
