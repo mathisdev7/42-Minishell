@@ -24,4 +24,6 @@ void    exec_cmd(t_cmd cmd)
 		exec_echo(cmd);
 	else if (ft_strcmp(cmd.name, "pwd") == 0)
 		exec_pwd();
+	//else if (ft_strcmp(cmd.name, "unset") == 0)
+		//exec_unset(cmd, envp);
 }
