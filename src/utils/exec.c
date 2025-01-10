@@ -21,7 +21,7 @@ void    exec_cmd(t_cmd cmd, t_env **envp)
             exec_cd(cmd.args[0]);
     }
 	else if (ft_strcmp(cmd.name, "echo") == 0)
-		exec_echo(cmd);
+		exec_echo(cmd, envp);
 	else if (ft_strcmp(cmd.name, "pwd") == 0)
 		exec_pwd();
 	else if (ft_strcmp(cmd.name, "export") == 0)
