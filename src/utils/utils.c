@@ -26,6 +26,77 @@ void    free_split(char **splitted)
     free(splitted);
 }
 
+char	**ft_split_args(char *cmd_line)
+{
+    char	**args;
+    int		i;
+    int		j;
+    int		start;
+    char	quote;
+    int		in_quote;
+    int		arg_count;
+
+    if (!cmd_line)
+        return (NULL);
+    arg_count = count_args(cmd_line) + 1;
+    args = malloc(sizeof(char *) * (arg_count + 1));
+    if (!args)
+        return (NULL);
+    i = 0;
+    j = 0;
+    while (cmd_line[i] && j < arg_count)
+    {
+        while (cmd_line[i] && cmd_line[i] == ' ')
+            i++;  
+        start = i;
+        in_quote = 0;
+        while (cmd_line[i] && (in_quote || cmd_line[i] != ' '))
+        {
+            if (cmd_line[i] == '"' || cmd_line[i] == '\'')
+            {
+                if (!in_quote)
+                {
+                    quote = cmd_line[i];
+                    in_quote = 1;
+                }
+                else if (cmd_line[i] == quote)
+                    in_quote = 0;
+            }
+            i++;
+        }
+        args[j] = malloc(sizeof(char) * (i - start + 1));
+        if (!args[j])
+        {
+            free_split(args);
+            return (NULL);
+        }
+        ft_strncpy(args[j], &cmd_line[start], i - start);
+        j++;
+    }
+    args[j] = NULL;
+    return (args);
+}
+
+void ft_env_remove_if(t_env **begin_list, char *data_ref, int (*cmp)(char *, char *))
+{
+    if (begin_list == NULL || *begin_list == NULL)
+        return;
+
+    t_env *cur = *begin_list;
+    if (cmp(cur->name, data_ref) == 0)
+    {
+        *begin_list = cur->next;
+        free(cur->name);
+        free(cur->value);
+        free(cur);
+        ft_env_remove_if(begin_list, data_ref, cmp);
+    }
+    else
+    {
+        ft_env_remove_if(&cur->next, data_ref, cmp);
+    }
+}
+
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;

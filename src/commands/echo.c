@@ -67,14 +67,14 @@ void	exec_echo(t_cmd cmd, t_env **envp)
 	int	j;
 	int	new_line;
 
-	j = 0;
+	j = 1;
 	new_line = 1;
-	if (cmd.args[0] == NULL)
+	if (cmd.args[1] == NULL)
 	{
 		printf("\n");
 		return ;
 	}
-	if (ft_strcmp(cmd.args[0], "-n") == 0)
+	if (ft_strcmp(cmd.args[1], "-n") == 0)
 	{
 		new_line = 0;
 		j++;

@@ -3,40 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:07:59 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/10 15:05:21 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/10 20:25:18 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	exec_cd(char *path)
+void	exec_cd(t_cmd cmd, t_env **envp)
 {
-	char	current_path[PATH_MAX];
+	char	*path;
+	char	*home;
 
-	if (path == NULL || ft_strcmp(path, "none") == 0)
+	if (cmd.args[1] == NULL || ft_strcmp(cmd.args[1], "~") == 0)
 	{
-		path = getenv("HOME");
-		if (path == NULL)
+		home = ft_getenv("HOME", *envp);
+		if (home == NULL)
 		{
-			fprintf(stderr, "Error: HOME variable not found.\n");
-			return (1);
+			printf("cd: HOME not set\n");
+			return ;
 		}
+		if (chdir(home) != 0)
+			perror("cd");
+		return ;
 	}
-	path[ft_strcspn(path, "\n")] = '\0';
+	path = cmd.args[1];
 	if (chdir(path) != 0)
-	{
-		perror("[❌] Error");
-		return (1);
-	}
-	if (getcwd(current_path, sizeof(current_path)) != NULL)
-		printf("[📁] | Current directory: %s\n", current_path);
-	else
-	{
-		perror("Error while retrieving the current directory.");
-		return (1);
-	}
-	return (0);
+		perror("cd");
 }
