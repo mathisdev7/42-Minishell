@@ -12,9 +12,9 @@
 
 #include "../include/minishell.h"
 
-void	init_shell(void)
+void	init_shell(t_env **envp)
 {
-	loop_shell();
+	loop_shell(envp);
 }
 
 int	is_valid_cmd(char **splitted_cmd)
@@ -26,6 +26,8 @@ int	is_valid_cmd(char **splitted_cmd)
 	else if (ft_strcmp(splitted_cmd[0], "pwd") == 0)
 		return (1);
 	else if (ft_strcmp(splitted_cmd[0], "export") == 0)
+		return (1);
+	else if (ft_strcmp(splitted_cmd[0], "unset") == 0)
 		return (1);
 	return (0);
 }
@@ -49,7 +51,7 @@ char *remove_quotes(char *arg)
     return (clean_arg);
 }
 
-t_cmd	parse_cmd(char *cmd_line)
+t_cmd	parse_cmd(char *cmd_line, t_env **envp)
 {
 	int		i;
 	int		j;
@@ -68,12 +70,12 @@ t_cmd	parse_cmd(char *cmd_line)
 		j++;
 	}
 	cmd.args[j] = NULL;
-	exec_cmd(cmd);
+	exec_cmd(cmd, envp);
 	free_split(splitted_cmd);
 	return (cmd);
 }
 
-void	loop_shell(void)
+void	loop_shell(t_env **envp)
 {
 	char	*line;
 
@@ -95,7 +97,7 @@ void	loop_shell(void)
 			break ;
 		}
 		if (is_valid_cmd(ft_split(line, ' ')))
-            parse_cmd(line);
+            parse_cmd(line, envp);
         else
             printf("[❌] - %s not found\n", line);
 		free(line);

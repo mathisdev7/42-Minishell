@@ -12,47 +12,72 @@
 
 #include "../include/minishell.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-void exec_echo(t_cmd cmd)
+void	print_env_var(char *arg, int *i, t_env **envp)
 {
-	int	new_line;
+	int		k;
+	char	*var_name;
+	char	*var_value;
 
-	new_line = 1;
-    if (cmd.args[0] == NULL)
-    {
-        printf("\n");
-        return;
-    }
-    if (ft_strcmp(cmd.args[0], "-n") == 0)
-    {
-        new_line = 0;
-        cmd.args++;
-    }
-    while (*cmd.args)
-    {
-        if (**cmd.args == '$')
-        {
-			if (ft_strlen(*cmd.args) == 1)
-				printf("$");
+	k = 0;
+	*i += 1;
+	while (ft_isalpha(arg[*i + k])
+		|| ft_isalnum(arg[*i + k]) || arg[*i + k] == '_')
+		k++;
+	var_name = malloc(sizeof(char) * (k + 1));
+	ft_strncpy(var_name, &arg[*i], k);
+	var_name[k] = '\0';
+	var_value = ft_getenv(var_name, *envp);
+	if (var_value)
+		printf("%s", var_value);
+	free(var_name);
+	*i += k;
+}
+
+void	print_args(int j, int new_line, t_cmd cmd, t_env **envp)
+{
+	int	i;
+
+	i = 0;
+	while (cmd.args[j])
+	{
+		i = 0;
+		while (cmd.args[j][i])
+		{
+			if (cmd.args[j][i] == '$' && (ft_isalpha(cmd.args[j][i + 1])
+					|| cmd.args[j][i + 1] == '_'))
+			{
+				print_env_var(cmd.args[j], &i, envp);
+			}
 			else
 			{
-            	char *var_name = *cmd.args + 1;
-            	char *value = getenv(var_name);
-            	if (value)
-                	printf("%s", value);
+				printf("%c", cmd.args[j][i]);
+				i++;
 			}
-        }
-        else
-        {
-            printf("%s", *cmd.args);
-        }
-        if (*(cmd.args + 1))
-            printf(" ");
-        cmd.args++;
-    }
-    if (new_line)
-        printf("\n");
+		}
+		if (cmd.args[j + 1])
+			printf(" ");
+		j++;
+	}
+	if (new_line)
+		printf("\n");
+}
+
+void	exec_echo(t_cmd cmd, t_env **envp)
+{
+	int	j;
+	int	new_line;
+
+	j = 0;
+	new_line = 1;
+	if (cmd.args[0] == NULL)
+	{
+		printf("\n");
+		return ;
+	}
+	if (ft_strcmp(cmd.args[0], "-n") == 0)
+	{
+		new_line = 0;
+		j++;
+	}
+	print_args(j, new_line, cmd, envp);
 }
