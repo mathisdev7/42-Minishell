@@ -20,7 +20,7 @@ void    exec_builtin(t_cmd cmd, t_env **envp)
 	else if (ft_strcmp(cmd.args[0], "pwd") == 0)
 		exec_pwd();
 	else if (ft_strcmp(cmd.args[0], "export") == 0)
-		exec_export(cmd, envp);	
+		exec_export(cmd, envp);
 	else if (ft_strcmp(cmd.args[0], "unset") == 0)
 		exec_unset(cmd, envp);
 }

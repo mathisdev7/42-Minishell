@@ -33,10 +33,10 @@ void update_env(t_env **envp, char *name, char *value)
     current = *envp;
     while (current)
     {
-        if (strcmp(current->name, name) == 0)
+        if (ft_strcmp(current->name, name) == 0)
         {
             free(current->value);
-            current->value = strdup(value);
+            current->value = ft_strdup(value);
             return;
         }
         current = current->next;
@@ -47,8 +47,8 @@ void update_env(t_env **envp, char *name, char *value)
         perror("malloc");
         return;
     }
-    new_env->name = strdup(name);
-    new_env->value = strdup(value);
+    new_env->name = ft_strdup(name);
+    new_env->value = ft_strdup(value);
     new_env->next = *envp;
     *envp = new_env;
 }
