@@ -11,19 +11,21 @@
 
 #include "../../include/minishell.h"
 
-void    exec_cmd(t_cmd cmd, t_env **envp)
+void    exec_builtin(t_cmd cmd, t_env **envp)
 {
-    if (ft_strcmp(cmd.name, "cd") == 0)
-    {
-        if (cmd.args == NULL || cmd.args[0] == 0)
-            exec_cd("none");
-        else
-            exec_cd(cmd.args[0]);
-    }
-	else if (ft_strcmp(cmd.name, "echo") == 0)
+	if (ft_strcmp(cmd.args[0], "cd") == 0)
+		exec_cd(cmd, envp);
+	else if (ft_strcmp(cmd.args[0], "echo") == 0)
 		exec_echo(cmd, envp);
-	else if (ft_strcmp(cmd.name, "pwd") == 0)
+	else if (ft_strcmp(cmd.args[0], "pwd") == 0)
 		exec_pwd();
-	else if (ft_strcmp(cmd.name, "export") == 0)
-		exec_export(cmd, envp);
+	else if (ft_strcmp(cmd.args[0], "export") == 0)
+		exec_export(cmd, envp);	
+	else if (ft_strcmp(cmd.args[0], "unset") == 0)
+		exec_unset(cmd, envp);
 }
+/*
+void	exec_cmd(t_cmd cmd, t_env **envp)
+{
+}
+*/

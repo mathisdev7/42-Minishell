@@ -60,9 +60,9 @@ int exec_export(t_cmd cmd, t_env **envp)
     char *name;
     char *value;
 
-    if (!cmd.args[0])
+    if (!cmd.args[1])
         return (print_env(*envp));
-    arg = remove_quotes(cmd.args[0]);
+    arg = remove_quotes(cmd.args[1]);
     if (!arg)
         return (printf("Erreur lors de la suppression des guillemets\n"));
     equal_sign = strchr(arg, '=');
