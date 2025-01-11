@@ -27,6 +27,8 @@ SRCS = src/main.c src/minishell.c \
 src/utils/utils.c src/builtins/echo.c \
 src/utils/exec.c src/builtins/cd.c src/builtins/pwd.c \
 src/builtins/export.c src/builtins/unset.c src/utils/ft.c src/builtins/env.c \
+src/builtins/builtin_check.c src/parsing/parse.c src/env/env_utils.c src/utils/cmd_utils.c \
+src/utils/str_utils.c src/env/env_utils2.c
 
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = include/libft
