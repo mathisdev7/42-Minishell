@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:56:58 by nopareti          #+#    #+#             */
 /*   Updated: 2025/01/12 00:11:36 by mazeghou         ###   ########.fr       */

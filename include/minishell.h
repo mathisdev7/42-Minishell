@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/12 00:21:15 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/12 00:33:29 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,15 @@
 typedef struct s_cmd
 {
 	char			**args;
+	int	pipe_presence;
 }					t_cmd;
+
+
+typedef struct s_cmd_line
+{
+	t_cmd	*cmds;
+	int		nb_cmds;
+}					t_cmd_line;
 
 typedef struct s_env
 {
@@ -52,7 +60,7 @@ void				init_shell(t_env **envp);
 void				loop_shell(t_env **envp);
 
 void				handle_cmd(char *cmd_line);
-t_cmd				parse_cmd(char *cmd_line, t_env **envp);
+t_cmd				parse_cmd(char *cmd_line);
 
 int					count_args(char *str);
 void				free_split(char **splitted);
@@ -92,6 +100,11 @@ char				*ft_strcpy(char *dest, char *src);
 
 void				setup_signals(void);
 
+t_cmd_line parse_cmd_line(char	*line);
+int				exec_pipe_cmd(t_cmd_line cmd_line, t_env **envp);
+
+int				cmd_exists(char *cmd, t_env *envp);
+int				process_input(char *line, t_env **envp);
 int					is_quoted_with_single(char *str);
 void				print_without_quotes(char *str);
 void				print_regular_arg(char *arg, int *i, t_env **envp);
