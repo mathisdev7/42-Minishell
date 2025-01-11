@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   builtin_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/10 16:40:27 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/10 16:40:27 by mazeghou         ###   ########.fr       */
+/*   Created: 2025/01/11 02:15:00 by mazeghou          #+#    #+#             */
+/*   Updated: 2025/01/11 02:15:00 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	exec_env(t_cmd cmd, t_env **envp)
+int	is_builtin_cmd(char **cmd_args)
 {
-	t_env	*current;
-
-	(void)cmd;
-	if (!envp || !*envp)
-	{
-		fprintf(stderr, "Error: Environment not initialized\n");
+	if (ft_strcmp(cmd_args[0], "echo") == 0)
 		return (1);
-	}
-	current = *envp;
-	while (current)
-	{
-		printf("%s=%s\n", current->name, current->value);
-		current = current->next;
-	}
+	else if (ft_strcmp(cmd_args[0], "cd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd_args[0], "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd_args[0], "export") == 0)
+		return (1);
+	else if (ft_strcmp(cmd_args[0], "unset") == 0)
+		return (1);
+	else if (ft_strcmp(cmd_args[0], "env") == 0)
+		return (1);
+	else if (ft_strcmp(cmd_args[0], "exit") == 0)
+		return (1);
 	return (0);
 }

@@ -14,10 +14,11 @@
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_env	*env;
+
 	(void)argc;
 	(void)argv;
-
-	t_env *env = init_env(envp);
+	env = init_env(envp);
 	init_shell(&env);
 	free_env(env);
 	return (0);
