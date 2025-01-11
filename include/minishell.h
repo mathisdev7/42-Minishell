@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/11 17:13:48 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/12 00:21:15 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,14 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }					t_env;
+
+typedef struct s_quote_state
+{
+	int		in_single;
+	int		in_double;
+	size_t	i;
+	size_t	j;
+}	t_quote_state;
 
 void				init_shell(t_env **envp);
 void				loop_shell(t_env **envp);
@@ -83,5 +91,10 @@ char				*ft_strjoin3(char *s1, char *s2, char *s3);
 char				*ft_strcpy(char *dest, char *src);
 
 void				setup_signals(void);
+
+int					is_quoted_with_single(char *str);
+void				print_without_quotes(char *str);
+void				print_regular_arg(char *arg, int *i, t_env **envp);
+void				print_env_var(char *arg, int *i, t_env **envp);
 
 #endif

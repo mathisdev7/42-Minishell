@@ -6,31 +6,26 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 02:15:00 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/11 02:15:00 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/12 00:17:42 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*remove_quotes(char *arg)
+int	is_empty_cmd(char *cmd_line)
 {
-	char	*clean_arg;
-	size_t	i;
-	size_t	j;
+	int	i;
 
+	if (!cmd_line)
+		return (1);
 	i = 0;
-	j = 0;
-	clean_arg = malloc(sizeof(char) * (ft_strlen(arg) + 1));
-	if (!clean_arg)
-		return (NULL);
-	while (arg[i])
+	while (cmd_line[i])
 	{
-		if (arg[i] != '"' && arg[i] != '\'')
-			clean_arg[j++] = arg[i];
+		if (cmd_line[i] != ' ' && cmd_line[i] != '\t')
+			return (0);
 		i++;
 	}
-	clean_arg[j] = '\0';
-	return (clean_arg);
+	return (1);
 }
 
 t_cmd	parse_cmd(char *cmd_line, t_env **envp)
@@ -39,7 +34,17 @@ t_cmd	parse_cmd(char *cmd_line, t_env **envp)
 	int		i;
 
 	i = 0;
+	if (is_empty_cmd(cmd_line))
+	{
+		cmd.args = NULL;
+		return (cmd);
+	}
 	cmd.args = ft_split_args(cmd_line);
+	if (!cmd.args)
+	{
+		cmd.args = NULL;
+		return (cmd);
+	}
 	while (cmd.args[i])
 	{
 		cmd.args[i] = remove_quotes(cmd.args[i]);

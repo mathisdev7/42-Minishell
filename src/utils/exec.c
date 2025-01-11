@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:28:44 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/11 17:13:44 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/11 23:47:01 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	execute_child_process(char *path, t_cmd cmd, char **env_array)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-
 	execve(path, cmd.args, env_array);
 	perror("execve");
 	free(path);

@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/11 17:13:33 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/11 23:46:52 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static int	handle_empty_line(char *line)
 
 static int	process_input(char *line, t_env **envp)
 {
+	t_cmd	cmd;
+
 	if (!line)
 	{
 		printf("\033[1;32mBye! 👋\033[0m\n");
@@ -49,7 +51,12 @@ static int	process_input(char *line, t_env **envp)
 	if (handle_empty_line(line))
 		return (1);
 	add_history(line);
-	parse_cmd(line, envp);
+	cmd = parse_cmd(line, envp);
+	if (!cmd.args)
+	{
+		free(line);
+		return (1);
+	}
 	free(line);
 	return (1);
 }

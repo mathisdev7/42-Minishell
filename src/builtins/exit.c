@@ -41,7 +41,8 @@ int	exec_exit(t_cmd cmd, t_env **envp)
 	}
 	if (!is_numeric(cmd.args[1]))
 	{
-		fprintf(stderr, "minishell: exit: %s: numeric argument required\n", cmd.args[1]);
+		fprintf(stderr, "minishell: exit: %s: numeric argument required\n",
+			cmd.args[1]);
 		rl_clear_history();
 		free_env(*envp);
 		exit(255);
