@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/11 21:01:33 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/12 00:33:29 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_cmd
 typedef struct s_cmd_line
 {
 	t_cmd	*cmds;
+	int		nb_cmds;
 }					t_cmd_line;
 
 typedef struct s_env
@@ -92,5 +93,9 @@ char				*ft_strcpy(char *dest, char *src);
 void				setup_signals(void);
 
 t_cmd_line parse_cmd_line(char	*line);
+int				exec_pipe_cmd(t_cmd_line cmd_line, t_env **envp);
+
+int				cmd_exists(char *cmd, t_env *envp);
+int				process_input(char *line, t_env **envp);
 
 #endif

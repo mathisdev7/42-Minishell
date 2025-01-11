@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:28:44 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/11 20:30:14 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/12 00:00:49 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,49 @@ void	exec_cmd(t_cmd cmd, t_env **envp)
 		return ;
 	}
 	handle_process(path, cmd, env_array, envp);
+}
+
+void	child_process(t_cmd cmd, t_env **envp, int p_fd[2])
+{
+	dup2(p_fd[1], STDOUT_FILENO);
+	close(p_fd[0]);
+	if (is_builtin_cmd(cmd.args))
+		exec_builtin(cmd, envp);
+	else
+		exec_cmd(cmd, envp);
+}
+
+void	parent_process(t_cmd cmd, t_env **envp, int p_fd[2])
+{
+	dup2(p_fd[0], STDIN_FILENO);
+	close(p_fd[1]);
+	if (is_builtin_cmd(cmd.args))
+		exec_builtin(cmd, envp);
+	else
+		exec_cmd(cmd, envp);
+}
+
+int	exec_pipe_cmd(t_cmd_line cmd_line, t_env **envp)
+{
+	int		p_fd[2];
+	pid_t	pid;
+
+	if (pipe(p_fd) == -1)
+	{
+		perror("minishell: pipe");
+		return (-1);
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("minishell: fork");
+		return (-1);
+	}
+	if (!pid)
+		child_process(cmd_line.cmds[0], envp, p_fd);
+	else
+		parent_process(cmd_line.cmds[1], envp, p_fd);
+	close(p_fd[0]);
+	close(p_fd[1]);
+	return (0);
 }
