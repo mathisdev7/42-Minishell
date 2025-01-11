@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/10 21:04:58 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/11 01:55:32 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,23 @@ t_cmd	parse_cmd(char *cmd_line, t_env **envp)
 	}
 	if (is_builtin_cmd(cmd.args))
 		exec_builtin(cmd, envp);
-	//else
-		//exec_cmd(cmd, envp);
+	else
+		exec_cmd(cmd, envp);
 	return (cmd);
 }
 
 void	loop_shell(t_env **envp)
 {
 	char	*line;
+	char	cwd[1024];
 
 	while (1)
 	{
-		line = readline("minishell> ");
+		// je sais pas i on a le droit mais pour l'instant c'est pas grave
+		getcwd(cwd, sizeof(cwd));
+		// je pense que tu vas trouver les couleurs atroces mais change les tkt
+		printf("\033[38;5;208m[📁] ➾ %s\033[0m", cwd);
+		line = readline("\033[38;5;214m ➜\033[0m ");
 		if (*line)
 			add_history(line);
 		if (ft_strcmp(line, "exit") == 0)

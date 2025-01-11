@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/10 21:18:57 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/11 01:32:15 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,17 @@ void	free_env(t_env *env);
 char	*ft_getenv(char *name, t_env *envp);
 int		is_builtin_cmd(char **cmd_args);
 void	ft_env_remove_if(t_env **begin_list, char *data_ref, int (*cmp)(char *, char *));
+char	*get_cmd_path(t_env *envp, char *cmd_name);
+char	**get_splitted_path(t_env *envp);
+char	*set_full_cmd(char *current_path, char *cmd_name);
 
 char	**ft_split_args(char *cmd_line);
 
 void	update_status(t_env **envp, int status);
+
+char    **env_to_array(t_env *envp);
+
+char    *ft_strjoin3(char *s1, char *s2, char *s3);
+char	*ft_strcpy(char *dest, char *src);
 
 #endif

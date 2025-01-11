@@ -97,6 +97,65 @@ void ft_env_remove_if(t_env **begin_list, char *data_ref, int (*cmp)(char *, cha
     }
 }
 
+char	*set_full_cmd(char *current_path, char *cmd_name)
+{
+	char	*full_cmd;
+	char	*cmd_path;
+	char	slash[2];
+
+	slash[0] = '/';
+	slash[1] = '\0';
+	cmd_path = ft_strjoin(current_path, slash);
+	full_cmd = ft_strjoin(cmd_path, cmd_name);
+	free(cmd_path);
+	return (full_cmd);
+}
+
+char	**get_splitted_path(t_env *envp)
+{
+    char	*path_value;
+    char	**splitted_path;
+
+    path_value = ft_getenv("PATH", envp);
+    if (!path_value)
+        return (NULL);
+    splitted_path = ft_split(path_value, ':');
+    if (!splitted_path)
+        return (NULL);
+    return (splitted_path);
+}
+
+char	*get_cmd_path(t_env *envp, char *cmd_name)
+{
+    int		i;
+    char	**splitted_path;
+    char	*full_cmd;
+
+    i = 0;
+    if (cmd_name[0] == '/' || cmd_name[0] == '.')
+    {
+        if (access(cmd_name, X_OK) == 0)
+            return (ft_strdup(cmd_name));
+        return (NULL);
+    }
+    splitted_path = get_splitted_path(envp);
+    if (!splitted_path)
+        return (NULL);
+    while (splitted_path[i])
+    {
+        full_cmd = set_full_cmd(splitted_path[i], cmd_name);
+        if (access(full_cmd, X_OK) == 0)
+        {
+            free_split(splitted_path);
+            return (full_cmd);
+        }
+        free(full_cmd);
+        i++;
+    }
+    free_split(splitted_path);
+    return (NULL);
+}
+
 int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
@@ -198,6 +257,77 @@ void free_env(t_env *env)
         free(temp->value);
         free(temp);
     }
+}
+
+char *ft_strcpy(char *dest, char *src)
+{
+	int i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char    **env_to_array(t_env *envp)
+{
+    int     count;
+    char    **array;
+    t_env   *current;
+    int     i;
+    char    *tmp;
+
+    count = 0;
+    current = envp;
+    while (current)
+    {
+        count++;
+        current = current->next;
+    }
+    array = malloc(sizeof(char *) * (count + 1));
+    if (!array)
+        return (NULL);
+    i = 0;
+    current = envp;
+    while (current)
+    {
+        tmp = ft_strjoin3(current->name, "=", current->value);
+        if (!tmp)
+        {
+            free_split(array);
+            return (NULL);
+        }
+        array[i++] = tmp;
+        current = current->next;
+    }
+    array[i] = NULL;
+    return (array);
+} 
+
+char    *ft_strjoin3(char *s1, char *s2, char *s3)
+{
+    char    *result;
+    size_t  len1;
+    size_t  len2;
+    size_t  len3;
+
+    if (!s1 || !s2 || !s3)
+        return (NULL);
+    len1 = ft_strlen(s1);
+    len2 = ft_strlen(s2);
+    len3 = ft_strlen(s3);
+    result = malloc(sizeof(char) * (len1 + len2 + len3 + 1));
+    if (!result)
+        return (NULL);
+    ft_strcpy(result, s1);
+    ft_strcpy(result + len1, s2);
+    ft_strcpy(result + len1 + len2, s3);
+
+    return (result);
 }
 
 

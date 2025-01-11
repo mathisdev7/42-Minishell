@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:07:59 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/10 20:45:43 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/11 01:52:46 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ int	exec_cd(t_cmd cmd, t_env **envp)
 		perror("[❌] Error");
 		return (1);
 	}
-	if (getcwd(current_path, sizeof(current_path)) != NULL)
-		printf("[📁] | Current directory: %s\n", current_path);
-	else
+	if (getcwd(current_path, sizeof(current_path)) == NULL)
 	{
 		perror("[❌] Error while retrieving the current directory.");
 		return (1);
