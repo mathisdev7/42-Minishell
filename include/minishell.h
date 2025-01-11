@@ -48,6 +48,14 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
+typedef struct s_quote_state
+{
+	int		in_single;
+	int		in_double;
+	size_t	i;
+	size_t	j;
+}	t_quote_state;
+
 void				init_shell(t_env **envp);
 void				loop_shell(t_env **envp);
 
@@ -97,5 +105,9 @@ int				exec_pipe_cmd(t_cmd_line cmd_line, t_env **envp);
 
 int				cmd_exists(char *cmd, t_env *envp);
 int				process_input(char *line, t_env **envp);
+int					is_quoted_with_single(char *str);
+void				print_without_quotes(char *str);
+void				print_regular_arg(char *arg, int *i, t_env **envp);
+void				print_env_var(char *arg, int *i, t_env **envp);
 
 #endif

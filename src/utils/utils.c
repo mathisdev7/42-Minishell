@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 15:22:32 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/11 02:44:14 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/11 23:40:22 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ static int	process_argument(char *cmd_line, int *i, char **arg)
 	char	quote;
 	int		in_quote;
 
-	while (cmd_line[*i] && cmd_line[*i] == ' ')
+	while (cmd_line[*i] && (cmd_line[*i] == ' ' || cmd_line[*i] == '\t'))
 		(*i)++;
 	start = *i;
 	in_quote = 0;
-	while (cmd_line[*i] && (in_quote || cmd_line[*i] != ' '))
+	while (cmd_line[*i] && (in_quote || (cmd_line[*i] != ' '
+				&& cmd_line[*i] != '\t')))
 		handle_quotes(cmd_line, i, &quote, &in_quote);
 	*arg = allocate_and_copy_arg(cmd_line, start, *i);
 	return (*arg != NULL);
@@ -85,20 +86,25 @@ char	**ft_split_args(char *cmd_line)
 int	count_args(char *str)
 {
 	int		count;
+	int		in_word;
 	char	*ptr;
 
 	count = 0;
+	in_word = 0;
 	ptr = str;
 	while (*ptr)
 	{
-		while (*ptr && *ptr == ' ')
-			ptr++;
-		if (*ptr)
+		if (*ptr != ' ' && *ptr != '\t')
 		{
-			count++;
-			while (*ptr && *ptr != ' ')
-				ptr++;
+			if (!in_word)
+			{
+				count++;
+				in_word = 1;
+			}
 		}
+		else
+			in_word = 0;
+		ptr++;
 	}
 	return (count - 1);
 }

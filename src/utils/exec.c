@@ -38,7 +38,6 @@ static void	execute_child_process(char *path, t_cmd cmd, char **env_array)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-
 	execve(path, cmd.args, env_array);
 	perror("execve");
 	free(path);
