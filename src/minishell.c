@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/11 02:51:49 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/11 17:13:33 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	init_shell(t_env **envp)
 {
+	setup_signals();
 	loop_shell(envp);
 }
 
@@ -41,17 +42,13 @@ static int	handle_empty_line(char *line)
 static int	process_input(char *line, t_env **envp)
 {
 	if (!line)
+	{
+		printf("\033[1;32mBye! 👋\033[0m\n");
 		return (0);
+	}
 	if (handle_empty_line(line))
 		return (1);
 	add_history(line);
-	if (ft_strcmp(line, "exit") == 0)
-	{
-		rl_clear_history();
-		printf("\033[1;32mAu revoir! 👋\033[0m\n");
-		free(line);
-		return (0);
-	}
 	parse_cmd(line, envp);
 	free(line);
 	return (1);

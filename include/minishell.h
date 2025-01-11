@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/11 02:58:55 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/11 17:13:48 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int					exec_pwd(t_cmd cmd);
 int					exec_unset(t_cmd cmd, t_env **envp);
 int					exec_export(t_cmd cmd, t_env **envp);
 int					exec_env(t_cmd cmd, t_env **envp);
+int					exec_exit(t_cmd cmd, t_env **envp);
 
 char				*ft_strncpy(char *dest, char *src, unsigned int n);
 size_t				ft_strcspn(const char *s, const char *reject);
@@ -80,5 +81,7 @@ char				**env_to_array(t_env *envp);
 
 char				*ft_strjoin3(char *s1, char *s2, char *s3);
 char				*ft_strcpy(char *dest, char *src);
+
+void				setup_signals(void);
 
 #endif

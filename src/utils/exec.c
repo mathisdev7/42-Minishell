@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:28:44 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/11 02:58:45 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/11 17:13:44 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,16 @@ void	exec_builtin(t_cmd cmd, t_env **envp)
 		status = exec_unset(cmd, envp);
 	else if (ft_strcmp(cmd.args[0], "env") == 0)
 		status = exec_env(cmd, envp);
+	else if (ft_strcmp(cmd.args[0], "exit") == 0)
+		status = exec_exit(cmd, envp);
 	update_status(envp, status);
 }
 
 static void	execute_child_process(char *path, t_cmd cmd, char **env_array)
 {
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+
 	execve(path, cmd.args, env_array);
 	perror("execve");
 	free(path);
