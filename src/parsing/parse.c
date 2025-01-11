@@ -33,7 +33,36 @@ char	*remove_quotes(char *arg)
 	return (clean_arg);
 }
 
-t_cmd	parse_cmd(char *cmd_line, t_env **envp)
+
+t_cmd_line parse_cmd_line(char *line)
+{
+    int     i;
+    int     cmd_length;
+    t_cmd_line cmd_line;
+    char    **splitted_cmds;
+
+    i = 0;
+    cmd_length = 1;
+    while (line[i])
+    {
+        if (line[i] == '|')
+            cmd_length++;
+        i++;
+    }
+    i = 0;
+    cmd_line.cmds = malloc(sizeof(t_cmd) * cmd_length);
+    splitted_cmds = ft_split(line, '|');
+    while (splitted_cmds[i] && i < cmd_length)
+    {
+        cmd_line.cmds[i] = parse_cmd(splitted_cmds[i]);
+        cmd_line.cmds[i].pipe_presence = (i < cmd_length - 1) ? 1 : 0;
+        i++;
+    }
+    free_split(splitted_cmds);
+    return (cmd_line);
+}
+
+t_cmd	parse_cmd(char *cmd_line)
 {
 	t_cmd	cmd;
 	int		i;
@@ -45,9 +74,5 @@ t_cmd	parse_cmd(char *cmd_line, t_env **envp)
 		cmd.args[i] = remove_quotes(cmd.args[i]);
 		i++;
 	}
-	if (is_builtin_cmd(cmd.args))
-		exec_builtin(cmd, envp);
-	else
-		exec_cmd(cmd, envp);
 	return (cmd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/11 17:13:48 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/11 21:01:33 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,14 @@
 typedef struct s_cmd
 {
 	char			**args;
+	int	pipe_presence;
 }					t_cmd;
+
+
+typedef struct s_cmd_line
+{
+	t_cmd	*cmds;
+}					t_cmd_line;
 
 typedef struct s_env
 {
@@ -44,7 +51,7 @@ void				init_shell(t_env **envp);
 void				loop_shell(t_env **envp);
 
 void				handle_cmd(char *cmd_line);
-t_cmd				parse_cmd(char *cmd_line, t_env **envp);
+t_cmd				parse_cmd(char *cmd_line);
 
 int					count_args(char *str);
 void				free_split(char **splitted);
@@ -83,5 +90,7 @@ char				*ft_strjoin3(char *s1, char *s2, char *s3);
 char				*ft_strcpy(char *dest, char *src);
 
 void				setup_signals(void);
+
+t_cmd_line parse_cmd_line(char	*line);
 
 #endif
