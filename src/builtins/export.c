@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:29:34 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/12 01:01:14 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/12 14:41:34 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	print_env(t_env *envp)
 	return (1);
 }
 
-void	update_env(t_env **envp, char *name, char *value)
+t_env	*update_env(t_env **envp, char *name, char *value)
 {
 	t_env	*current;
 	t_env	*new_env;
@@ -37,7 +37,7 @@ void	update_env(t_env **envp, char *name, char *value)
 		{
 			free(current->value);
 			current->value = ft_strdup(value);
-			return ;
+			return (current);
 		}
 		current = current->next;
 	}
@@ -45,12 +45,13 @@ void	update_env(t_env **envp, char *name, char *value)
 	if (!new_env)
 	{
 		perror("malloc");
-		return ;
+		return (NULL);
 	}
 	new_env->name = ft_strdup(name);
 	new_env->value = ft_strdup(value);
 	new_env->next = *envp;
 	*envp = new_env;
+	return (new_env);
 }
 
 void	update_status(t_env **envp, int status)
@@ -60,7 +61,7 @@ void	update_status(t_env **envp, int status)
 	status_str = ft_itoa(status);
 	if (!status_str)
 		return ;
-	update_env(envp, "?", status_str);
+	*envp = update_env(envp, "?", status_str);
 	free(status_str);
 }
 

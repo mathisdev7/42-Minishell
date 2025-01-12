@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/12 01:02:10 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/12 14:47:41 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void				free_split(char **splitted);
 int					ft_strcmp(char *s1, char *s2);
 char				*remove_quotes(char *arg);
 
-void				exec_builtin(t_cmd cmd, t_env **envp);
-void				exec_cmd(t_cmd cmd, t_env **envp);
+int					exec_builtin(t_cmd cmd, t_env **envp);
+int					exec_cmd(t_cmd cmd, t_env **envp);
 int					exec_echo(t_cmd cmd, t_env **envp);
 int					exec_cd(t_cmd cmd, t_env **envp);
 int					exec_pwd(t_cmd cmd);
