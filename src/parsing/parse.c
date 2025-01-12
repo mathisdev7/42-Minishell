@@ -12,28 +12,6 @@
 
 #include "../../include/minishell.h"
 
-char	*remove_quotes(char *arg)
-{
-	char	*clean_arg;
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	clean_arg = malloc(sizeof(char) * (ft_strlen(arg) + 1));
-	if (!clean_arg)
-		return (NULL);
-	while (arg[i])
-	{
-		if (arg[i] != '"' && arg[i] != '\'')
-			clean_arg[j++] = arg[i];
-		i++;
-	}
-	clean_arg[j] = '\0';
-	return (clean_arg);
-}
-
-
 t_cmd_line parse_cmd_line(char *line)
 {
     int i;
@@ -84,7 +62,7 @@ int	is_empty_cmd(char *cmd_line)
 	return (1);
 }
 
-t_cmd	parse_cmd(char *cmd_line, t_env **envp)
+t_cmd	parse_cmd(char *cmd_line)
 {
 	t_cmd	cmd;
 	int		i;
@@ -106,9 +84,5 @@ t_cmd	parse_cmd(char *cmd_line, t_env **envp)
 		cmd.args[i] = remove_quotes(cmd.args[i]);
 		i++;
 	}
-	if (is_builtin_cmd(cmd.args))
-		exec_builtin(cmd, envp);
-	else
-		exec_cmd(cmd, envp);
 	return (cmd);
 }

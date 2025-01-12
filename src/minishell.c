@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/12 01:03:33 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/12 01:27:47 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void    print_cmd_line(t_cmd_line cmd_line)
                 printf("Argument %d: [%s]\n", j + 1, cmd_line.cmds[i].args[j]);
                 j++;
             }
-            printf("Pipe présent: %s\n", 
+            printf("Pipe présent: %s\n",
                 cmd_line.cmds[i].pipe_presence ? "Oui" : "Non");
             printf("Nombre total d'arguments: %d\n", j);
         }
@@ -92,7 +92,7 @@ void    free_cmd(t_cmd *cmd)
 int cmd_exists(char *cmd, t_env *envp)
 {
     char *path;
-    
+
     if (!cmd)
         return (0);
     if (is_builtin_cmd(&cmd))
@@ -125,7 +125,7 @@ int process_input(char *line, t_env **envp)
         free(line);
         return (1);
     }
-    if (cmd_line.nb_cmds == 1 && cmd_line.cmds[0].args && 
+    if (cmd_line.nb_cmds == 1 && cmd_line.cmds[0].args &&
         ft_strcmp(cmd_line.cmds[0].args[0], "exit") == 0)
     {
         exec_builtin(cmd_line.cmds[0], envp);
@@ -133,7 +133,7 @@ int process_input(char *line, t_env **envp)
             free_cmd(&cmd_line.cmds[i]);
         free(cmd_line.cmds);
         free(line);
-        exit(0);
+		return (1);
     }
     if (cmd_line.nb_cmds == 1 && is_builtin_cmd(cmd_line.cmds[0].args))
     {
@@ -182,7 +182,7 @@ int process_input(char *line, t_env **envp)
             }
             else if (!cmd_exists(cmd_line.cmds[i].args[0], *envp))
             {
-                fprintf(stderr, "minishell: %s: command not found\n", 
+                fprintf(stderr, "minishell: %s: command not found\n",
                     cmd_line.cmds[i].args[0]);
                 exit(127);
             }
@@ -196,7 +196,7 @@ int process_input(char *line, t_env **envp)
 
         if (prev_pipe_fd != -1)
             close(prev_pipe_fd);
-            
+
         if (i < cmd_line.nb_cmds - 1)
         {
             close(pipe_fd[1]);
