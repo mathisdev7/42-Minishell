@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/12 19:35:27 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/12 20:31:32 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,122 @@ int cmd_exists(char *cmd, t_env *envp)
     return (0);
 }
 
+void debug_cmd_line(t_cmd_line *cmd_line)
+{
+    if (!cmd_line)
+    {
+        printf("cmd_line est NULL\n");
+        return;
+    }
+
+    printf("Nombre de commandes : %d\n", cmd_line->nb_cmds);
+    for (int i = 0; i < cmd_line->nb_cmds; i++)
+    {
+        printf("Commande %d :\n", i + 1);
+        if (cmd_line->cmds[i].args)
+        {
+            printf("  Arguments :");
+            for (int j = 0; cmd_line->cmds[i].args[j]; j++)
+                printf(" %s", cmd_line->cmds[i].args[j]);
+            printf("\n");
+        }
+        else
+        {
+            printf("  Arguments : NULL\n");
+        }
+        printf("  Présence de pipe : %s\n", 
+               cmd_line->cmds[i].pipe_presence ? "Oui" : "Non");
+        if (cmd_line->cmds[i].redirections)
+        {
+            printf("  Redirections :\n");
+            for (int k = 0; k < cmd_line->cmds[i].nb_redirections; k++)
+            {
+                t_redirection *redir = &cmd_line->cmds[i].redirections[k];
+                printf("    Type : %d, Fichier : %s\n", redir->type, redir->file);
+            }
+        }
+        else
+        {
+            printf("  Redirections : Aucune\n");
+        }
+    }
+}
+
+int handle_redirections(t_cmd *cmd)
+{
+    int fd;
+
+    for (int i = 0; i < cmd->nb_redirections; i++)
+    {
+        t_redirection *redir = &cmd->redirections[i];
+
+        if (redir->type == 1) // ">"
+        {
+            fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if (fd == -1)
+            {
+                perror("minishell: open");
+                return (-1);
+            }
+            if (dup2(fd, STDOUT_FILENO) == -1)
+            {
+                perror("minishell: dup2");
+                close(fd);
+                return (-1);
+            }
+        }
+        else if (redir->type == 2) // ">>"
+        {
+            fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+            if (fd == -1)
+            {
+                perror("minishell: open");
+                return (-1);
+            }
+            if (dup2(fd, STDOUT_FILENO) == -1)
+            {
+                perror("minishell: dup2");
+                close(fd);
+                return (-1);
+            }
+        }
+        else if (redir->type == 3) // "<"
+        {
+            fd = open(redir->file, O_RDONLY);
+            if (fd == -1)
+            {
+                perror("minishell: open");
+                return (-1);
+            }
+            if (dup2(fd, STDIN_FILENO) == -1)
+            {
+                perror("minishell: dup2");
+                close(fd);
+                return (-1);
+            }
+        }
+        else if (redir->type == 4) // "<<"
+        {
+            // Utilise le FD généré par parse_here_doc
+            fd = redir->fd; 
+            if (fd == -1)
+            {
+                fprintf(stderr, "minishell: erreur dans le here-document\n");
+                return (-1);
+            }
+            if (dup2(fd, STDIN_FILENO) == -1)
+            {
+                perror("minishell: dup2");
+                close(fd);
+                return (-1);
+            }
+        }
+        close(fd); // Ferme le descripteur une fois redirigé
+    }
+
+    return (0);
+}
+
 int process_input(char *line, t_env **envp)
 {
     t_cmd_line cmd_line;
@@ -128,8 +244,24 @@ int process_input(char *line, t_env **envp)
 
     if (cmd_line.nb_cmds == 1 && is_builtin_cmd(cmd_line.cmds[0].args))
     {
+        int stdout_copy = dup(STDOUT_FILENO);
+        int stdin_copy = dup(STDIN_FILENO);
+
+        if (cmd_line.cmds[0].redirections)
+        {
+            if (handle_redirections(&cmd_line.cmds[0]) == -1)
+            {
+                printf("minishell: erreur lors du traitement des redirections\n");
+                return (1);
+            }
+        }
         status = exec_builtin(cmd_line.cmds[0], envp);
         update_status(envp, status);
+        dup2(stdout_copy, STDOUT_FILENO);
+        dup2(stdin_copy, STDIN_FILENO);
+        close(stdout_copy);
+        close(stdin_copy);
+
         free_cmd(&cmd_line.cmds[0]);
         free(cmd_line.cmds);
         free(line);
@@ -174,6 +306,14 @@ int process_input(char *line, t_env **envp)
                 dup2(pipe_fd[1], STDOUT_FILENO);
                 close(pipe_fd[1]);
             }
+            if (cmd_line.cmds[i].redirections)
+            {
+                if (handle_redirections(&cmd_line.cmds[i]) == -1)
+                {
+                    printf("minishell: erreur lors du traitement des redirections\n");
+                    exit(1);
+                }   
+            }
             if (is_builtin_cmd(cmd_line.cmds[i].args))
             {
                 status = exec_builtin(cmd_line.cmds[i], envp);
@@ -213,16 +353,12 @@ int process_input(char *line, t_env **envp)
             last_status = WEXITSTATUS(status);
         i++;
     }
-
-
     update_status(envp, last_status);
-
     free(pids);
     for (i = 0; i < cmd_line.nb_cmds; i++)
         free_cmd(&cmd_line.cmds[i]);
     free(cmd_line.cmds);
     free(line);
-
     return (1);
 }
 
