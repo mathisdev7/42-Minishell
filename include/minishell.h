@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/12 00:33:29 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/12 14:47:41 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void				free_split(char **splitted);
 int					ft_strcmp(char *s1, char *s2);
 char				*remove_quotes(char *arg);
 
-void				exec_builtin(t_cmd cmd, t_env **envp);
-void				exec_cmd(t_cmd cmd, t_env **envp);
+int					exec_builtin(t_cmd cmd, t_env **envp);
+int					exec_cmd(t_cmd cmd, t_env **envp);
 int					exec_echo(t_cmd cmd, t_env **envp);
 int					exec_cd(t_cmd cmd, t_env **envp);
 int					exec_pwd(t_cmd cmd);

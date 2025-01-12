@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:40:27 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/10 16:40:27 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/12 01:37:41 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	exec_env(t_cmd cmd, t_env **envp)
 	(void)cmd;
 	if (!envp || !*envp)
 	{
-		fprintf(stderr, "Error: Environment not initialized\n");
+		printf("Error: Environment not initialized\n");
 		return (1);
 	}
 	current = *envp;

@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 20:46:55 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/11 02:57:29 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/12 01:39:36 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	exec_unset(t_cmd cmd, t_env **envp)
 	{
 		if (!is_valid_env_var(*cmd.args))
 		{
-			fprintf(stderr, "unset: `%s': not a valid identifier\n", *cmd.args);
+			printf("unset: `%s': not a valid identifier\n", *cmd.args);
 			status = 1;
 		}
 		else
