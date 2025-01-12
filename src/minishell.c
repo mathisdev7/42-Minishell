@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/12 01:27:47 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/12 15:00:07 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,13 @@ int process_input(char *line, t_env **envp)
     t_cmd_line cmd_line;
     pid_t *pids;
     int status;
+    int last_status = 0;
     int i;
     int pipe_fd[2];
     int prev_pipe_fd = -1;
-    int cmd_status = 0;
 
     if (!line || handle_empty_line(line))
-        return (!line ? 0 : 1);
+        return (1);
     add_history(line);
     cmd_line = parse_cmd_line(line);
     if (!cmd_line.cmds || cmd_line.nb_cmds == 0)
@@ -125,31 +125,21 @@ int process_input(char *line, t_env **envp)
         free(line);
         return (1);
     }
-    if (cmd_line.nb_cmds == 1 && cmd_line.cmds[0].args &&
-        ft_strcmp(cmd_line.cmds[0].args[0], "exit") == 0)
+
+    if (cmd_line.cmds[cmd_line.nb_cmds - 1].args &&
+        ft_strcmp(cmd_line.cmds[cmd_line.nb_cmds - 1].args[0], "exit") == 0)
     {
-        exec_builtin(cmd_line.cmds[0], envp);
-        for (i = 0; i < cmd_line.nb_cmds; i++)
-            free_cmd(&cmd_line.cmds[i]);
-        free(cmd_line.cmds);
-        free(line);
-		return (1);
+        status = exec_exit(cmd_line.cmds[cmd_line.nb_cmds - 1], envp);
+        return (-1);
     }
-    if (cmd_line.nb_cmds == 1 && is_builtin_cmd(cmd_line.cmds[0].args))
-    {
-        exec_builtin(cmd_line.cmds[0], envp);
-        for (i = 0; i < cmd_line.nb_cmds; i++)
-            free_cmd(&cmd_line.cmds[i]);
-        free(cmd_line.cmds);
-        free(line);
-        return (1);
-    }
+
     pids = malloc(sizeof(pid_t) * cmd_line.nb_cmds);
     if (!pids)
     {
         free(line);
         return (1);
     }
+
     i = 0;
     while (i < cmd_line.nb_cmds)
     {
@@ -176,22 +166,22 @@ int process_input(char *line, t_env **envp)
                 close(pipe_fd[1]);
             }
             if (is_builtin_cmd(cmd_line.cmds[i].args))
-			{
-                exec_builtin(cmd_line.cmds[i], envp);
-				exit(0);
+            {
+                status = exec_builtin(cmd_line.cmds[i], envp);
+                exit(status);
             }
             else if (!cmd_exists(cmd_line.cmds[i].args[0], *envp))
             {
-                fprintf(stderr, "minishell: %s: command not found\n",
+                printf("minishell: %s: command not found\n",
                     cmd_line.cmds[i].args[0]);
                 exit(127);
             }
             else
-			{
-                exec_cmd(cmd_line.cmds[i], envp);
-				exit(0);
-			}
-            exit(EXIT_FAILURE);
+            {
+                execve(get_cmd_path(*envp, cmd_line.cmds[i].args[0]),
+                    cmd_line.cmds[i].args, env_to_array(*envp));
+                exit(1);
+            }
         }
 
         if (prev_pipe_fd != -1)
@@ -205,23 +195,24 @@ int process_input(char *line, t_env **envp)
 
         i++;
     }
+
     i = 0;
     while (i < cmd_line.nb_cmds)
     {
         waitpid(pids[i], &status, 0);
         if (WIFEXITED(status))
-            cmd_status = WEXITSTATUS(status);
-        if (cmd_status != 0)
-            update_status(envp, cmd_status);
-		else
-			update_status(envp, 0);
+            last_status = WEXITSTATUS(status);
         i++;
     }
+
+    update_status(envp, last_status);
+
     free(pids);
     for (i = 0; i < cmd_line.nb_cmds; i++)
         free_cmd(&cmd_line.cmds[i]);
     free(cmd_line.cmds);
     free(line);
+
     return (1);
 }
 
@@ -230,6 +221,7 @@ void	loop_shell(t_env **envp)
 	char	*line;
 	char	cwd[1024];
 	char	*prompt;
+	int		status;
 
 	while (1)
 	{
@@ -241,7 +233,10 @@ void	loop_shell(t_env **envp)
 		prompt = create_prompt(cwd);
 		line = readline(prompt);
 		free(prompt);
-		if (!process_input(line, envp))
-			break ;
+		if (!line)
+			break;
+		status = process_input(line, envp);
+		if (status == -1)
+			break;
 	}
 }
