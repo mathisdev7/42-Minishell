@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/12 00:45:18 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/12 01:03:33 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,15 @@ int process_input(char *line, t_env **envp)
         free(cmd_line.cmds);
         free(line);
         exit(0);
+    }
+    if (cmd_line.nb_cmds == 1 && is_builtin_cmd(cmd_line.cmds[0].args))
+    {
+        exec_builtin(cmd_line.cmds[0], envp);
+        for (i = 0; i < cmd_line.nb_cmds; i++)
+            free_cmd(&cmd_line.cmds[i]);
+        free(cmd_line.cmds);
+        free(line);
+        return (1);
     }
     pids = malloc(sizeof(pid_t) * cmd_line.nb_cmds);
     if (!pids)
