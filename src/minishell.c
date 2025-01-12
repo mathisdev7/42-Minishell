@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/12 15:00:07 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/12 19:35:27 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,13 +126,22 @@ int process_input(char *line, t_env **envp)
         return (1);
     }
 
+    if (cmd_line.nb_cmds == 1 && is_builtin_cmd(cmd_line.cmds[0].args))
+    {
+        status = exec_builtin(cmd_line.cmds[0], envp);
+        update_status(envp, status);
+        free_cmd(&cmd_line.cmds[0]);
+        free(cmd_line.cmds);
+        free(line);
+        return (1);
+    }
+
     if (cmd_line.cmds[cmd_line.nb_cmds - 1].args &&
         ft_strcmp(cmd_line.cmds[cmd_line.nb_cmds - 1].args[0], "exit") == 0)
     {
         status = exec_exit(cmd_line.cmds[cmd_line.nb_cmds - 1], envp);
         return (-1);
     }
-
     pids = malloc(sizeof(pid_t) * cmd_line.nb_cmds);
     if (!pids)
     {
@@ -204,6 +213,7 @@ int process_input(char *line, t_env **envp)
             last_status = WEXITSTATUS(status);
         i++;
     }
+
 
     update_status(envp, last_status);
 
