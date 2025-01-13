@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 00:30:00 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/13 19:19:11 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:52:29 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,25 @@ char *expand_env_var(char *str, t_env *envp)
     char    *var_value;
     int     i;
     int     j;
-    int     start;
+    int     len;
     int     in_single_quotes;
 
     if (!str)
-        return (NULL);
+        return (ft_strdup(""));
 
-    result = malloc(sizeof(char) * (ft_strlen(str) * 2 + 1));
+    len = ft_strlen(str);
+    t_env *current = envp;
+    while (current)
+    {
+        if (strstr(str, current->name))
+            len += ft_strlen(current->value);
+        current = current->next;
+    }
+
+    result = ft_calloc(len + 1, sizeof(char));
     if (!result)
-        return (NULL);
+        return (ft_strdup(str));
+
     i = 0;
     j = 0;
     in_single_quotes = 0;
@@ -67,41 +77,53 @@ char *expand_env_var(char *str, t_env *envp)
     while (str[i])
     {
         if (str[i] == '\'')
+        {
             in_single_quotes = !in_single_quotes;
-
-		if (str[i] == '$' && str[i + 1] == '?')
-		{
-			var_value = ft_getenv("?", envp);
-			if (var_value)
-			{
-				ft_strcpy(&result[j], var_value);
-				j += ft_strlen(var_value);
-			}
-			i += 2;
-			continue;
-		}
-        if ((str[i] == '$' && !in_single_quotes && str[i + 1] &&
-            (ft_isalnum(str[i + 1]) || str[i + 1] == '_')))
+            result[j++] = str[i++];
+        }
+        else if (str[i] == '$' && !in_single_quotes && str[i + 1])
         {
             i++;
-            start = i;
-            while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '$'))
+            if (str[i] == '?')
+            {
+                var_value = ft_getenv("?", envp);
+                if (var_value)
+                {
+                    ft_strlcpy(result + j, var_value, len - j);
+                    j += ft_strlen(var_value);
+                }
                 i++;
+                continue;
+            }
+
+            int start = i;
+            while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+                i++;
+
+            if (start == i)
+            {
+                result[j++] = '$';
+                continue;
+            }
+
             var_name = ft_substr(str, start, i - start);
+            if (!var_name)
+                continue;
+
             var_value = ft_getenv(var_name, envp);
+            free(var_name);
+
             if (var_value)
             {
-                ft_strcpy(&result[j], var_value);
+                ft_strlcpy(result + j, var_value, len - j + 1);
                 j += ft_strlen(var_value);
             }
-            free(var_name);
-            i--;
         }
         else
-            result[j++] = str[i];
-        i++;
+            result[j++] = str[i++];
     }
+
     result[j] = '\0';
-    return (result);
+    return result;
 }
 

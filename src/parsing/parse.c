@@ -258,11 +258,31 @@ t_redirection	*parse_redirection(char *cmd, int *nb_redirections)
 
 t_cmd_line parse_cmd_line(char *line, t_env *envp)
 {
-	t_cmd_line cmd_line;
-	int i = 0;
-	int in_quotes = 0;
-	char quote_type = 0;
-	int pipe_count = 0;
+	t_cmd_line  cmd_line;
+	char        *cmd_start;
+	int         i;
+	int         cmd_index;
+	int         in_quotes;
+	char        quote_type;
+	int         pipe_count;
+
+	i = 0;
+	cmd_index = 0;
+	in_quotes = 0;
+	quote_type = 0;
+	pipe_count = 0;
+	cmd_line.cmds = NULL;
+	cmd_line.nb_cmds = 0;
+
+	if (!line || !*line)
+		return cmd_line;
+
+	if (!line)
+	{
+		cmd_line.cmds = NULL;
+		cmd_line.nb_cmds = 0;
+		return cmd_line;
+	}
 
 	while (line[i])
 	{
@@ -277,22 +297,14 @@ t_cmd_line parse_cmd_line(char *line, t_env *envp)
 	}
 
 	cmd_line.nb_cmds = pipe_count + 1;
-	cmd_line.cmds = malloc(sizeof(t_cmd) * cmd_line.nb_cmds);
+	cmd_line.cmds = ft_calloc(cmd_line.nb_cmds, sizeof(t_cmd));
 	if (!cmd_line.cmds)
 	{
 		cmd_line.nb_cmds = 0;
 		return cmd_line;
 	}
 
-	if (pipe_count == 0)
-	{
-		cmd_line.cmds[0] = parse_cmd(line, envp);
-		cmd_line.cmds[0].pipe_presence = 0;
-		return cmd_line;
-	}
-
-	char *cmd_start = line;
-	int cmd_index = 0;
+	cmd_start = line;
 	i = 0;
 	in_quotes = 0;
 	quote_type = 0;
@@ -306,17 +318,21 @@ t_cmd_line parse_cmd_line(char *line, t_env *envp)
 		}
 		else if (line[i] == '|' && !in_quotes)
 		{
+			if (cmd_index >= cmd_line.nb_cmds)
+				break;
 			line[i] = '\0';
 			cmd_line.cmds[cmd_index] = parse_cmd(cmd_start, envp);
 			cmd_line.cmds[cmd_index].pipe_presence = 1;
-			cmd_start = line + i + 1;
-			cmd_index++;
 			line[i] = '|';
+			cmd_start = line + i + 1;
+			while (*cmd_start == ' ' || *cmd_start == '\t')
+				cmd_start++;
+			cmd_index++;
 		}
 		i++;
 	}
 
-	if (cmd_start < line + i)
+	if (cmd_start < line + i && cmd_index < cmd_line.nb_cmds)
 	{
 		cmd_line.cmds[cmd_index] = parse_cmd(cmd_start, envp);
 		cmd_line.cmds[cmd_index].pipe_presence = 0;

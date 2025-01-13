@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 00:15:00 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/13 16:06:15 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:39:18 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,17 @@ void	print_env_var(char *arg, int *i, t_env **envp)
 	char	*var_name;
 	char	*var_value;
 
+	if (!arg || !i || !envp || !*envp)
+		return;
+
 	(*i)++;
 	k = 0;
+	if (!arg[*i])
+	{
+		printf("$");
+		return;
+	}
+
 	if (arg[*i] == '?')
 	{
 		var_value = ft_getenv("?", *envp);
@@ -55,7 +64,10 @@ void	print_env_var(char *arg, int *i, t_env **envp)
 		return;
 	}
 
-	var_name = malloc(sizeof(char) * (k + 1));
+	var_name = ft_calloc(k + 1, sizeof(char));
+	if (!var_name)
+		return;
+
 	ft_strncpy(var_name, &arg[*i], k);
 	var_name[k] = '\0';
 
