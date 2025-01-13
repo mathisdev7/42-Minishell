@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 00:30:00 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/13 18:50:53 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:19:11 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,7 @@ char *expand_env_var(char *str, t_env *envp)
 
     if (!str)
         return (NULL);
-    if (str[0] == '$' && str[1] == '?')
-    {
-        var_value = ft_getenv("?", envp);
-        if (!var_value)
-            return (ft_strdup("0"));
-        return (ft_strdup(var_value));
-    }
+
     result = malloc(sizeof(char) * (ft_strlen(str) * 2 + 1));
     if (!result)
         return (NULL);
@@ -75,12 +69,23 @@ char *expand_env_var(char *str, t_env *envp)
         if (str[i] == '\'')
             in_single_quotes = !in_single_quotes;
 
-        if (str[i] == '$' && !in_single_quotes && str[i + 1] &&
-            (ft_isalnum(str[i + 1]) || str[i + 1] == '_'))
+		if (str[i] == '$' && str[i + 1] == '?')
+		{
+			var_value = ft_getenv("?", envp);
+			if (var_value)
+			{
+				ft_strcpy(&result[j], var_value);
+				j += ft_strlen(var_value);
+			}
+			i += 2;
+			continue;
+		}
+        if ((str[i] == '$' && !in_single_quotes && str[i + 1] &&
+            (ft_isalnum(str[i + 1]) || str[i + 1] == '_')))
         {
             i++;
             start = i;
-            while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+            while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '$'))
                 i++;
             var_name = ft_substr(str, start, i - start);
             var_value = ft_getenv(var_name, envp);

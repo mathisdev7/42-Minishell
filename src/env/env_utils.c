@@ -67,6 +67,11 @@ t_env	*init_env(char **envp)
 		env = new_node;
 		i++;
 	}
+	new_node = malloc(sizeof(t_env));
+	new_node->name = strdup("?");
+	new_node->value = strdup("0");
+	new_node->next = env;
+	env = new_node;
 	return (env);
 }
 
