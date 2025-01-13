@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 00:30:00 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/13 16:32:43 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/13 18:50:53 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,16 @@ char *expand_env_var(char *str, t_env *envp)
 
     if (!str)
         return (NULL);
-
+    if (str[0] == '$' && str[1] == '?')
+    {
+        var_value = ft_getenv("?", envp);
+        if (!var_value)
+            return (ft_strdup("0"));
+        return (ft_strdup(var_value));
+    }
     result = malloc(sizeof(char) * (ft_strlen(str) * 2 + 1));
     if (!result)
         return (NULL);
-
     i = 0;
     j = 0;
     in_single_quotes = 0;

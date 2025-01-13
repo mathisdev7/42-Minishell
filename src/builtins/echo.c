@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:56:58 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/13 16:08:50 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/13 18:47:59 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,12 @@ void	print_args(int j, int new_line, t_cmd cmd, t_env **envp)
 	{
 		i = 0;
 		if (cmd.args[j])
-			print_regular_arg(cmd.args[j], &i, envp);
+		{
+			if (ft_strcmp(cmd.args[j], "$?") == 0)
+				printf("%s", ft_getenv("?", *envp));
+			else
+				print_regular_arg(cmd.args[j], &i, envp);
+		}
 		if (cmd.args[j + 1])
 			printf(" ");
 		j++;
