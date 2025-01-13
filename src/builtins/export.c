@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:29:34 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/12 14:41:34 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/12 19:32:56 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_env	*update_env(t_env **envp, char *name, char *value)
 		{
 			free(current->value);
 			current->value = ft_strdup(value);
-			return (current);
+			return (*envp);
 		}
 		current = current->next;
 	}
@@ -51,18 +51,40 @@ t_env	*update_env(t_env **envp, char *name, char *value)
 	new_env->value = ft_strdup(value);
 	new_env->next = *envp;
 	*envp = new_env;
-	return (new_env);
+	return (*envp);
 }
 
-void	update_status(t_env **envp, int status)
+void update_status(t_env **envp, int status)
 {
-	char	*status_str;
+    t_env *current;
+    char *status_str;
 
-	status_str = ft_itoa(status);
-	if (!status_str)
-		return ;
-	*envp = update_env(envp, "?", status_str);
-	free(status_str);
+    status_str = ft_itoa(status);
+    if (!status_str)
+        return;
+
+    current = *envp;
+    while (current)
+    {
+        if (ft_strcmp(current->name, "?") == 0)
+        {
+            free(current->value);
+            current->value = status_str;
+            return;
+        }
+        current = current->next;
+    }
+
+    t_env *new_env = malloc(sizeof(t_env));
+    if (!new_env)
+    {
+        free(status_str);
+        return;
+    }
+    new_env->name = ft_strdup("?");
+    new_env->value = status_str;
+    new_env->next = *envp;
+    *envp = new_env;
 }
 
 int	exec_export(t_cmd cmd, t_env **envp)
@@ -86,7 +108,7 @@ int	exec_export(t_cmd cmd, t_env **envp)
 	*equal_sign = '\0';
 	name = arg;
 	value = equal_sign + 1;
-	update_env(envp, name, value);
+	*envp = update_env(envp, name, value);
 	free(arg);
 	return (0);
 }
