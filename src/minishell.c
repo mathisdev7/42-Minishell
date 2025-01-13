@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/13 19:33:39 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/13 20:06:31 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,7 +376,7 @@ void	loop_shell(t_env **envp)
 			return ;
 		}
 		prompt = create_prompt(cwd);
-		line = readline(prompt);
+		line = readline("minishell> ");
 		free(prompt);
 		if (!line)
 			break ;

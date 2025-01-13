@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:07:59 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/11 02:38:40 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:59:37 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ int	exec_cd(t_cmd cmd, t_env **envp)
 {
 	char	current_path[PATH_MAX];
 	char	*path;
+
+	if (cmd.args[2])
+		return (printf("minishell: cd: too many arguments\n"));
 
 	if (cmd.args[1] == NULL || ft_strcmp(cmd.args[1], "none") == 0)
 	{

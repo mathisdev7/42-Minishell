@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:29:34 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/13 17:15:18 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/13 20:04:44 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,28 @@ static void	add_env_var(t_env **env_list, char *key, char *value)
 	*env_list = new_var;
 }
 
-static void	handle_export_arg(char *arg, t_env **env_list)
+static int is_valid_identifier(char *str)
+{
+	int i;
+
+	if (!str || !*str)
+		return (0);
+
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+		return (0);
+
+	i = 1;
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+
+	return (1);
+}
+
+static int handle_export_arg(char *arg, t_env **env_list)
 {
 	char	*equal_sign;
 	char	*key;
@@ -120,10 +141,29 @@ static void	handle_export_arg(char *arg, t_env **env_list)
 
 	equal_sign = ft_strchr(arg, '=');
 	if (!equal_sign)
-		return ;
+	{
+		if (!is_valid_identifier(arg))
+		{
+			ft_putstr_fd("export: '", 2);
+			ft_putstr_fd(arg, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (1);
+		}
+		return (0);
+	}
+
 	*equal_sign = '\0';
 	key = arg;
 	value = equal_sign + 1;
+
+	if (!is_valid_identifier(key))
+	{
+		ft_putstr_fd("export: '", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (1);
+	}
+
 	if (value && *value)
 	{
 		clean_value = remove_quotes(value);
@@ -135,15 +175,30 @@ static void	handle_export_arg(char *arg, t_env **env_list)
 	}
 	else
 		add_env_var(env_list, key, "");
+	return (0);
 }
 
 int	exec_export(t_cmd cmd, t_env **envp)
 {
+	int status;
+
+	status = 0;
 	if (!cmd.args[1])
 		return (print_env(*envp));
+
 	for (int i = 1; cmd.args[i]; i++)
 	{
-		handle_export_arg(cmd.args[i], envp);
+		if (ft_strchr(cmd.args[i], '='))
+			status |= handle_export_arg(cmd.args[i], envp);
+		else if (!is_valid_identifier(cmd.args[i]))
+		{
+			ft_putstr_fd("export: '", 2);
+			ft_putstr_fd(cmd.args[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			status = 1;
+		}
+		else
+			add_env_var(envp, cmd.args[i], "");
 	}
-	return (0);
+	return (status);
 }
