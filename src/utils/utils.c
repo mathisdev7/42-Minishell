@@ -5,106 +5,94 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 15:22:32 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/11 23:40:22 by mazeghou         ###   ########.fr       */
+/*   Created: 2025/01/13 15:45:00 by mazeghou          #+#    #+#             */
+/*   Updated: 2025/01/13 15:28:10 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	handle_quotes(char *cmd_line, int *i, char *quote, int *in_quote)
+int count_args(char *str)
 {
-	if (cmd_line[*i] == '"' || cmd_line[*i] == '\'')
-	{
-		if (!*in_quote)
-		{
-			*quote = cmd_line[*i];
-			*in_quote = 1;
-		}
-		else if (cmd_line[*i] == *quote)
-			*in_quote = 0;
-	}
-	return ((*i)++);
+    int count = 0;
+    int i = 0;
+    int in_quotes = 0;
+    char quote_type = 0;
+
+    while (str && str[i])
+    {
+        while (str[i] && !in_quotes && (str[i] == ' ' || str[i] == '\t'))
+            i++;
+        if (str[i])
+            count++;
+        while (str[i] && (in_quotes || (str[i] != ' ' && str[i] != '\t')))
+        {
+            if ((str[i] == '"' || str[i] == '\'') && (!in_quotes || str[i] == quote_type))
+            {
+                in_quotes = !in_quotes;
+                quote_type = in_quotes ? str[i] : 0;
+            }
+            i++;
+        }
+    }
+    return count;
 }
 
-static char	*allocate_and_copy_arg(char *cmd_line, int start, int end)
+char *extract_arg(char *str, int *i)
 {
-	char	*arg;
+    int start = *i;
+    int len = 0;
+    int in_quotes = 0;
+    char quote_type = 0;
+    char *arg;
 
-	arg = malloc(sizeof(char) * (end - start + 1));
-	if (!arg)
-		return (NULL);
-	ft_strncpy(arg, &cmd_line[start], end - start);
-	return (arg);
+    while (str[*i] && (in_quotes || (str[*i] != ' ' && str[*i] != '\t')))
+    {
+        if ((str[*i] == '"' || str[*i] == '\'') && (!in_quotes || str[*i] == quote_type))
+        {
+            in_quotes = !in_quotes;
+            quote_type = in_quotes ? str[*i] : 0;
+        }
+        (*i)++;
+        len++;
+    }
+
+    arg = malloc(sizeof(char) * (len + 1));
+    if (!arg)
+        return NULL;
+
+    strncpy(arg, &str[start], len);
+    arg[len] = '\0';
+    return arg;
 }
 
-static int	process_argument(char *cmd_line, int *i, char **arg)
+char **ft_split_args(char *str)
 {
-	int		start;
-	char	quote;
-	int		in_quote;
+    int count = count_args(str);
+    char **args = malloc(sizeof(char *) * (count + 1));
+    if (!args)
+        return NULL;
 
-	while (cmd_line[*i] && (cmd_line[*i] == ' ' || cmd_line[*i] == '\t'))
-		(*i)++;
-	start = *i;
-	in_quote = 0;
-	while (cmd_line[*i] && (in_quote || (cmd_line[*i] != ' '
-				&& cmd_line[*i] != '\t')))
-		handle_quotes(cmd_line, i, &quote, &in_quote);
-	*arg = allocate_and_copy_arg(cmd_line, start, *i);
-	return (*arg != NULL);
-}
+    int i = 0;
+    int arg_index = 0;
 
-char	**ft_split_args(char *cmd_line)
-{
-	char	**args;
-	int		i;
-	int		j;
-	int		arg_count;
-
-	if (!cmd_line)
-		return (NULL);
-	arg_count = count_args(cmd_line) + 1;
-	args = malloc(sizeof(char *) * (arg_count + 1));
-	if (!args)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (cmd_line[i] && j < arg_count)
-	{
-		if (!process_argument(cmd_line, &i, &args[j]))
-		{
-			free_split(args);
-			return (NULL);
-		}
-		j++;
-	}
-	args[j] = NULL;
-	return (args);
-}
-
-int	count_args(char *str)
-{
-	int		count;
-	int		in_word;
-	char	*ptr;
-
-	count = 0;
-	in_word = 0;
-	ptr = str;
-	while (*ptr)
-	{
-		if (*ptr != ' ' && *ptr != '\t')
-		{
-			if (!in_word)
-			{
-				count++;
-				in_word = 1;
-			}
-		}
-		else
-			in_word = 0;
-		ptr++;
-	}
-	return (count - 1);
+    while (str[i])
+    {
+        while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+            i++;
+        if (str[i])
+        {
+            args[arg_index] = extract_arg(str, &i);
+            if (!args[arg_index])
+            {
+                while (arg_index > 0)
+                    free(args[--arg_index]);
+                free(args);
+                return NULL;
+            }
+            arg_index++;
+        }
+    }
+    args[arg_index] = NULL;
+    return args;
 }
