@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/12 20:32:26 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/13 02:16:12 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int					is_quoted_with_single(char *str);
 void				print_without_quotes(char *str);
 void				print_regular_arg(char *arg, int *i, t_env **envp);
 void				print_env_var(char *arg, int *i, t_env **envp);
-t_redirection *parse_redirection(char **cmd_args, int *nb_redirections);
+t_redirection *parse_redirection(char *cmd, int *nb_redirections);
+int	search_str(char *str, char *to_find);
 
 #endif
