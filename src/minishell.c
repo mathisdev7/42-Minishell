@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/13 02:12:22 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/13 02:33:29 by nopareti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -366,7 +366,7 @@ void	loop_shell(t_env **envp)
 {
 	char	*line;
 	char	cwd[1024];
-	//char	*prompt;
+	char	*prompt;
 	int		status;
 
 	while (1)
@@ -376,9 +376,9 @@ void	loop_shell(t_env **envp)
 			perror("getcwd error");
 			return ;
 		}
-		//prompt = create_prompt(cwd);
-		line = readline("minishell> ");
-		//free(prompt);
+		prompt = create_prompt(cwd);
+		line = readline(prompt);
+		free(prompt);
 		if (!line)
 			break;
 		status = process_input(line, envp);
