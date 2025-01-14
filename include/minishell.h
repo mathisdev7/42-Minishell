@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/14 14:26:13 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:44:16 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ char				*ft_strncpy(char *dest, char *src, unsigned int n);
 char				*ft_strcpy(char *dest, char *src);
 int					ft_strcmp(char *s1, char *s2);
 char				*ft_strstr(char *str, char *to_find);
+char				*ft_strtok(char *str, char sepa);
 
 // builtins
 int					exec_builtin(t_cmd cmd, t_env **envp);

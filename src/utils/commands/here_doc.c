@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:05:45 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/14 14:05:48 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:43:00 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	parse_here_doc(t_redirection *redirection, char *delimiter)
 	while (1)
 	{
 		line = readline("[📝] mini_here_doc> ");
-		if (!line || strcmp(line, delimiter) == 0)
+		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			break ;
 		}
-		write(pipe_fd[1], line, strlen(line));
+		write(pipe_fd[1], line, ft_strlen(line));
 		write(pipe_fd[1], "\n", 1);
 		free(line);
 	}

@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:40:53 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/14 13:14:40 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:44:29 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ t_env	*init_env(char **envp)
 		new_node = malloc(sizeof(t_env));
 		if (!new_node)
 			return (NULL);
-		new_node->name = ft_strdup(strtok(envp[i], "="));
-		new_node->value = ft_strdup(strtok(NULL, "="));
+		new_node->name = ft_strdup(ft_strtok(envp[i], "="));
+		new_node->value = ft_strdup(ft_strtok(NULL, "="));
 		new_node->next = env;
 		env = new_node;
 		i++;
