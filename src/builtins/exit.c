@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 02:15:00 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/14 10:29:03 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:09:19 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static int	is_numeric(char *str)
 
 int	exec_exit(t_cmd cmd, t_env **envp)
 {
-	(void)envp;
 	int	exit_code;
 
+	(void)envp;
 	if (!cmd.args[1])
 	{
 		rl_clear_history();

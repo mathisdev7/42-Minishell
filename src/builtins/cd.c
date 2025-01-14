@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:07:59 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/14 10:28:01 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:33:10 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,11 @@ static int	change_directory(char *path)
 
 int	exec_cd(t_cmd cmd, t_env **envp)
 {
-	char	current_path[PATH_MAX];
+	char	current_path[1024];
 	char	*path;
 
 	if (cmd.args[2])
 		return (ft_printf("minishell: cd: too many arguments\n"));
-
 	if (cmd.args[1] == NULL || ft_strcmp(cmd.args[1], "none") == 0)
 	{
 		if (handle_home_directory(envp, &path))

@@ -17,8 +17,7 @@ void	print_args(int j, int new_line, t_cmd cmd, t_env **envp)
 	int	i;
 
 	if (!cmd.args)
-		return;
-
+		return ;
 	while (cmd.args[j])
 	{
 		i = 0;

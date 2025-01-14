@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 23:43:12 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/14 10:25:35 by mazeghou         ###   ########.fr       */
+/*   Created: 2025/01/14 14:24:33 by mazeghou          #+#    #+#             */
+/*   Updated: 2025/01/14 14:24:36 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
-static void	sigint_handler(int sig)
+int	is_empty_cmd(char *cmd_line)
 {
-	(void)sig;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	int	i;
 
-static void	sigquit_handler(int sig)
-{
-	(void)sig;
-	rl_on_new_line();
-}
-
-void	setup_signals(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	if (!cmd_line)
+		return (1);
+	i = 0;
+	while (cmd_line[i])
+	{
+		if (cmd_line[i] != ' ' && cmd_line[i] != '\t')
+			return (0);
+		i++;
+	}
+	return (1);
 }

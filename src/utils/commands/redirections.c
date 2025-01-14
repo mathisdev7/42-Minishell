@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft.c                                               :+:      :+:    :+:   */
+/*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/10 14:59:37 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/10 14:59:37 by mazeghou         ###   ########.fr       */
+/*   Created: 2025/01/14 13:25:22 by mazeghou          #+#    #+#             */
+/*   Updated: 2025/01/14 14:07:46 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
-size_t	ft_strcspn(const char *s, const char *reject)
+int	count_redirections(char *cmd)
 {
-	size_t	i;
-	size_t	i2;
+	int	i;
+	int	count;
 
 	i = 0;
-	i2 = 0;
-	while (s[i] != '\0')
+	count = 0;
+	while (cmd[i])
 	{
-		i2 = 0;
-		while (reject[i2] != '\0')
+		if ((cmd[i] == '>' && cmd[i + 1] == '>') || (cmd[i] == '<' && cmd[i
+					+ 1] == '<'))
 		{
-			if (s[i] == reject[i2])
-				return (i);
-			i2++;
+			count++;
+			i += 2;
 		}
-		i++;
+		else if (cmd[i] == '>' || cmd[i] == '<')
+		{
+			count++;
+			i++;
+		}
+		else
+			i++;
 	}
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
+	return (count);
 }

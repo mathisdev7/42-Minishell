@@ -23,13 +23,22 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude -I/usr/include/readline -g
 LDFLAGS = -L/usr/lib -lreadline -lncurses
 
-SRCS = src/main.c src/minishell.c \
-src/utils/utils.c src/builtins/echo.c \
-src/utils/exec.c src/builtins/cd.c src/builtins/pwd.c \
-src/builtins/export.c src/builtins/unset.c src/utils/ft.c src/builtins/env.c \
-src/builtins/builtin_check.c src/parsing/parse.c src/env/env_utils.c src/utils/cmd_utils.c \
-src/utils/str_utils.c src/env/env_utils2.c src/signals/signals.c src/builtins/exit.c \
-src/builtins/echo_utils.c src/parsing/quotes_utils.c
+SRCS = src/main.c src/minishell.c src/utils/status.c \
+src/builtins/echo_utils.c src/builtins/echo.c src/builtins/cd.c \
+src/builtins/pwd.c src/builtins/export.c src/builtins/unset.c \
+src/builtins/exit.c src/builtins/env.c src/utils/parsing/pipeline.c \
+src/utils/parsing/process.c src/utils/parsing/handle.c \
+src/utils/parsing/process_utils.c src/utils/commands/cmd_line.c \
+src/utils/commands/cmd_parser.c src/utils/commands/cmd.c \
+src/utils/env/env.c src/utils/exec/exec.c src/utils/ft/ft.c \
+src/utils/path.c src/utils/signals.c src/utils/env/env_utils.c \
+src/builtins/builtin_check.c src/utils/quotes/quotes.c \
+src/utils/commands/cmd_parse.c src/utils/commands/args.c \
+src/utils/commands/redirections.c src/utils/commands/redirections2.c \
+src/utils/commands/parse_redirection.c src/utils/commands/args_utils.c \
+src/utils/commands/redir_char.c src/utils/commands/file_name.c \
+src/utils/commands/here_doc.c src/builtins/export_arg.c \
+src/utils/commands/cmd_utils.c src/utils/commands/expand_env.c
 
 OBJS = $(SRCS:.c=.o)
 PRINTF_DIR = include/printf

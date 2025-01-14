@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 20:57:35 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/14 12:56:26 by mazeghou         ###   ########.fr       */
+/*   Created: 2025/01/14 12:24:09 by mazeghou          #+#    #+#             */
+/*   Updated: 2025/01/14 12:24:27 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	exec_pwd(t_cmd cmd)
+char	**get_splitted_path(t_env *envp)
 {
-	char	current_path[1024];
+	char	*path_value;
+	char	**splitted_path;
 
-	if (cmd.args[1])
+	path_value = ft_getenv("PATH", envp);
+	if (!path_value)
+		return (NULL);
+	splitted_path = ft_split(path_value, ':');
+	if (!splitted_path)
+		return (NULL);
+	return (splitted_path);
+}
+
+char	*check_direct_path(char *cmd_name)
+{
+	if (cmd_name[0] == '/' || cmd_name[0] == '.')
 	{
-		ft_printf("pwd: too many arguments\n");
-		return (1);
+		if (access(cmd_name, X_OK) == 0)
+			return (ft_strdup(cmd_name));
+		return (NULL);
 	}
-	if (getcwd(current_path, sizeof(current_path)) != NULL)
-		ft_printf("%s\n", current_path);
-	else
-	{
-		perror("Error retrieving the current directory");
-		return (1);
-	}
-	return (0);
+	return (NULL);
 }

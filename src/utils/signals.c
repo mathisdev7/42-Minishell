@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 20:57:35 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/14 12:56:26 by mazeghou         ###   ########.fr       */
+/*   Created: 2025/01/14 12:22:36 by mazeghou          #+#    #+#             */
+/*   Updated: 2025/01/14 12:22:43 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	exec_pwd(t_cmd cmd)
+static void	sigint_handler(int sig)
 {
-	char	current_path[1024];
+	(void)sig;
+	ft_printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
-	if (cmd.args[1])
-	{
-		ft_printf("pwd: too many arguments\n");
-		return (1);
-	}
-	if (getcwd(current_path, sizeof(current_path)) != NULL)
-		ft_printf("%s\n", current_path);
-	else
-	{
-		perror("Error retrieving the current directory");
-		return (1);
-	}
-	return (0);
+static void	sigquit_handler(int sig)
+{
+	(void)sig;
+	rl_on_new_line();
+}
+
+void	setup_signals(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
 }
