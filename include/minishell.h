@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/13 02:16:12 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:28:04 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft/libft.h"
 # include <curses.h>
 # include <dirent.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -27,29 +28,26 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
-#include <fcntl.h>
 
 typedef struct s_redirection
 {
-    char *file;
-    int type;
-    int fd;
-}               t_redirection;
+	char			*file;
+	int				type;
+	int				fd;
+}					t_redirection;
 
 typedef struct s_cmd
 {
-    char            **args;
-    int             pipe_presence;
-    t_redirection   *redirections;
-    int             nb_redirections;
-}               t_cmd;
-
-
+	char			**args;
+	int				pipe_presence;
+	t_redirection	*redirections;
+	int				nb_redirections;
+}					t_cmd;
 
 typedef struct s_cmd_line
 {
-	t_cmd	*cmds;
-	int		nb_cmds;
+	t_cmd			*cmds;
+	int				nb_cmds;
 }					t_cmd_line;
 
 typedef struct s_env
@@ -61,17 +59,17 @@ typedef struct s_env
 
 typedef struct s_quote_state
 {
-	int		in_single;
-	int		in_double;
-	size_t	i;
-	size_t	j;
-}	t_quote_state;
+	int				in_single;
+	int				in_double;
+	size_t			i;
+	size_t			j;
+}					t_quote_state;
 
 void				init_shell(t_env **envp);
 void				loop_shell(t_env **envp);
 
 void				handle_cmd(char *cmd_line);
-t_cmd				parse_cmd(char *cmd_line);
+t_cmd				parse_cmd(char *cmd_line, t_env *envp);
 
 int					count_args(char *str);
 void				free_split(char **splitted);
@@ -111,16 +109,19 @@ char				*ft_strcpy(char *dest, char *src);
 
 void				setup_signals(void);
 
-t_cmd_line parse_cmd_line(char	*line);
-int				exec_pipe_cmd(t_cmd_line cmd_line, t_env **envp);
+t_cmd_line			parse_cmd_line(char *line, t_env *envp);
+int					exec_pipe_cmd(t_cmd_line cmd_line, t_env **envp);
 
-int				cmd_exists(char *cmd, t_env *envp);
-int				process_input(char *line, t_env **envp);
+int					cmd_exists(char *cmd, t_env *envp);
+int					process_input(char *line, t_env **envp);
 int					is_quoted_with_single(char *str);
 void				print_without_quotes(char *str);
 void				print_regular_arg(char *arg, int *i, t_env **envp);
 void				print_env_var(char *arg, int *i, t_env **envp);
-t_redirection *parse_redirection(char *cmd, int *nb_redirections);
-int	search_str(char *str, char *to_find);
+t_redirection		*parse_redirection(char *cmd, int *nb_redirections);
+int					search_str(char *str, char *to_find);
+
+char				*expand_env_vars(char *arg, t_env *envp);
+char				*expand_env_var(char *str, t_env *envp);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:56:58 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/12 00:11:36 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:31:38 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@ void	print_args(int j, int new_line, t_cmd cmd, t_env **envp)
 {
 	int	i;
 
+	if (!cmd.args)
+		return;
+
 	while (cmd.args[j])
 	{
-		if (is_quoted_with_single(cmd.args[j]))
-			print_without_quotes(cmd.args[j]);
-		else
+		i = 0;
+		if (cmd.args[j])
 		{
-			i = 0;
-			print_regular_arg(cmd.args[j], &i, envp);
+			if (ft_strcmp(cmd.args[j], "$?") == 0)
+				printf("%s", ft_getenv("?", *envp));
+			else
+				print_regular_arg(cmd.args[j], &i, envp);
 		}
 		if (cmd.args[j + 1])
 			printf(" ");

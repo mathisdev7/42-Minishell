@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:57:35 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/11 02:59:28 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/13 20:01:37 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int	exec_pwd(t_cmd cmd)
 
 	if (cmd.args[1])
 	{
-		printf("\033[1;31m[🧭] pwd: too many arguments\033[0m\n");
+		printf("pwd: too many arguments\n");
 		return (1);
 	}
 	if (getcwd(current_path, sizeof(current_path)) != NULL)
-		printf("\033[1;32m[🧭] -> %s\033[0m\n", current_path);
+		printf("%s\n", current_path);
 	else
 	{
 		perror("Error retrieving the current directory");
