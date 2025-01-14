@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 00:15:00 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/13 19:39:18 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/14 10:25:35 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_without_quotes(char *str)
 	i = 1;
 	while (str[i] && str[i] != '\'')
 	{
-		printf("%c", str[i]);
+		ft_printf("%c", str[i]);
 		i++;
 	}
 }
@@ -42,7 +42,7 @@ void	print_env_var(char *arg, int *i, t_env **envp)
 	k = 0;
 	if (!arg[*i])
 	{
-		printf("$");
+		ft_printf("$");
 		return;
 	}
 
@@ -50,7 +50,7 @@ void	print_env_var(char *arg, int *i, t_env **envp)
 	{
 		var_value = ft_getenv("?", *envp);
 		if (var_value)
-			printf("%s", var_value);
+			ft_printf("%s", var_value);
 		(*i)++;
 		return;
 	}
@@ -60,7 +60,7 @@ void	print_env_var(char *arg, int *i, t_env **envp)
 
 	if (k == 0)
 	{
-		printf("$");
+		ft_printf("$");
 		return;
 	}
 
@@ -73,7 +73,7 @@ void	print_env_var(char *arg, int *i, t_env **envp)
 
 	var_value = ft_getenv(var_name, *envp);
 	if (var_value)
-		printf("%s", var_value);
+		ft_printf("%s", var_value);
 
 	free(var_name);
 	*i += k;
@@ -83,5 +83,5 @@ void	print_regular_arg(char *arg, int *i, t_env **envp)
 {
 	(void)i;
 	(void)envp;
-	printf("%s", arg);
+	ft_printf("%s", arg);
 }

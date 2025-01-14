@@ -6,7 +6,7 @@
 /*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:56:58 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/13 20:54:33 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/14 10:25:35 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ void	print_args(int j, int new_line, t_cmd cmd, t_env **envp)
 		if (cmd.args[j])
 		{
 			if (ft_strcmp(cmd.args[j], "$?") == 0)
-				printf("%s", ft_getenv("?", *envp));
+				ft_printf("%s", ft_getenv("?", *envp));
 			else
 				print_regular_arg(cmd.args[j], &i, envp);
 		}
 		if (cmd.args[j + 1])
-			printf(" ");
+			ft_printf(" ");
 		j++;
 	}
 	if (new_line)
-		printf("\n");
+		ft_printf("\n");
 }
 
 int	exec_echo(t_cmd cmd, t_env **envp)

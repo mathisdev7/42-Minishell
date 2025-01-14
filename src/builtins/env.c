@@ -19,13 +19,13 @@ int	exec_env(t_cmd cmd, t_env **envp)
 	(void)cmd;
 	if (!envp || !*envp)
 	{
-		printf("Error: Environment not initialized\n");
+		ft_printf("Error: Environment not initialized\n");
 		return (1);
 	}
 	current = *envp;
 	while (current)
 	{
-		printf("%s=%s\n", current->name, current->value);
+		ft_printf("%s=%s\n", current->name, current->value);
 		current = current->next;
 	}
 	return (0);

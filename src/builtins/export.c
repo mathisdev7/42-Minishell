@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:29:34 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/13 20:04:44 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/14 10:29:18 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int	print_env(t_env *envp)
 	current = envp;
 	while (current)
 	{
-		printf("%s=%s\n", current->name, current->value);
+		ft_printf("%s=%s\n", current->name, current->value);
 		current = current->next;
 	}
-	return (1);
+	return (0);
 }
 
 t_env	*update_env(t_env **envp, char *name, char *value)

@@ -32,8 +32,10 @@ src/utils/str_utils.c src/env/env_utils2.c src/signals/signals.c src/builtins/ex
 src/builtins/echo_utils.c src/parsing/quotes_utils.c
 
 OBJS = $(SRCS:.c=.o)
+PRINTF_DIR = include/printf
 LIBFT_DIR = include/libft
 LIBFT = $(LIBFT_DIR)/libft.a
+PRINTF = $(PRINTF_DIR)/libftprintf.a
 
 define show_spinner
 	$(eval CURRENT_FILE=$(shell echo $$(($(CURRENT_FILE) + 1))))
@@ -61,8 +63,13 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) >/dev/null 2>&1
 	@printf "\r$(GREEN)✓ Libft ready!$(RESET)                    \n"
 
-$(NAME): $(LIBFT) $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME) >/dev/null
+$(PRINTF):
+	@printf "\r$(BLUE)⠋$(RESET) $(GREEN)Building printf...$(RESET)"
+	@$(MAKE) -C $(PRINTF_DIR) >/dev/null 2>&1
+	@printf "\r$(GREEN)✓ Printf ready!$(RESET)                    \n"
+
+$(NAME): $(LIBFT) $(PRINTF) $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(LDFLAGS) -o $(NAME) >/dev/null
 	@printf "\r$(GREEN)✓ Build complete!$(RESET)                                        \n"
 
 clean:
@@ -75,6 +82,7 @@ fclean:
 	@rm -f $(OBJS)
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory >/dev/null
+	@$(MAKE) -C $(PRINTF_DIR) fclean --no-print-directory >/dev/null
 
 re: fclean all
 

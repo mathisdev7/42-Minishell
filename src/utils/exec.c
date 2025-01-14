@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 19:28:44 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/13 19:32:14 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/14 10:25:35 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	exec_builtin(t_cmd cmd, t_env **envp)
 
 static void	handle_command_not_found(t_cmd cmd, t_env **envp, char **env_array)
 {
-	printf("Command not found: %s\n", cmd.args[0]);
+	ft_printf("Command not found: %s\n", cmd.args[0]);
 	update_status(envp, 127);
 	free_split(env_array);
 }
@@ -58,7 +58,7 @@ char **env_array)
 	if (pid == 0)
 	{
 		execve(path, cmd.args, env_array);
-		printf("fork failed\n");
+		ft_printf("fork failed\n");
 		perror("execve");
 		free(path);
 		free_split(env_array);

@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 20:07:59 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/13 19:59:37 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/14 10:28:01 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	handle_home_directory(t_env **envp, char **path)
 	*path = ft_getenv("HOME", *envp);
 	if (*path == NULL)
 	{
-		fprintf(stderr, "Error: HOME variable not found.\n");
+		ft_printf("Error: HOME variable not found.\n");
 		return (1);
 	}
 	return (0);
@@ -28,7 +28,7 @@ static int	handle_env_variable(char *arg, t_env **envp, char **path)
 	*path = ft_getenv(arg + 1, *envp);
 	if (*path == NULL)
 	{
-		fprintf(stderr, "Error: %s variable not found.\n", arg + 1);
+		ft_printf("Error: %s variable not found.\n", arg + 1);
 		return (1);
 	}
 	return (0);
@@ -50,7 +50,7 @@ int	exec_cd(t_cmd cmd, t_env **envp)
 	char	*path;
 
 	if (cmd.args[2])
-		return (printf("minishell: cd: too many arguments\n"));
+		return (ft_printf("minishell: cd: too many arguments\n"));
 
 	if (cmd.args[1] == NULL || ft_strcmp(cmd.args[1], "none") == 0)
 	{

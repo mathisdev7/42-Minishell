@@ -6,12 +6,13 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:29:29 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/13 15:28:04 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/14 10:32:47 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define NULL_CHECK(x) if (x) return (NULL)
 
 # include "libft/libft.h"
 # include <curses.h>
@@ -121,6 +122,7 @@ void				print_env_var(char *arg, int *i, t_env **envp);
 t_redirection		*parse_redirection(char *cmd, int *nb_redirections);
 int					search_str(char *str, char *to_find);
 
+int					ft_printf(const char *format, ...);
 char				*expand_env_vars(char *arg, t_env *envp);
 char				*expand_env_var(char *str, t_env *envp);
 

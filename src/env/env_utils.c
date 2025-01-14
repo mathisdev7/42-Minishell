@@ -32,6 +32,35 @@ void	ft_env_remove_if(t_env **begin_list, char *data_ref, int (*cmp)(char *,
 		ft_env_remove_if(&cur->next, data_ref, cmp);
 }
 
+char	*ft_strndup(const char *src, size_t len)
+{
+	char	*str;
+
+	NULL_CHECK(!(str = (char*)ft_memalloc(len + 1)));
+	return (ft_strncpy(str, src, len));
+}
+
+char	*ft_strtok(char *str, const char *delim)
+{
+	uint8_t	hash[256];
+	int		i;
+
+	NULL_CHECK(!str);
+	if (!delim)
+		return (ft_strdup(str));
+	ft_bzero(&hash, 256);
+	i = -1;
+	while (delim[++i])
+		hash[(int)delim[i]] = 1;
+	i = -1;
+	while (str[++i])
+	{
+		if (hash[(int)str[i]])
+			return (ft_strndup(str, i));
+	}
+	return (ft_strdup(str));
+}
+
 char	*ft_getenv(char *name, t_env *envp)
 {
 	t_env	*current;
@@ -61,15 +90,15 @@ t_env	*init_env(char **envp)
 		new_node = malloc(sizeof(t_env));
 		if (!new_node)
 			return (NULL);
-		new_node->name = strdup(strtok(envp[i], "="));
-		new_node->value = strdup(strtok(NULL, "="));
+		new_node->name = ft_strdup(ft_strtok(envp[i], "="));
+		new_node->value = ft_strdup(ft_strtok(NULL, "="));
 		new_node->next = env;
 		env = new_node;
 		i++;
 	}
 	new_node = malloc(sizeof(t_env));
-	new_node->name = strdup("?");
-	new_node->value = strdup("0");
+	new_node->name = ft_strdup("?");
+	new_node->value = ft_strdup("0");
 	new_node->next = env;
 	env = new_node;
 	return (env);
