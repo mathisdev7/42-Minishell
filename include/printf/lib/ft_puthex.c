@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 23:43:12 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/14 10:25:35 by mazeghou         ###   ########.fr       */
+/*   Created: 2024/11/09 02:32:11 by mazeghou          #+#    #+#             */
+/*   Updated: 2024/11/09 06:40:50 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../ft_printf.h"
 
-static void	sigint_handler(int sig)
+int	ft_put_hex(unsigned int num, int uppercase)
 {
-	(void)sig;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	char	*hex;
+	int		len;
 
-static void	sigquit_handler(int sig)
-{
-	(void)sig;
-	rl_on_new_line();
-}
-
-void	setup_signals(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	len = 0;
+	if (uppercase)
+		hex = "0123456789ABCDEF";
+	else
+		hex = "0123456789abcdef";
+	if (num >= 16)
+		len += ft_put_hex(num / 16, uppercase);
+	ft_putchar_fd(hex[num % 16], 1);
+	len += 1;
+	return (len);
 }

@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 23:43:12 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/14 10:25:35 by mazeghou         ###   ########.fr       */
+/*   Created: 2024/11/06 05:20:15 by mazeghou          #+#    #+#             */
+/*   Updated: 2024/11/09 06:40:54 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../ft_printf.h"
 
-static void	sigint_handler(int sig)
+int	ft_putnbr_fd(int n, int fd)
 {
-	(void)sig;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	char	digit;
+	int		print_len;
 
-static void	sigquit_handler(int sig)
-{
-	(void)sig;
-	rl_on_new_line();
-}
-
-void	setup_signals(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	print_len = 0;
+	if (n == -2147483648)
+	{
+		write(fd, "-2147483648", 11);
+		return (11);
+	}
+	if (n < 0)
+	{
+		write(fd, "-", 1);
+		print_len += 1;
+		n = -n;
+	}
+	if (n > 9)
+		print_len += ft_putnbr_fd(n / 10, fd);
+	digit = n % 10 + '0';
+	write(fd, &digit, 1);
+	print_len += 1;
+	return (print_len);
 }

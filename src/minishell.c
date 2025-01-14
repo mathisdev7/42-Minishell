@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:56:29 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/13 20:06:31 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/14 10:25:35 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,31 +49,31 @@ void	print_cmd_line(t_cmd_line cmd_line)
 	int	j;
 
 	i = 0;
-	printf("\n=== DÉBUT DU PARSING ===\n");
+	ft_printf("\n=== DÉBUT DU PARSING ===\n");
 	while (i < cmd_line.nb_cmds)
 	{
-		printf("\n--- Commande %d ---\n", i + 1);
+		ft_printf("\n--- Commande %d ---\n", i + 1);
 		j = 0;
 		if (cmd_line.cmds[i].args)
 		{
 			while (cmd_line.cmds[i].args[j])
 			{
-				printf("Argument %d: [%s]\n", j + 1, cmd_line.cmds[i].args[j]);
+				ft_printf("Argument %d: [%s]\n", j + 1, cmd_line.cmds[i].args[j]);
 				j++;
 			}
-			printf("Pipe présent: %s\n",
+			ft_printf("Pipe présent: %s\n",
 				cmd_line.cmds[i].pipe_presence ? "Oui" : "Non");
-			printf("Nombre total d'arguments: %d\n", j);
+			ft_printf("Nombre total d'arguments: %d\n", j);
 		}
 		else
 		{
-			printf("Pas d'arguments pour cette commande\n");
+			ft_printf("Pas d'arguments pour cette commande\n");
 		}
-		printf("------------------\n");
+		ft_printf("------------------\n");
 		i++;
 	}
-	printf("\nNombre total de commandes: %d\n", cmd_line.nb_cmds);
-	printf("=== FIN DU PARSING ===\n\n");
+	ft_printf("\nNombre total de commandes: %d\n", cmd_line.nb_cmds);
+	ft_printf("=== FIN DU PARSING ===\n\n");
 }
 
 void	free_cmd(t_cmd *cmd)
@@ -116,39 +116,39 @@ void	debug_cmd_line(t_cmd_line *cmd_line)
 
 	if (!cmd_line)
 	{
-		printf("cmd_line est NULL\n");
+		ft_printf("cmd_line est NULL\n");
 		return ;
 	}
-	printf("Nombre de commandes : %d\n", cmd_line->nb_cmds);
+	ft_printf("Nombre de commandes : %d\n", cmd_line->nb_cmds);
 	for (int i = 0; i < cmd_line->nb_cmds; i++)
 	{
-		printf("Commande %d :\n", i + 1);
+		ft_printf("Commande %d :\n", i + 1);
 		if (cmd_line->cmds[i].args)
 		{
-			printf("  Arguments :");
+			ft_printf("  Arguments :");
 			for (int j = 0; cmd_line->cmds[i].args[j]; j++)
-				printf(" %s", cmd_line->cmds[i].args[j]);
-			printf("\n");
+				ft_printf(" %s", cmd_line->cmds[i].args[j]);
+			ft_printf("\n");
 		}
 		else
 		{
-			printf("  Arguments : NULL\n");
+			ft_printf("  Arguments : NULL\n");
 		}
-		printf("  Présence de pipe : %s\n",
+		ft_printf("  Présence de pipe : %s\n",
 			cmd_line->cmds[i].pipe_presence ? "Oui" : "Non");
 		if (cmd_line->cmds[i].redirections)
 		{
-			printf("  Redirections :\n");
+			ft_printf("  Redirections :\n");
 			for (int k = 0; k < cmd_line->cmds[i].nb_redirections; k++)
 			{
 				redir = &cmd_line->cmds[i].redirections[k];
-				printf("    Type : %d, Fichier : %s\n", redir->type,
+				ft_printf("    Type : %d, Fichier : %s\n", redir->type,
 					redir->file);
 			}
 		}
 		else
 		{
-			printf("  Redirections : Aucune\n");
+			ft_printf("  Redirections : Aucune\n");
 		}
 	}
 }
@@ -257,7 +257,7 @@ int	process_input(char *line, t_env **envp)
 		{
 			if (handle_redirections(&cmd_line.cmds[0]) == -1)
 			{
-				printf("minishell: erreur lors du traitement des redirections\n");
+				ft_printf("minishell: erreur lors du traitement des redirections\n");
 				return (1);
 			}
 		}
@@ -313,7 +313,7 @@ int	process_input(char *line, t_env **envp)
 			{
 				if (handle_redirections(&cmd_line.cmds[i]) == -1)
 				{
-					printf("minishell: erreur lors du traitement des redirections\n");
+					ft_printf("minishell: erreur lors du traitement des redirections\n");
 					exit(1);
 				}
 			}
@@ -324,7 +324,7 @@ int	process_input(char *line, t_env **envp)
 			}
 			else if (!cmd_exists(cmd_line.cmds[i].args[0], *envp))
 			{
-				printf("minishell: %s: command not found\n",
+				ft_printf("minishell: %s: command not found\n",
 					cmd_line.cmds[i].args[0]);
 				exit(127);
 			}

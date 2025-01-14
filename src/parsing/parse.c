@@ -79,7 +79,7 @@ char	*extract_file_name(char *cmd, int *i)
 	if (!file)
 		return (NULL);
 
-	strncpy(file, &cmd[start], len);
+	ft_strncpy(file, &cmd[start], len);
 	file[len] = '\0';
 	return (file);
 }

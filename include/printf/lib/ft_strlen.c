@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 23:43:12 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/14 10:25:35 by mazeghou         ###   ########.fr       */
+/*   Created: 2024/11/09 04:24:05 by mazeghou          #+#    #+#             */
+/*   Updated: 2024/11/09 06:41:20 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../ft_printf.h"
 
-static void	sigint_handler(int sig)
+int	ft_strlen(const char *str)
 {
-	(void)sig;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	int	i;
 
-static void	sigquit_handler(int sig)
-{
-	(void)sig;
-	rl_on_new_line();
-}
-
-void	setup_signals(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
 }
