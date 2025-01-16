@@ -15,6 +15,7 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -47,6 +48,7 @@ void	print_redirections(t_cmd cmd);
 t_cmd_line	parse_cmd_line(char *line, t_env *envp);
 t_cmd	parse_cmd(char *cmd_line, t_env *envp, int pipe_presence);
 void	parse_env_vars(char	**args, t_env *envp);
+char *remove_redirections(char *cmd_line);
 /*----------------------- PARSING.C ---------------------------*/
 
 

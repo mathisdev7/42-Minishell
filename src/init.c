@@ -71,7 +71,7 @@ void	prompt_system(t_shell *shell)
 		{
 			//print_cmd_args(cmd_line.cmds[0]);
 			//printf("\n%d\n", cmd_line.cmds[0].nb_redirections);
-			print_redirections(cmd_line.cmds[0]);
+			//print_redirections(cmd_line.cmds[0]);
 			exec_cmds(cmd_line, shell);
 		}
 		free(line);

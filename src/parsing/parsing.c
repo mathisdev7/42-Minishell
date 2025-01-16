@@ -234,15 +234,15 @@ void	parse_redirections(t_cmd *cmd, char *cmd_line)
 
 t_cmd	parse_cmd(char *cmd_line, t_env *envp, int pipe_presence)
 {
-	//t_redirection	*redirections;
 	char	**args;
 	t_cmd	cmd;
-	//int	i;
 
-	//i = 0;
 	cmd.nb_redirections = count_redirections(cmd_line);
 	if (cmd.nb_redirections > 0)
+	{
 		parse_redirections(&cmd, cmd_line);
+		cmd_line = remove_redirections(cmd_line);
+	}
 	args = ft_split_args(remove_out_spaces(cmd_line));
 	parse_env_vars(args, envp);
 	if (!args)
@@ -306,4 +306,41 @@ t_cmd_line	parse_cmd_line(char *line, t_env *envp)
 		i++;
 	}
 	return (cmd_line);
+}
+
+char *remove_redirections(char *cmd_line)
+{
+	int i = 0;
+	int j = 0;
+	int in_single_quote = 0;
+	int in_double_quote = 0;
+	char *new_cmd_line = malloc(ft_strlen(cmd_line) + 1);
+
+	if (!new_cmd_line)
+		return NULL;
+
+	while (cmd_line[i])
+	{
+		if (cmd_line[i] == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		else if (cmd_line[i] == '"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
+
+		if (!in_single_quote && !in_double_quote && (cmd_line[i] == '>' || cmd_line[i] == '<'))
+		{
+			if (cmd_line[i + 1] == '>' || cmd_line[i + 1] == '<')
+				i++;
+			i++;
+			while (cmd_line[i] && (cmd_line[i] == ' ' || cmd_line[i] == '\t'))
+				i++;
+			while (cmd_line[i] && cmd_line[i] != ' ' && cmd_line[i] != '\t' && cmd_line[i] != '>' && cmd_line[i] != '<')
+				i++;
+		}
+		else
+		{
+			new_cmd_line[j++] = cmd_line[i++];
+		}
+	}
+	new_cmd_line[j] = '\0';
+	return (new_cmd_line);
 }
