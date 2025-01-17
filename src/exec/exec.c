@@ -12,6 +12,31 @@
 
 #include "../../include/minishell.h"
 
+int handle_here_doc(char *delimiter)
+{
+	int here_doc_pipe[2];
+	char *line;
+
+	if (pipe(here_doc_pipe) == -1)
+	{
+		ft_putstr_fd("minishell: pipe error\n", 2);
+		exit(1);
+	}
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || ft_strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break;
+		}
+		ft_putendl_fd(line, here_doc_pipe[1]);
+		free(line);
+	}
+	close(here_doc_pipe[1]);
+	return (here_doc_pipe[0]);
+}
+
 void handle_redirections(t_cmd cmd)
 {
 	int i;
@@ -27,11 +52,12 @@ void handle_redirections(t_cmd cmd)
 		else if (cmd.redirections[i].type == 3) // <
 			fd = open(cmd.redirections[i].file, O_RDONLY);
 		else if (cmd.redirections[i].type == 4) // <<
-			fd = open(cmd.redirections[i].file, O_RDONLY); // Handle here-doc separately if needed
+			fd = handle_here_doc(cmd.redirections[i].file);
+		
 		if (fd == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
-            perror(cmd.redirections[i].file);
+			perror(cmd.redirections[i].file);
 			exit(1);
 		}
 		if (cmd.redirections[i].type == 1 || cmd.redirections[i].type == 2)

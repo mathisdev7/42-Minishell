@@ -50,7 +50,7 @@ static void	add_env_var(t_env **env_list, char *key, char *value)
 	*env_list = new_var;
 }
 
-static int is_valid_identifier(char *str)
+/*static int is_valid_identifier(char *str)
 {
 	int i;
 
@@ -69,7 +69,7 @@ static int is_valid_identifier(char *str)
 	}
 
 	return (1);
-}
+}*/
 
 
 
@@ -82,13 +82,6 @@ static int handle_export_arg(char *arg, t_env **env_list)
 	equal_sign = ft_strchr(arg, '=');
 	if (!equal_sign)
 	{
-		if (!is_valid_identifier(arg))
-		{
-			ft_putstr_fd("export: '", 2);
-			ft_putstr_fd(arg, 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			return (1);
-		}
 		return (0);
 	}
 
@@ -114,13 +107,6 @@ int	exec_export(t_cmd cmd, t_env **envp)
 	{
 		if (ft_strchr(cmd.args[i], '='))
 			status |= handle_export_arg(cmd.args[i], envp);
-		else if (!is_valid_identifier(cmd.args[i]))
-		{
-			ft_putstr_fd("export: '", 2);
-			ft_putstr_fd(cmd.args[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			status = 1;
-		}
 		else
 			add_env_var(envp, cmd.args[i], "");
 	}

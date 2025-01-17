@@ -77,25 +77,66 @@ void	parse_env_vars(char **args, t_env *envp)
 	}
 }
 
+int	are_quotes_close(char *str, char quote)
+{
+	int	len;
+
+	len = 0;
+	while (*str)
+	{
+		if (*str == quote)
+			len++;
+		str++;
+	}
+	return (len % 2 == 0);
+}
+
 char	*remove_quotes_from_str(char *str)
 {
-    size_t  len;
-    char    *new_str;
+	int i;
+	int j;
+	char *result;
+	int in_single_quote;
+	int in_double_quote;
+	int len;
 
-    if (!str)
-        return (NULL);
-    len = ft_strlen(str);
-    if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"') ||
-                     (str[0] == '\'' && str[len - 1] == '\'')))
-    {
-        new_str = (char *)malloc(sizeof(char) * (len));
-        if (!new_str)
-            return (NULL);
-        ft_strncpy(new_str, str + 1, len - 2);
-        new_str[len - 2] = '\0';
-        return (new_str);
-    }
-    return (ft_strdup(str));
+	if (!str)
+		return (NULL);
+	len = ft_strlen(str);
+	result = malloc(sizeof(char) * (len + 1));
+	if (!result)
+		return (NULL);
+
+	i = 0;
+	j = 0;
+	in_single_quote = 0;
+	in_double_quote = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' && !in_double_quote)
+		{
+			if (!in_single_quote && (i == 0 || str[i - 1] != '\\'))
+				in_single_quote = 1;
+			else if (in_single_quote)
+				in_single_quote = 0;
+			else
+				result[j++] = str[i];
+		}
+		else if (str[i] == '"' && !in_single_quote)
+		{
+			if (!in_double_quote && (i == 0 || str[i - 1] != '\\'))
+				in_double_quote = 1;
+			else if (in_double_quote)
+				in_double_quote = 0;
+			else
+				result[j++] = str[i];
+		}
+		else
+			result[j++] = str[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
 }
 
 char	**remove_out_quotes(char **args)
@@ -293,6 +334,11 @@ t_cmd_line	parse_cmd_line(char *line, t_env *envp)
 	cmd_line.nb_cmds = 0;
 	if (!line || !*line)
 		return (cmd_line);
+	if (!are_quotes_close(line, '\'') || !are_quotes_close(line, '"'))
+	{
+		printf("minishell: Unclosed quotes detected\n");
+		return (cmd_line);
+	}
 	if (is_only_spaces(line))
 		return (cmd_line);
 	splitted_cmds = ft_split(line, '|');
