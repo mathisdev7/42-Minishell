@@ -12,21 +12,6 @@
 
 #include "../include/minishell.h"
 
-void	print_env(t_env *env)
-{
-	t_env	*current;
-
-	current = env;
-	while (current)
-	{
-		ft_putstr_fd(current->name, 1);
-		ft_putchar_fd('=', 1);
-		ft_putstr_fd(current->value, 1);
-		ft_putchar_fd('\n', 1);
-		current = current->next;
-	}
-}
-
 void	print_cmd_args(t_cmd cmd)
 {
 	int	i;

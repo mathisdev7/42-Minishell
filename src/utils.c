@@ -12,6 +12,48 @@
 
 #include "../include/minishell.h"
 
+int	is_builtin_cmd(char *cmd_name)
+{
+	if (ft_strcmp(cmd_name, "echo") == 0)
+		return (1);
+	else if (ft_strcmp(cmd_name, "export") == 0)
+		return (1);
+	else if (ft_strcmp(cmd_name, "unset") == 0)
+		return (1);
+	else if (ft_strcmp(cmd_name, "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd_name, "cd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd_name, "env") == 0)
+		return (1);
+	return (0);
+}
+
+void	add_env_var(t_env *env, char *key, char *value)
+{
+	t_env	*new_var;
+	t_env	*current;
+
+	current = env;
+	while (current)
+	{
+		if (ft_strcmp(current->name, key) == 0)
+		{
+			free(current->value);
+			current->value = ft_strdup(value);
+			return ;
+		}
+		current = current->next;
+	}
+	new_var = malloc(sizeof(t_env));
+	if (!new_var)
+		return ;
+	new_var->name = ft_strdup(key);
+	new_var->value = ft_strdup(value);
+	new_var->next = env;
+	env = new_var;
+}
+
 int	count_args(char *str)
 {
 	int	i;
@@ -249,4 +291,80 @@ char	*get_cmd_path(char *cmd_name, char *path_var)
 	}
 	free_strs(splitted_path);
 	return (NULL);
+}
+
+/*static t_env	*create_status_env(char *status_str)
+{
+	t_env	*new_env;
+
+	new_env = malloc(sizeof(t_env));
+	if (!new_env)
+	{
+		free(status_str);
+		return (NULL);
+	}
+	new_env->name = ft_strdup("?");
+	new_env->value = status_str;
+	return (new_env);
+}*/
+
+void	update_status(t_env **envp, int status)
+{
+	t_env	*current;
+	char	*status_str;
+
+	status_str = ft_itoa(status & 255);
+	if (!status_str)
+		return;
+
+	current = *envp;
+	while (current)
+	{
+		if (ft_strcmp(current->name, "?") == 0)
+		{
+			free(current->value);
+			current->value = status_str;
+			return;
+		}
+		current = current->next;
+	}
+	current = malloc(sizeof(t_env));
+	if (!current)
+	{
+		free(status_str);
+		return;
+	}
+	current->name = ft_strdup("?");
+	current->value = status_str;
+	current->next = *envp;
+	*envp = current;
+}
+
+t_env	*update_env(t_env **envp, char *name, char *value)
+{
+	t_env	*current;
+	t_env	*new_env;
+
+	current = *envp;
+	while (current)
+	{
+		if (ft_strcmp(current->name, name) == 0)
+		{
+			free(current->value);
+			current->value = ft_strdup(value);
+			return (*envp);
+		}
+		current = current->next;
+	}
+	new_env = malloc(sizeof(t_env));
+	if (!new_env)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	new_env->name = ft_strdup(name);
+	new_env->value = ft_strdup(value);
+	new_env->next = *envp;
+	*envp = new_env;
+	return (*envp);
 }

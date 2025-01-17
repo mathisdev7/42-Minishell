@@ -45,9 +45,16 @@ void handle_redirections(t_cmd cmd)
 
 int	exec_cmd(t_cmd cmd, t_shell *shell, int in_fd, int out_fd)
 {
-	char	*cmd_path;
+	int ret;
 	pid_t	pid;
+	char	*cmd_path;
 
+	ret = 0;
+	if (is_builtin_cmd(cmd.args[0]))
+	{
+		exec_builtin(cmd, shell);
+		return (ret);
+	}
 	pid = fork();
 	if (pid == -1)
 		return (perror("minishell: fork"), 1);
@@ -65,18 +72,43 @@ int	exec_cmd(t_cmd cmd, t_shell *shell, int in_fd, int out_fd)
 		}
 		handle_redirections(cmd);
 		cmd_path = get_cmd_path(cmd.args[0], ft_getenv("PATH", shell->env));
-		if (!cmd_path)
+		if (!cmd_path && !is_builtin_cmd(cmd.args[0]))
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(cmd.args[0], 2);
 			ft_putendl_fd(": command not found", 2);
 			exit(127);
 		}
-		execve(cmd_path, cmd.args, env_to_array(shell->env));
+		if (is_builtin_cmd(cmd.args[0]))
+			exec_builtin(cmd, shell);
+		else
+			execve(cmd_path, cmd.args, env_to_array(shell->env));
 		free(cmd_path);
 		exit(1);
 	}
 	return (pid);
+}
+
+void	exec_builtin(t_cmd cmd, t_shell *shell)
+{
+	int ret;
+
+	ret = 0;
+	if (ft_strcmp(cmd.args[0], "echo") == 0)
+		ret = exec_echo(cmd);
+	else if (ft_strcmp(cmd.args[0], "unset") == 0)
+		ret = exec_unset(cmd, &shell->env);
+	else if (ft_strcmp(cmd.args[0], "pwd") == 0)
+		ret = exec_pwd(cmd);
+	else if (ft_strcmp(cmd.args[0], "cd") == 0)
+		ret = exec_cd(cmd, shell->env);
+	else if (ft_strcmp(cmd.args[0], "export") == 0)
+		ret = exec_export(cmd, &shell->env);
+	else if (ft_strcmp(cmd.args[0], "env") == 0)
+		ret = exec_export(cmd, &shell->env);
+	else if (ft_strcmp(cmd.args[0], "exit") == 0)
+		ret = exec_exit(cmd);
+	update_status(&shell->env, ret);
 }
 
 int	exec_cmds(t_cmd_line cmd_line, t_shell *shell)
@@ -109,8 +141,14 @@ int	exec_cmds(t_cmd_line cmd_line, t_shell *shell)
 		}
 		i++;
 	}
-	waitpid(last_pid, &status, 0);
-	while (wait(NULL) > 0)
-		;
+	if (last_pid > 0)
+	{
+		waitpid(last_pid, &status, 0);
+		while (wait(NULL) > 0)
+			;
+		if (WIFEXITED(status))
+			status = WEXITSTATUS(status);
+		update_status(&shell->env, status);
+	}
 	return (status);
 }

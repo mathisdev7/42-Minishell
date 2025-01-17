@@ -17,40 +17,59 @@ void	parse_env_vars(char **args, t_env *envp)
 	int		i;
 	int		j;
 	int		k;
-	int		in_quotes;
 	char	*var_name;
 	char	*var_value;
 	char	*new_arg;
+	int		in_single_quote;
 
 	i = 0;
 	while (args[i])
 	{
 		j = 0;
-		in_quotes = 0;
+		in_single_quote = 0;
 		while (args[i][j])
 		{
 			if (args[i][j] == '\'')
-				in_quotes = !in_quotes;
-			if (!in_quotes && args[i][j] == '$' && args[i][j + 1])
+				in_single_quote = !in_single_quote;
+			if (!in_single_quote && args[i][j] == '$' && args[i][j + 1])
 			{
-				if (!is_valid_var_char(args[i][j + 1], 1))
-				{
-					j++;
-					continue ;
-				}
 				k = j + 1;
-				while (args[i][k] && is_valid_var_char(args[i][k], 0))
-					k++;
-				var_name = ft_substr(args[i], j + 1, k - (j + 1));
-				var_value = ft_getenv(var_name, envp);
-				new_arg = replace_env_var(args[i], j, var_value, k - j - 1);
-				if (new_arg)
+				if (args[i][k] == '?')  // Pour $?
 				{
-					free(args[i]);
-					args[i] = new_arg;
-					j--;
+					k++;
+					var_name = ft_strdup("?");
 				}
-				free(var_name);
+				else  // Pour les autres variables
+				{
+					while (args[i][k] && (ft_isalnum(args[i][k]) || args[i][k] == '_'))
+						k++;
+					var_name = ft_substr(args[i], j + 1, k - (j + 1));
+				}
+				if (var_name)
+				{
+					var_value = ft_getenv(var_name, envp);
+					if (var_value)
+					{
+						new_arg = replace_env_var(args[i], j, var_value, k - (j + 1));
+						if (new_arg)
+						{
+							free(args[i]);
+							args[i] = new_arg;
+							j += ft_strlen(var_value) - 1;
+						}
+					}
+					else
+					{
+						new_arg = replace_env_var(args[i], j, "", k - (j + 1));
+						if (new_arg)
+						{
+							free(args[i]);
+							args[i] = new_arg;
+							j--;
+						}
+					}
+					free(var_name);
+				}
 			}
 			j++;
 		}
@@ -58,35 +77,25 @@ void	parse_env_vars(char **args, t_env *envp)
 	}
 }
 
-static char	*remove_quotes_from_str(char *str)
+char	*remove_quotes_from_str(char *str)
 {
-	int		i;
-	int		j;
-	int		len;
-	char	*new_str;
-	int		in_single_quote;
-	int		in_double_quote;
+    size_t  len;
+    char    *new_str;
 
-	len = ft_strlen(str);
-	new_str = malloc(sizeof(char) * (len + 1));
-	if (!new_str)
-		return (NULL);
-	i = 0;
-	j = 0;
-	in_single_quote = 0;
-	in_double_quote = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' && !in_double_quote)
-			in_single_quote = !in_single_quote;
-		else if (str[i] == '"' && !in_single_quote)
-			in_double_quote = !in_double_quote;
-		else
-			new_str[j++] = str[i];
-		i++;
-	}
-	new_str[j] = '\0';
-	return (new_str);
+    if (!str)
+        return (NULL);
+    len = ft_strlen(str);
+    if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"') ||
+                     (str[0] == '\'' && str[len - 1] == '\'')))
+    {
+        new_str = (char *)malloc(sizeof(char) * (len));
+        if (!new_str)
+            return (NULL);
+        ft_strncpy(new_str, str + 1, len - 2);
+        new_str[len - 2] = '\0';
+        return (new_str);
+    }
+    return (ft_strdup(str));
 }
 
 char	**remove_out_quotes(char **args)
