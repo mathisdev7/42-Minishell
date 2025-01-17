@@ -31,8 +31,8 @@ int	is_valid_env_var(char *var_name)
 	return (1);
 }
 
-void	ft_env_remove_if(t_env **begin_list, const char *data_ref, int (*cmp)(const char *,
-			const char *))
+void	ft_env_remove_if(t_env **begin_list, char *data_ref, int (*cmp)(char *,
+			char *))
 {
 	t_env	*cur;
 

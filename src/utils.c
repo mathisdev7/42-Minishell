@@ -26,6 +26,8 @@ int	is_builtin_cmd(char *cmd_name)
 		return (1);
 	else if (ft_strcmp(cmd_name, "env") == 0)
 		return (1);
+	else if (ft_strcmp(cmd_name, "exit") == 0)
+		return (1);
 	return (0);
 }
 

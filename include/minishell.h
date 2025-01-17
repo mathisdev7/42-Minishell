@@ -73,7 +73,7 @@ void	update_status(t_env **envp, int status);
 /*----------------------- EXEC.C ---------------------------*/
 int	exec_cmds(t_cmd_line cmd_line, t_shell *shell);
 int	exec_cmd(t_cmd cmd, t_shell *shell, int in_fd, int out_fd);
-void	exec_builtin(t_cmd cmd, t_shell *shell);
+int	exec_builtin(t_cmd cmd, t_shell *shell);
 /*----------------------- EXEC.C ---------------------------*/
 
 

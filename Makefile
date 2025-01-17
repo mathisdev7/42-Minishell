@@ -20,7 +20,7 @@ LDFLAGS = -lreadline
 # Chemins
 SRC_DIR = src
 INC_DIR = include
-LIBFT_DIR = Libft
+LIBFT_DIR = libft
 
 # Sources
 SRC_FILES = main.c init.c free.c utils.c debug.c parsing/parsing.c \

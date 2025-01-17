@@ -45,16 +45,9 @@ void handle_redirections(t_cmd cmd)
 
 int	exec_cmd(t_cmd cmd, t_shell *shell, int in_fd, int out_fd)
 {
-	int ret;
 	pid_t	pid;
 	char	*cmd_path;
 
-	ret = 0;
-	if (is_builtin_cmd(cmd.args[0]))
-	{
-		exec_builtin(cmd, shell);
-		return (ret);
-	}
 	pid = fork();
 	if (pid == -1)
 		return (perror("minishell: fork"), 1);
@@ -89,9 +82,9 @@ int	exec_cmd(t_cmd cmd, t_shell *shell, int in_fd, int out_fd)
 	return (pid);
 }
 
-void	exec_builtin(t_cmd cmd, t_shell *shell)
+int	exec_builtin(t_cmd cmd, t_shell *shell)
 {
-	int ret;
+	int	ret;
 
 	ret = 0;
 	if (ft_strcmp(cmd.args[0], "echo") == 0)
@@ -108,7 +101,7 @@ void	exec_builtin(t_cmd cmd, t_shell *shell)
 		ret = exec_export(cmd, &shell->env);
 	else if (ft_strcmp(cmd.args[0], "exit") == 0)
 		ret = exec_exit(cmd);
-	update_status(&shell->env, ret);
+	return (ret);
 }
 
 int	exec_cmds(t_cmd_line cmd_line, t_shell *shell)
@@ -121,6 +114,12 @@ int	exec_cmds(t_cmd_line cmd_line, t_shell *shell)
 
 	i = 0;
 	prev_pipe = STDIN_FILENO;
+	if (is_builtin_cmd(cmd_line.cmds[0].args[0]) && cmd_line.nb_cmds == 1)
+	{
+		status = exec_builtin(cmd_line.cmds[0], shell);
+		update_status(&shell->env, status);
+		return (status);
+	}
 	while (i < cmd_line.nb_cmds)
 	{
 		if (i < cmd_line.nb_cmds - 1)
@@ -148,7 +147,7 @@ int	exec_cmds(t_cmd_line cmd_line, t_shell *shell)
 			;
 		if (WIFEXITED(status))
 			status = WEXITSTATUS(status);
-		update_status(&shell->env, status);
 	}
-	return (status);
+	update_status(&shell->env, status);
+	return (0);
 }

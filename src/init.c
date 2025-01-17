@@ -35,8 +35,8 @@ t_env	*init_env(char **envp)
 		new_node = malloc(sizeof(t_env));
 		if (!new_node)
 			return (NULL);
-		new_node->name = ft_strdup(ft_strtok(envp[i], "="));
-		new_node->value = ft_strdup(ft_strtok(NULL, "="));
+		new_node->name = ft_strdup(ft_strtok(envp[i], '='));
+		new_node->value = ft_strdup(ft_strtok(NULL, '='));
 		new_node->next = env;
 		env = new_node;
 		i++;
