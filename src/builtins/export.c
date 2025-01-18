@@ -6,11 +6,11 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 23:56:15 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/18 11:14:23 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:20:49 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	print_env(t_env *envp)
 {
@@ -19,7 +19,7 @@ int	print_env(t_env *envp)
 	current = envp;
 	while (current)
 	{
-		printf("%s=%s\n", current->name, current->value);
+		ft_printf("%s=%s\n", current->name, current->value);
 		current = current->next;
 	}
 	return (0);

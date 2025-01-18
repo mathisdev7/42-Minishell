@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 02:48:26 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/17 02:48:26 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:20:49 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	exec_exit(t_cmd cmd)
 	if (!cmd.args[1])
 	{
 		rl_clear_history();
-		printf("\033[1;32mBye! 👋\033[0m\n");
+		ft_printf("\033[1;32mBye! 👋\033[0m\n");
 		exit(0);
 	}
 	if (!is_numeric(cmd.args[1]))
@@ -46,9 +46,9 @@ int	exec_exit(t_cmd cmd)
 		exit(255);
 	}
 	if (cmd.args[2])
-		return (printf("minishell: exit: too many arguments\n"));
+		return (ft_printf("minishell: exit: too many arguments\n"));
 	exit_code = ft_atoi(cmd.args[1]) & 255;
 	rl_clear_history();
-	printf("\033[1;32mBye! 👋\033[0m\n");
+	ft_printf("\033[1;32mBye! 👋\033[0m\n");
 	exit(exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 03:48:53 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/18 10:40:14 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/18 14:57:48 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,20 @@ typedef struct s_shell
 
 typedef struct s_quote_state
 {
+	char			*str;
+	char			*result;
+	int				i;
+	int				j;
 	int				in_single_quote;
 	int				in_double_quote;
-	int				j;
+	int				len;
 }					t_quote_state;
+
+typedef struct s_cmd_exec
+{
+	int			i;
+	int			status;
+	int			pipe_fd[2];
+	int			prev_pipe;
+	pid_t		last_pid;
+}				t_cmd_exec;

@@ -1,42 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 08:35:09 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/18 15:20:49 by mazeghou         ###   ########.fr       */
+/*   Created: 2024/11/06 05:20:15 by mazeghou          #+#    #+#             */
+/*   Updated: 2024/11/09 06:40:54 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../ft_printf.h"
 
-int	exec_echo(t_cmd cmd)
+int	ft_putnbr_fd(int n, int fd)
 {
-	int	i;
-	int	new_line;
+	char	digit;
+	int		print_len;
 
-	i = 1;
-	new_line = 1;
-	if (!cmd.args[1])
+	print_len = 0;
+	if (n == -2147483648)
 	{
-		ft_printf("\n");
-		return (0);
+		write(fd, "-2147483648", 11);
+		return (11);
 	}
-	if (ft_strcmp(cmd.args[i], "-n") == 0)
+	if (n < 0)
 	{
-		new_line = 0;
-		i++;
+		write(fd, "-", 1);
+		print_len += 1;
+		n = -n;
 	}
-	while (cmd.args[i])
-	{
-		ft_printf("%s", cmd.args[i]);
-		if (cmd.args[i + 1])
-			ft_printf(" ");
-		i++;
-	}
-	if (new_line)
-		ft_printf("\n");
-	return (0);
+	if (n > 9)
+		print_len += ft_putnbr_fd(n / 10, fd);
+	digit = n % 10 + '0';
+	write(fd, &digit, 1);
+	print_len += 1;
+	return (print_len);
 }

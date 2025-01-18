@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 04:19:05 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/18 10:28:58 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:20:49 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	print_cmd_args(t_cmd cmd)
 	}
 	while (cmd.args[i])
 	{
-		printf("[%s], ", cmd.args[i]);
+		ft_printf("[%s], ", cmd.args[i]);
 		i++;
 	}
-	printf("\n");
+	ft_printf("\n");
 }
 
 void	print_redirections(t_cmd cmd)
@@ -35,22 +35,22 @@ void	print_redirections(t_cmd cmd)
 
 	if (!cmd.redirections || cmd.nb_redirections == 0)
 	{
-		printf("No redirections\n");
+		ft_printf("No redirections\n");
 		return ;
 	}
 	i = 0;
 	while (i < cmd.nb_redirections)
 	{
-		printf("Redirection %d: ", i + 1);
+		ft_printf("Redirection %d: ", i + 1);
 		if (cmd.redirections[i].type == 1)
-			printf("Type: >, ");
+			ft_printf("Type: >, ");
 		else if (cmd.redirections[i].type == 2)
-			printf("Type: >>, ");
+			ft_printf("Type: >>, ");
 		else if (cmd.redirections[i].type == 3)
-			printf("Type: <, ");
+			ft_printf("Type: <, ");
 		else if (cmd.redirections[i].type == 4)
-			printf("Type: <<, ");
-		printf("File: %s\n", cmd.redirections[i].file);
+			ft_printf("Type: <<, ");
+		ft_printf("File: %s\n", cmd.redirections[i].file);
 		i++;
 	}
 }

@@ -1,42 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 08:35:09 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/18 15:20:49 by mazeghou         ###   ########.fr       */
+/*   Created: 2024/11/09 00:56:48 by mazeghou          #+#    #+#             */
+/*   Updated: 2024/11/09 06:42:34 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-int	exec_echo(t_cmd cmd)
-{
-	int	i;
-	int	new_line;
+# include <stdarg.h>
+# include <unistd.h>
 
-	i = 1;
-	new_line = 1;
-	if (!cmd.args[1])
-	{
-		ft_printf("\n");
-		return (0);
-	}
-	if (ft_strcmp(cmd.args[i], "-n") == 0)
-	{
-		new_line = 0;
-		i++;
-	}
-	while (cmd.args[i])
-	{
-		ft_printf("%s", cmd.args[i]);
-		if (cmd.args[i + 1])
-			ft_printf(" ");
-		i++;
-	}
-	if (new_line)
-		ft_printf("\n");
-	return (0);
-}
+int	ft_printf(const char *format, ...);
+int	ft_putstr_fd(char const *s, int fd);
+int	ft_putnbr_fd(int n, int fd);
+int	ft_put_ptr(void *ptr, int first);
+int	ft_strlen(const char *str);
+int	ft_putchar_fd(char c, int fd);
+int	ft_put_hex(unsigned int num, int uppercase);
+int	ft_put_unsigned(unsigned int n);
+
+#endif

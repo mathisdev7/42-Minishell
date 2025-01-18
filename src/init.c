@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 03:41:39 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/14 03:41:39 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:12:58 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_shell	*init_shell(char **envp)
 
 	shell = malloc(sizeof(t_shell));
 	shell->env = init_env(envp);
+	setup_signals();
 	prompt_system(shell);
 	return (shell);
 }
@@ -65,6 +66,7 @@ void	prompt_system(t_shell *shell)
 		line = readline("minishell> ");
 		if (!line)
 			return ;
+		add_history(line);
 		cmd_line = parse_cmd_line(line, shell->env);
 		if (cmd_line.cmds || cmd_line.nb_cmds > 0)
 			exec_cmds(cmd_line, shell);

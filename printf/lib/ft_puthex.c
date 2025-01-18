@@ -1,42 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 08:35:09 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/18 15:20:49 by mazeghou         ###   ########.fr       */
+/*   Created: 2024/11/09 02:32:11 by mazeghou          #+#    #+#             */
+/*   Updated: 2024/11/09 06:40:50 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../ft_printf.h"
 
-int	exec_echo(t_cmd cmd)
+int	ft_put_hex(unsigned int num, int uppercase)
 {
-	int	i;
-	int	new_line;
+	char	*hex;
+	int		len;
 
-	i = 1;
-	new_line = 1;
-	if (!cmd.args[1])
-	{
-		ft_printf("\n");
-		return (0);
-	}
-	if (ft_strcmp(cmd.args[i], "-n") == 0)
-	{
-		new_line = 0;
-		i++;
-	}
-	while (cmd.args[i])
-	{
-		ft_printf("%s", cmd.args[i]);
-		if (cmd.args[i + 1])
-			ft_printf(" ");
-		i++;
-	}
-	if (new_line)
-		ft_printf("\n");
-	return (0);
+	len = 0;
+	if (uppercase)
+		hex = "0123456789ABCDEF";
+	else
+		hex = "0123456789abcdef";
+	if (num >= 16)
+		len += ft_put_hex(num / 16, uppercase);
+	ft_putchar_fd(hex[num % 16], 1);
+	len += 1;
+	return (len);
 }

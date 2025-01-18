@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 03:47:03 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/18 11:15:46 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:21:02 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <signal.h>
 
 /*----------------------- INIT.C ---------------------------*/
 t_shell		*init_shell(char **envp);
 t_env		*init_env(char **envp);
 void		prompt_system(t_shell *shell);
+void		setup_signals(void);
 /*----------------------- INIT.C ---------------------------*/
 
 /*----------------------- FREE.C ---------------------------*/
@@ -44,6 +46,15 @@ t_cmd_line	parse_cmd_line(char *line, t_env *envp);
 t_cmd		parse_cmd(char *cmd_line, t_env *envp, int pipe_presence);
 void		parse_env_vars(char **args, t_env *envp);
 char		*remove_redirections(char *cmd_line);
+void		handle_redirection(t_cmd *cmd, char *cmd_line, int *i,
+				int *redir_index);
+void		toggle_quote_redir(char c, int *in_single_quote,
+				int *in_double_quote);
+int			count_redirections_in_line(char *cmd_line);
+void		update_quote_state_redir(char c, int *in_single_quote,
+				int *in_double_quote);
+int			skip_redirection_target(const char *cmd_line, int i);
+void		parse_redirections(t_cmd *cmd, char *cmd_line);
 /*----------------------- PARSING.C ---------------------------*/
 
 /*----------------------- UTILS.C ---------------------------*/
@@ -66,12 +77,28 @@ char		*remove_out_spaces(char *str);
 char		*ft_getenv(char *name, t_env *envp);
 int			is_valid_var_char(char c, int first_char);
 void		update_status(t_env **envp, int status);
-
+void		update_quote_state(char c, int *in_single_quote,
+				int *in_double_quote);
+int			is_quote(char c, int in_other_quote, char quote_type);
+int			should_copy_char(char c, int in_single_quote, int in_double_quote);
+int			process_quotes(char c, int *in_single_quote, int *in_double_quote);
+void		toggle_quote(int *quote_flag);
+int			are_quotes_close(char *str, char quote);
+int			is_only_spaces(char *str);
+int			handle_builtin_cmd(t_cmd_line cmd_line, t_shell *shell);
+pid_t		exec_child_process(t_cmd cmd, t_shell *shell, int in_fd,
+				int out_fd);
+void		execute_builtin_or_external(t_cmd cmd, t_shell *shell,
+				char *cmd_path);
+int			handle_redirections_and_dup(int in_fd, int out_fd);
+void		handle_redirections(t_cmd cmd);
+int			handle_here_doc(char *delimiter);
+void		handle_redirections(t_cmd cmd);
+int			ft_printf(const char *str, ...);
 /*----------------------- EXEC.C ---------------------------*/
 int			exec_cmds(t_cmd_line cmd_line, t_shell *shell);
 int			exec_cmd(t_cmd cmd, t_shell *shell, int in_fd, int out_fd);
 int			exec_builtin(t_cmd cmd, t_shell *shell);
-int			execute_commands(t_cmd_line cmd_line, t_shell *shell);
 /*----------------------- EXEC.C ---------------------------*/
 
 /*----------------------- ECHO.C ---------------------------*/

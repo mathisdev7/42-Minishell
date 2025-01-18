@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 00:45:59 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/17 00:45:59 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:20:49 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	exec_unset(t_cmd cmd, t_env **envp)
 	{
 		if (!is_valid_env_var(*cmd.args))
 		{
-			printf("unset: `%s': not a valid identifier\n", *cmd.args);
+			ft_printf("unset: `%s': not a valid identifier\n", *cmd.args);
 			status = 1;
 		}
 		else
