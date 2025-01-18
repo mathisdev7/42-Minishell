@@ -24,12 +24,12 @@ void	ft_putendl_fd(char *s, int fd)
 /*
 #include <fcntl.h>
 
-int     main(void)
+int	main(void)
 {
-        int     fd;
+		int     fd;
 
-        fd = open("test.txt", O_WRONLY | O_TRUNC | O_CREAT, 0640);
-        ft_putendl_fd("Hello, World!", fd);
-        return (0);
+		fd = open("test.txt", O_WRONLY | O_TRUNC | O_CREAT, 0640);
+		ft_putendl_fd("Hello, World!", fd);
+		return (0);
 }
 */

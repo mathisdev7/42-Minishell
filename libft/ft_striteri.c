@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
 	int	i;
 
@@ -26,18 +26,19 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 /*
 #include <stdio.h>
 
-void to_uppercase(unsigned int index, char *c)
+void	to_uppercase(unsigned int index, char *c)
 {
-    if (*c >= 'a' && *c <= 'z' && index % 2 == 0)
-        *c -= 32;
+	if (*c >= 'a' && *c <= 'z' && index % 2 == 0)
+		*c -= 32;
 }
 
 int	main(void)
 {
-	char str[] = "hello world";
+	char	str[] = "hello world";
+
 	printf("Avant appel: %s\n", str);
 	ft_striteri(str, to_uppercase);
 	printf("Apres : %s\n", str);
-	return (0);	
+	return (0);
 }
 */

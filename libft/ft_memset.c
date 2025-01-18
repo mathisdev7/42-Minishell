@@ -16,10 +16,10 @@ void	*ft_memset(void *b, int c, size_t len)
 {
 	unsigned char	*temp;
 
-	temp = (unsigned char *) b;
+	temp = (unsigned char *)b;
 	while (len > 0)
 	{
-		*temp = (unsigned char) c;
+		*temp = (unsigned char)c;
 		temp++;
 		len--;
 	}
@@ -31,8 +31,8 @@ void	*ft_memset(void *b, int c, size_t len)
 
 int	main(void)
 {
-	char array[10];
-	
+	char	array[10];
+
 	for (int i = 0; i < 10; i++)
 		array[i] = '.';
 	write(1, "Avant ft_memset:\n", 17);
@@ -42,7 +42,6 @@ int	main(void)
 	write(1, "Après ft_memset:\n", 17);
 	write(1, array, 10);
 	write(1, "\n", 1);
-
 	return (0);
 }
 */

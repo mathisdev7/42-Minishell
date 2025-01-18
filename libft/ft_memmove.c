@@ -20,8 +20,8 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 
 	if (!dst && !src)
 		return (NULL);
-	tmp_dst = (char *) dst;
-	tmp_src = (char *) src;
+	tmp_dst = (char *)dst;
+	tmp_src = (char *)src;
 	i = 0;
 	if (tmp_dst > tmp_src)
 	{
@@ -41,22 +41,21 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 /*
 #include <unistd.h>
 
-int main(void)
+int	main(void)
 {
-    char buffer[20] = "12345ABCDE";
-    char *src = buffer;
-    char *dst = buffer + 3;
+	char	buffer[20] = "12345ABCDE";
+	char	*src;
+	char	*dst;
 
-    write(1, "Avant ft_memmove:\n", 18);
-    write(1, buffer, 10);
-    write(1, "\n", 1);
-
-    ft_memmove(dst, src, 6);
-
-    write(1, "Après ft_memmove:\n", 18);
-    write(1, buffer, 10);
-    write(1, "\n", 1);
-
-    return (0);
+	src = buffer;
+	dst = buffer + 3;
+	write(1, "Avant ft_memmove:\n", 18);
+	write(1, buffer, 10);
+	write(1, "\n", 1);
+	ft_memmove(dst, src, 6);
+	write(1, "Après ft_memmove:\n", 18);
+	write(1, buffer, 10);
+	write(1, "\n", 1);
+	return (0);
 }
 */

@@ -20,7 +20,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	i = 0;
 	j = 0;
-	new_str = (char *) malloc(sizeof(*s) * (len + 1));
+	new_str = (char *)malloc(sizeof(*s) * (len + 1));
 	if (!new_str)
 		return (NULL);
 	while (s[i])
@@ -40,8 +40,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 int	main(void)
 {
-	const char s[13] = "Salut ca va ?";
-	char *sub = ft_substr(s, 6, 7);
+	const char	s[13] = "Salut ca va ?";
+	char		*sub;
+
+	sub = ft_substr(s, 6, 7);
 	printf("%s", sub);
 	return (0);
 }

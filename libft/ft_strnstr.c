@@ -20,16 +20,16 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 
 	i = 0;
 	j = 0;
-	len_little = ft_strlen((char *) little);
+	len_little = ft_strlen((char *)little);
 	if (little[0] == '\0')
-		return ((char *) big);
+		return ((char *)big);
 	while (i < len && big[i])
 	{
 		j = 0;
 		while (big[i + j] == little[j] && (i + j) < len)
 		{
 			if (j == len_little - 1)
-				return ((char *) &big[i]);
+				return ((char *)&big[i]);
 			j++;
 		}
 		i++;
@@ -38,11 +38,13 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 }
 /*
 #include <stdio.h>
+
 int	main(void)
 {
+	const char	*smallstring = "ipsum";
+	char		*ptr;
+
 	const char* largestring = "lorem ipsum dolor sit amet";
-	const char *smallstring = "ipsum";
-	char *ptr;
 	ptr = ft_strnstr(largestring, smallstring, 11);
 	printf("%s", ptr);
 	return (0);

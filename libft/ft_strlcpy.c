@@ -29,17 +29,18 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 /*
 #include <unistd.h>
 
-int main(void)
+int	main(void)
 {
-    char src[6] = "hello";
-    char dst[6] = "......";
-    write(1, "dst avant appel : ", 19);
-    write(1, dst, 6);
-    ft_strlcpy(dst, src, 4);
-    write(1, "\n", 1);
-    write(1, "dst apres appel : ", 19);
-    write(1, dst, 6);
-    write(1, "\n", 1);
-    return (0);
+	char	src[6] = "hello";
+	char	dst[6] = "......";
+
+	write(1, "dst avant appel : ", 19);
+	write(1, dst, 6);
+	ft_strlcpy(dst, src, 4);
+	write(1, "\n", 1);
+	write(1, "dst apres appel : ", 19);
+	write(1, dst, 6);
+	write(1, "\n", 1);
+	return (0);
 }
 */

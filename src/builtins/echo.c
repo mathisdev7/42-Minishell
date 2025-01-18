@@ -31,7 +31,6 @@ int	exec_echo(t_cmd cmd)
 	}
 	while (cmd.args[i])
 	{
-		
 		printf("%s", cmd.args[i]);
 		if (cmd.args[i + 1])
 			printf(" ");

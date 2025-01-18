@@ -34,7 +34,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 int	main(void)
 {
 	char* str;
-
 	str = ft_calloc(5, sizeof(char));
 	if (str == NULL)
 	{

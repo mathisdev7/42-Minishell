@@ -51,10 +51,9 @@ t_env	*init_env(char **envp)
 
 void	prompt_system(t_shell *shell)
 {
-	char	*line;
-	char	cwd[1024];
+	char		*line;
+	char		cwd[1024];
 	t_cmd_line	cmd_line;
-	//int		status;
 
 	while (1)
 	{
@@ -68,13 +67,7 @@ void	prompt_system(t_shell *shell)
 			return ;
 		cmd_line = parse_cmd_line(line, shell->env);
 		if (cmd_line.cmds || cmd_line.nb_cmds > 0)
-		{
-			//print_cmd_args(cmd_line.cmds[0]);
-			//printf("\n%d\n", cmd_line.cmds[0].nb_redirections);
-			//print_redirections(cmd_line.cmds[0]);
 			exec_cmds(cmd_line, shell);
-		}
 		free(line);
-		
 	}
 }

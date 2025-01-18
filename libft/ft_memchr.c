@@ -17,12 +17,12 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	unsigned char	cc;
 	unsigned char	*ss;
 
-	cc = (unsigned char) c;
-	ss = (unsigned char *) s;
+	cc = (unsigned char)c;
+	ss = (unsigned char *)s;
 	while (n > 0)
 	{
 		if (cc == *ss)
-			return ((void *) ss);
+			return ((void *)ss);
 		ss++;
 		n--;
 	}
@@ -31,23 +31,24 @@ void	*ft_memchr(const void *s, int c, size_t n)
 /*
 #include <unistd.h>
 
-int main(void)
+int	main(void)
 {
-    const char str[20] = "ceci est une phrase.";
-    char *result;
-    result = ft_memchr(str, 'e', 20);
-    if (result)
-        write(1, result, 20 - (result - str));
-    write(1, "\n", 1);
-    result = ft_memchr(str, 'a', 10);
-    if (result)
-        write(1, result, 20 - (result - str));
-    else
-        write(1, "Character not found\n", 20);
-    result = ft_memchr(str, '\0', 20);
-    if (result)
-        write(1, result, 1);
-    write(1, "\n", 1);
-    return (0);
+	const char	str[20] = "ceci est une phrase.";
+	char		*result;
+
+	result = ft_memchr(str, 'e', 20);
+	if (result)
+		write(1, result, 20 - (result - str));
+	write(1, "\n", 1);
+	result = ft_memchr(str, 'a', 10);
+	if (result)
+		write(1, result, 20 - (result - str));
+	else
+		write(1, "Character not found\n", 20);
+	result = ft_memchr(str, '\0', 20);
+	if (result)
+		write(1, result, 1);
+	write(1, "\n", 1);
+	return (0);
 }
 */

@@ -21,12 +21,15 @@ int	ft_tolower(int c)
 /*
 #include <unistd.h>
 
-int main(void)
+int	main(void)
 {
-    char c = 'B';
-    char lower = ft_tolower(c);
-    write(1, &lower, 1);
-    write(1, "\n", 1);
-    return (0);
+	char	c;
+	char	lower;
+
+	c = 'B';
+	lower = ft_tolower(c);
+	write(1, &lower, 1);
+	write(1, "\n", 1);
+	return (0);
 }
 */

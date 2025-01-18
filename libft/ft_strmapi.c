@@ -34,13 +34,15 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 /*
 #include <stdio.h>
 
-char to_upper(unsigned int index, char c)
+char	to_upper(unsigned int index, char c)
 {
 }
 
 int	main(void)
 {
-	char *result = ft_strmapi("hello", to_upper);
+	char	*result;
+
+	result = ft_strmapi("hello", to_upper);
 	printf("%s\n", result);
 	return (0);
 }

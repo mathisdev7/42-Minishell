@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 04:39:18 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/14 04:39:18 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/18 10:54:42 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,7 +357,7 @@ t_cmd_line	parse_cmd_line(char *line, t_env *envp)
 			cmd_line.cmds[i] = parse_cmd(splitted_cmds[i], envp, 1);
 		else
 			cmd_line.cmds[i] = parse_cmd(splitted_cmds[i], envp, 0);
-		
+
 		i++;
 	}
 	return (cmd_line);

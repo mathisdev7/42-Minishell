@@ -34,8 +34,10 @@ char	*ft_strdup(const char *s)
 
 int	main(void)
 {
-	const char str[5] = "hello";
-	char *dest = ft_strdup(str);
+	const char	str[5] = "hello";
+	char		*dest;
+
+	dest = ft_strdup(str);
 	printf("%s", dest);
 	return (0);
 }

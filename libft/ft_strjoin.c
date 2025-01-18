@@ -38,8 +38,9 @@ char	*ft_strjoin(const char *s1, const char *s2)
 
 int	main(void)
 {
-	const char s1[6] = "Hello";
-	const char s2[6] = "World";
+	const char	s1[6] = "Hello";
+	const char	s2[6] = "World";
+
 	printf("%s", ft_strjoin(s1, s2));
 	return (0);
 }

@@ -67,11 +67,13 @@ char	*ft_itoa(int n)
 	return (str);
 }
 /*
-int main(void)
+int	main(void)
 {
-    char *nbr = ft_itoa(-2147483648);
-    printf("%s\n", nbr);
-    free(nbr);
-    return 0;
+	char	*nbr;
+
+	nbr = ft_itoa(-2147483648);
+	printf("%s\n", nbr);
+	free(nbr);
+	return (0);
 }
 */

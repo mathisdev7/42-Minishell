@@ -70,8 +70,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 int	main(void)
 {
-	const char str[] = "zazaaaaazazaazsalut  mecazzzzzzaaazazaz";
-	const char set[] = "zaz";
+	const char	str[] = "zazaaaaazazaazsalut  mecazzzzzzaaazazaz";
+	const char	set[] = "zaz";
+
 	printf("%s", ft_strtrim(str, set));
 	return(0);
 }

@@ -36,17 +36,18 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 /*
 #include <unistd.h>
 
-int main(void)
+int	main(void)
 {
-    char src[6] = "world";
-    char dst[11] = "hello";
-    write(1, "dst avant appel : ", 19);
-    write(1, dst, 6);
-    ft_strlcat(dst, src, 4);
-    write(1, "\n", 1);
-    write(1, "dst apres appel : ", 19);
-    write(1, dst, 11);
-    write(1, "\n", 1);
-    return (0);
+	char	src[6] = "world";
+	char	dst[11] = "hello";
+
+	write(1, "dst avant appel : ", 19);
+	write(1, dst, 6);
+	ft_strlcat(dst, src, 4);
+	write(1, "\n", 1);
+	write(1, "dst apres appel : ", 19);
+	write(1, dst, 11);
+	write(1, "\n", 1);
+	return (0);
 }
 */

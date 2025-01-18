@@ -16,7 +16,7 @@ void	ft_bzero(void *s, size_t n)
 {
 	char	*temp;
 
-	temp = (char *) s;
+	temp = (char *)s;
 	while (n > 0)
 	{
 		*temp = 0;
@@ -28,10 +28,11 @@ void	ft_bzero(void *s, size_t n)
 /*
 #include <unistd.h>
 
-int main(void)
+int	main(void)
 {
+	char	array[5] = "Hello";
+
 	write(1, "Avant appel:\n", 13);
-	char array[5] = "Hello";
 	write(1, array, 5);
 	write(1, "\n", 1);
 	ft_bzero(array, 3);

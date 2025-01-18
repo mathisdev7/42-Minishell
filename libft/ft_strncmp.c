@@ -22,17 +22,19 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	if (n == 0)
 		return (0);
-	return ((unsigned char) *s1 - *s2);
+	return ((unsigned char)*s1 - *s2);
 }
 /*
 #include <stdio.h>
 
-int main(void)
+int	main(void)
 {
-    char s1[6] = "hello";
-    char s2[6] = "hel!o";
-    int result = ft_strncmp(s1, s2, 2);
-    printf("%d\n", result);
-    return (0);
+	char	s1[6] = "hello";
+	char	s2[6] = "hel!o";
+	int		result;
+
+	result = ft_strncmp(s1, s2, 2);
+	printf("%d\n", result);
+	return (0);
 }
 */

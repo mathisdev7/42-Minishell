@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 04:19:05 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/14 04:19:05 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/18 10:28:58 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ void	print_redirections(t_cmd cmd)
 	if (!cmd.redirections || cmd.nb_redirections == 0)
 	{
 		printf("No redirections\n");
-		return;
+		return ;
 	}
-	for (i = 0; i < cmd.nb_redirections; i++)
+	i = 0;
+	while (i < cmd.nb_redirections)
 	{
 		printf("Redirection %d: ", i + 1);
 		if (cmd.redirections[i].type == 1)
@@ -50,5 +51,6 @@ void	print_redirections(t_cmd cmd)
 		else if (cmd.redirections[i].type == 4)
 			printf("Type: <<, ");
 		printf("File: %s\n", cmd.redirections[i].file);
+		i++;
 	}
 }

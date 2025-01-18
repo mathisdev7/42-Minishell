@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:53:27 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/14 18:53:27 by nopareti         ###   ########.fr       */
+/*   Updated: 2025/01/18 10:58:40 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,14 @@ void handle_redirections(t_cmd cmd)
 	i = 0;
 	while (i < cmd.nb_redirections)
 	{
-		if (cmd.redirections[i].type == 1) // >
+		if (cmd.redirections[i].type == 1)
 			fd = open(cmd.redirections[i].file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (cmd.redirections[i].type == 2) // >>
+		else if (cmd.redirections[i].type == 2)
 			fd = open(cmd.redirections[i].file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else if (cmd.redirections[i].type == 3) // <
+		else if (cmd.redirections[i].type == 3)
 			fd = open(cmd.redirections[i].file, O_RDONLY);
-		else if (cmd.redirections[i].type == 4) // <<
+		else if (cmd.redirections[i].type == 4)
 			fd = handle_here_doc(cmd.redirections[i].file);
-		
 		if (fd == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);
@@ -118,7 +117,7 @@ int	exec_builtin(t_cmd cmd, t_shell *shell)
 	else if (ft_strcmp(cmd.args[0], "unset") == 0)
 		ret = exec_unset(cmd, &shell->env);
 	else if (ft_strcmp(cmd.args[0], "pwd") == 0)
-		ret = exec_pwd(cmd);
+		ret = exec_pwd();
 	else if (ft_strcmp(cmd.args[0], "cd") == 0)
 		ret = exec_cd(cmd, shell->env);
 	else if (ft_strcmp(cmd.args[0], "export") == 0)

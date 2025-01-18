@@ -14,10 +14,10 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
 	t_shell	*shell;
 
+	(void)argc;
+	(void)argv;
 	shell = init_shell(envp);
 	free_shell(shell);
 	return (0);

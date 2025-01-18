@@ -79,9 +79,9 @@ char	**ft_split(const char *s, char c)
 
 int	main(void)
 {
-	int	i;
-	char *str;
-	char **split;
+	int		i;
+	char	*str;
+	char	**split;
 
 	i = 0;
 	str = "Je suis une phrase.";

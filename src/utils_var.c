@@ -1,35 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   utils_var.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nopareti <nopareti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/03 15:48:51 by nopareti          #+#    #+#             */
-/*   Updated: 2024/11/07 10:53:25 by nopareti         ###   ########.fr       */
+/*   Created: 2025/01/18 11:01:03 by mazeghou          #+#    #+#             */
+/*   Updated: 2025/01/18 11:02:46 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
-int	ft_toupper(int c)
+int	is_valid_var_char(char c, int first_char)
 {
-	if (c >= 97 && c <= 122)
-		c -= 32;
-	return (c);
+	if (first_char)
+		return (ft_isalpha(c) || c == '_' || c == '?');
+	return (ft_isalnum(c) || c == '_');
 }
-/*
-#include <unistd.h>
-
-int	main(void)
-{
-	char	c;
-	char	upper;
-
-	c = 'b';
-	upper = ft_toupper(c);
-	write(1, &upper, 1);
-	write(1, "\n", 1);
-	return (0);
-}
-*/
