@@ -45,15 +45,14 @@ void handle_redirections(t_cmd cmd)
 	i = 0;
 	while (i < cmd.nb_redirections)
 	{
-		if (cmd.redirections[i].type == 1) // >
+		if (cmd.redirections[i].type == 1)
 			fd = open(cmd.redirections[i].file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (cmd.redirections[i].type == 2) // >>
+		else if (cmd.redirections[i].type == 2)
 			fd = open(cmd.redirections[i].file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else if (cmd.redirections[i].type == 3) // <
+		else if (cmd.redirections[i].type == 3)
 			fd = open(cmd.redirections[i].file, O_RDONLY);
-		else if (cmd.redirections[i].type == 4) // <<
+		else if (cmd.redirections[i].type == 4)
 			fd = handle_here_doc(cmd.redirections[i].file);
-		
 		if (fd == -1)
 		{
 			ft_putstr_fd("minishell: ", 2);

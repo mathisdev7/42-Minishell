@@ -19,10 +19,9 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "../Libft/libft.h"
+#include "../libft/libft.h"
 #include <sys/types.h>
 #include <sys/wait.h>
-
 #include "structures.h"
 
 /*----------------------- INIT.C ---------------------------*/
@@ -68,6 +67,7 @@ int	is_builtin_cmd(char *cmd_name);
 char	*ft_getenv(char *name, t_env *envp);
 t_env	*update_env(t_env **envp, char *name, char *value);
 void	update_status(t_env **envp, int status);
+char	**env_to_array(t_env *env);
 /*----------------------- UTILS.C ---------------------------*/
 
 
@@ -119,5 +119,3 @@ void	parse_redirections(t_cmd *cmd, char *cmd_line);
 int	set_in_redir(t_cmd *cmd, int *i, int *redir_index, char *cmd_line);
 int	set_out_redir(t_cmd *cmd, int *i, int *redir_index, char *cmd_line);
 /*----------------------- REDIRECTIONS.C ---------------------------*/
-
-#endif

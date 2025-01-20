@@ -23,9 +23,10 @@ INC_DIR = include
 LIBFT_DIR = libft
 
 # Sources
-SRC_FILES = main.c init.c free.c utils.c debug.c parsing/parsing.c \
+SRC_FILES = main.c init.c free.c utils.c parsing/parsing.c \
 exec/exec.c builtins/echo.c builtins/cd.c builtins/pwd.c \
-builtins/unset.c builtins/export.c builtins/exit.c parsing/redirections.c
+builtins/unset.c builtins/export.c builtins/exit.c utils_env.c utils_args.c \
+utils_cmd.c utils_env2.c parsing/redirections.c
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(SRCS:.c=.o)
 
