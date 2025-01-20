@@ -34,12 +34,12 @@ void	parse_env_vars(char **args, t_env *envp)
 			if (!in_single_quote && args[i][j] == '$' && args[i][j + 1])
 			{
 				k = j + 1;
-				if (args[i][k] == '?')  // Pour $?
+				if (args[i][k] == '?')
 				{
 					k++;
 					var_name = ft_strdup("?");
 				}
-				else  // Pour les autres variables
+				else
 				{
 					while (args[i][k] && (ft_isalnum(args[i][k]) || args[i][k] == '_'))
 						k++;
@@ -204,14 +204,12 @@ int	count_redirections(char *cmd_line)
 char *get_redir_file(char *cmd_line, int start)
 {
 	int len = 0;
-	int i = start;
+	int i;
 	char *file;
 
-	// Skip les espaces initiaux
+	i = start;
 	while (cmd_line[i] && (cmd_line[i] == ' ' || cmd_line[i] == '\t'))
 		i++;
-	
-	// Calculer la longueur du nom de fichier
 	start = i;
 	while (cmd_line[i] && cmd_line[i] != ' ' && cmd_line[i] != '\t' 
 		   && cmd_line[i] != '>' && cmd_line[i] != '<' && cmd_line[i] != '|')
@@ -219,13 +217,9 @@ char *get_redir_file(char *cmd_line, int start)
 		len++;
 		i++;
 	}
-
-	// Allouer la mémoire avec un octet supplémentaire pour le \0
 	file = malloc(len + 1);
 	if (!file)
 		return NULL;
-
-	// Copier le nom de fichier
 	i = 0;
 	while (i < len)
 	{
@@ -233,64 +227,11 @@ char *get_redir_file(char *cmd_line, int start)
 		i++;
 	}
 	file[i] = '\0';
-
-	return file;
-}
-
-void	parse_redirections(t_cmd *cmd, char *cmd_line)
-{
-	int		i;
-	int		redir_index;
-	int		in_single_quote;
-	int		in_double_quote;
-
-	i = 0;
-	redir_index = 0;
-	in_single_quote = 0;
-	in_double_quote = 0;
-	while (cmd_line[i])
-	{
-		if (cmd_line[i] == '\'' && !in_double_quote)
-			in_single_quote = !in_single_quote;
-		else if (cmd_line[i] == '"' && !in_single_quote)
-			in_double_quote = !in_double_quote;
-		if (!in_single_quote && !in_double_quote)
-		{
-			if (cmd_line[i] == '>')
-			{
-				if (cmd_line[i + 1] == '>')
-				{
-					i++;
-					cmd->redirections[redir_index].type = 2;
-				}
-				else
-					cmd->redirections[redir_index].type = 1;
-				char *tmp = get_redir_file(cmd_line, ++i);
-				cmd->redirections[redir_index].file = remove_quotes_from_str(tmp);
-				free(tmp);
-				redir_index++;
-			}
-			else if (cmd_line[i] == '<')
-			{
-				if (cmd_line[i + 1] == '<')
-				{
-					i++;
-					cmd->redirections[redir_index].type = 4;
-				}
-				else
-					cmd->redirections[redir_index].type = 3;
-				char *tmp = get_redir_file(cmd_line, ++i);
-				cmd->redirections[redir_index].file = remove_quotes_from_str(tmp);
-				free(tmp);
-				redir_index++;
-			}
-		}
-		i++;
-	}
+	return (file);
 }
 
 t_cmd parse_cmd(char *cmd_line, t_env *envp, int pipe_presence)
-{
+{ 
 	char **args;
 	t_cmd cmd;
 	char *cleaned_line;

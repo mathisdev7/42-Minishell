@@ -139,7 +139,14 @@ int	exec_cmds(t_cmd_line cmd_line, t_shell *shell)
 
 	i = 0;
 	prev_pipe = STDIN_FILENO;
-	if (is_builtin_cmd(cmd_line.cmds[0].args[0]) && cmd_line.nb_cmds == 1)
+	if (cmd_line.nb_cmds == 1 && (!cmd_line.cmds[0].args || !cmd_line.cmds[0].args[0]))
+	{
+		if (cmd_line.cmds[0].nb_redirections > 0)
+			handle_redirections(cmd_line.cmds[0]);
+		return (0);
+	}
+
+	if (cmd_line.nb_cmds == 1 && is_builtin_cmd(cmd_line.cmds[0].args[0]))
 	{
 		status = exec_builtin(cmd_line.cmds[0], shell);
 		update_status(&shell->env, status);

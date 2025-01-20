@@ -47,6 +47,7 @@ t_cmd_line	parse_cmd_line(char *line, t_env *envp);
 t_cmd	parse_cmd(char *cmd_line, t_env *envp, int pipe_presence);
 void	parse_env_vars(char	**args, t_env *envp);
 char *remove_redirections(char *cmd_line);
+char *get_redir_file(char *cmd_line, int start);
 /*----------------------- PARSING.C ---------------------------*/
 
 
@@ -112,4 +113,9 @@ void	free_shell(t_shell *shell);
 void	free_cmd_line(t_cmd_line *cmd_line);
 /*----------------------- FREE.C ---------------------------*/
 
-#endif
+
+/*----------------------- REDIRECTIONS.C ---------------------------*/
+void	parse_redirections(t_cmd *cmd, char *cmd_line);
+int	set_in_redir(t_cmd *cmd, int *i, int *redir_index, char *cmd_line);
+int	set_out_redir(t_cmd *cmd, int *i, int *redir_index, char *cmd_line);
+/*----------------------- REDIRECTIONS.C ---------------------------*/
