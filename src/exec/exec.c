@@ -57,7 +57,9 @@ void handle_redirections(t_cmd cmd)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			perror(cmd.redirections[i].file);
-			exit(1);
+			if (cmd.args[0])
+				exit(1);
+			return ;
 		}
 		if (cmd.redirections[i].type == 1 || cmd.redirections[i].type == 2)
 			dup2(fd, STDOUT_FILENO);
@@ -143,9 +145,8 @@ int	exec_cmds(t_cmd_line cmd_line, t_shell *shell)
 	{
 		if (cmd_line.cmds[0].nb_redirections > 0)
 			handle_redirections(cmd_line.cmds[0]);
-		return (0);
+		return (1);
 	}
-
 	if (cmd_line.nb_cmds == 1 && is_builtin_cmd(cmd_line.cmds[0].args[0]))
 	{
 		status = exec_builtin(cmd_line.cmds[0], shell);
