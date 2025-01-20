@@ -50,7 +50,7 @@ static void	add_env_var(t_env **env_list, char *key, char *value)
 	*env_list = new_var;
 }
 
-static int handle_export_arg(char *arg, t_env **env_list)
+static int	handle_export_arg(char *arg, t_env **env_list)
 {
 	char	*equal_sign;
 	char	*key;
@@ -71,7 +71,7 @@ static int handle_export_arg(char *arg, t_env **env_list)
 
 int	exec_export(t_cmd cmd, t_env **envp)
 {
-	int status;
+	int	status;
 	int	i;
 
 	status = 0;
@@ -88,4 +88,3 @@ int	exec_export(t_cmd cmd, t_env **envp)
 	}
 	return (status);
 }
-

@@ -49,6 +49,44 @@ void	set_redirections(t_cmd *cmd, char *cmd_line, int *i, int redir_index)
 	free(tmp);
 }
 
+void	init_count_redirections(int *i, int *nb_redirections,
+		int *in_single_quote, int *in_double_quote)
+{
+	*i = 0;
+	*nb_redirections = 0;
+	*in_single_quote = 0;
+	*in_double_quote = 0;
+}
+
+int	count_redirections(char *cmd_line)
+{
+	int	i;
+	int	nb_redirections;
+	int	in_single_quote;
+	int	in_double_quote;
+
+	init_count_redirections(&i, &nb_redirections, &in_single_quote,
+		&in_double_quote);
+	while (cmd_line[i])
+	{
+		if (cmd_line[i] == '"' && !in_single_quote)
+			in_double_quote = !in_double_quote;
+		else if (cmd_line[i] == '\'' && !in_double_quote)
+			in_single_quote = !in_single_quote;
+		if (!in_single_quote && !in_double_quote)
+		{
+			if (cmd_line[i] == '<' || cmd_line[i] == '>')
+			{
+				nb_redirections++;
+				if (cmd_line[i + 1] && cmd_line[i] == cmd_line[i + 1])
+					i++;
+			}
+		}
+		i++;
+	}
+	return (nb_redirections);
+}
+
 void	parse_redirections(t_cmd *cmd, char *cmd_line)
 {
 	int	i;

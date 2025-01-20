@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	exec_pwd()
+int	exec_pwd(void)
 {
 	char	current_path[1024];
 

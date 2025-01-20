@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:15:43 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/20 10:15:59 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/20 10:38:31 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	count_args(char *str)
 	i = 0;
 	count = 0;
 	in_quotes = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		while (str[i] && str[i] == ' ' && !in_quotes)
@@ -72,8 +74,6 @@ char	**ft_split_args(char *str)
 	int		i;
 	int		arg_index;
 
-	if (!str)
-		return (NULL);
 	nb_args = count_args(str);
 	args = malloc(sizeof(char *) * (nb_args + 1));
 	if (!args)
