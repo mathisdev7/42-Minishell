@@ -119,3 +119,5 @@ void	parse_redirections(t_cmd *cmd, char *cmd_line);
 int	set_in_redir(t_cmd *cmd, int *i, int *redir_index, char *cmd_line);
 int	set_out_redir(t_cmd *cmd, int *i, int *redir_index, char *cmd_line);
 /*----------------------- REDIRECTIONS.C ---------------------------*/
+
+#endif
