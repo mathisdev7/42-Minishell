@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_putunsigned.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 23:17:03 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/20 13:55:56 by mazeghou         ###   ########.fr       */
+/*   Created: 2024/11/09 02:32:56 by mazeghou          #+#    #+#             */
+/*   Updated: 2025/01/20 14:05:32 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../ft_printf.h"
 
-int	exec_pwd(void)
+int	ft_put_unsigned(unsigned int n)
 {
-	char	current_path[1024];
+	int	len;
 
-	if (getcwd(current_path, sizeof(current_path)) != NULL)
-		ft_printf("%s\n", current_path);
-	else
-	{
-		perror("Error retrieving the current directory");
-		return (1);
-	}
-	return (0);
+	len = 0;
+	if (n >= 10)
+		len += ft_put_unsigned(n / 10);
+	printf_putchar_fd(n % 10 + '0', 1);
+	return (len + 1);
 }

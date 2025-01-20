@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 03:48:53 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/20 11:02:08 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:15:35 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,3 +50,22 @@ typedef struct s_quote_state
 	int				i;
 	int				j;
 }					t_quote_state;
+
+typedef struct s_env_parse_state
+{
+	int				i;
+	int				j;
+	int				k;
+	int				in_single_quote;
+	char			*var_name;
+	char			*var_value;
+	char			*new_arg;
+}					t_env_parse_state;
+
+typedef struct s_split_state
+{
+	int				in_single_quote;
+	int				in_double_quote;
+	char			*token_start;
+	int				count;
+}					t_split_state;

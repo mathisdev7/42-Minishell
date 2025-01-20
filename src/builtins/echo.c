@@ -21,7 +21,7 @@ int	exec_echo(t_cmd cmd)
 	new_line = 1;
 	if (!cmd.args[1])
 	{
-		printf("\n");
+		ft_printf("\n");
 		return (0);
 	}
 	if (ft_strcmp(cmd.args[i], "-n") == 0)
@@ -31,12 +31,12 @@ int	exec_echo(t_cmd cmd)
 	}
 	while (cmd.args[i])
 	{
-		printf("%s", cmd.args[i]);
+		ft_printf("%s", cmd.args[i]);
 		if (cmd.args[i + 1])
-			printf(" ");
+			ft_printf(" ");
 		i++;
 	}
 	if (new_line)
-		printf("\n");
+		ft_printf("\n");
 	return (0);
 }

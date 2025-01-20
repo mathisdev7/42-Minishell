@@ -1,27 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   printf_putnbr_fd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 23:17:03 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/20 13:55:56 by mazeghou         ###   ########.fr       */
+/*   Created: 2024/11/06 05:20:15 by mazeghou          #+#    #+#             */
+/*   Updated: 2025/01/20 14:04:36 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../ft_printf.h"
 
-int	exec_pwd(void)
+int	printf_putnbr_fd(int n, int fd)
 {
-	char	current_path[1024];
+	char	digit;
+	int		print_len;
 
-	if (getcwd(current_path, sizeof(current_path)) != NULL)
-		ft_printf("%s\n", current_path);
-	else
+	print_len = 0;
+	if (n == -2147483648)
 	{
-		perror("Error retrieving the current directory");
-		return (1);
+		write(fd, "-2147483648", 11);
+		return (11);
 	}
-	return (0);
+	if (n < 0)
+	{
+		write(fd, "-", 1);
+		print_len += 1;
+		n = -n;
+	}
+	if (n > 9)
+		print_len += printf_putnbr_fd(n / 10, fd);
+	digit = n % 10 + '0';
+	write(fd, &digit, 1);
+	print_len += 1;
+	return (print_len);
 }

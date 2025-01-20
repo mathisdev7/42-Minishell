@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 11:17:14 by mazeghou          #+#    #+#             */
-/*   Updated: 2025/01/20 11:17:20 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/20 12:51:30 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*remove_quotes_from_str(char *str)
 	while (str[++state.i])
 	{
 		if ((str[state.i] == '\'' && !state.in_double_quote)
-				|| (str[state.i] == '"' && !state.in_single_quote))
+			|| (str[state.i] == '"' && !state.in_single_quote))
 		{
 			if (str[state.i] == '\'' && !state.in_single_quote)
 				state.in_single_quote = !state.in_single_quote;

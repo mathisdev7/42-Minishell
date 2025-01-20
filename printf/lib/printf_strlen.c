@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 23:17:03 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/20 13:55:56 by mazeghou         ###   ########.fr       */
+/*   Created: 2024/11/09 04:24:05 by mazeghou          #+#    #+#             */
+/*   Updated: 2025/01/20 14:01:52 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../ft_printf.h"
 
-int	exec_pwd(void)
+int	printf_strlen(const char *str)
 {
-	char	current_path[1024];
+	int	i;
 
-	if (getcwd(current_path, sizeof(current_path)) != NULL)
-		ft_printf("%s\n", current_path);
-	else
+	i = 0;
+	while (str[i])
 	{
-		perror("Error retrieving the current directory");
-		return (1);
+		i++;
 	}
-	return (0);
+	return (i);
 }

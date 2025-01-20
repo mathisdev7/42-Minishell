@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 23:17:03 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/20 13:55:56 by mazeghou         ###   ########.fr       */
+/*   Created: 2024/11/09 02:32:11 by mazeghou          #+#    #+#             */
+/*   Updated: 2025/01/20 14:04:59 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../ft_printf.h"
 
-int	exec_pwd(void)
+int	ft_put_hex(unsigned int num, int uppercase)
 {
-	char	current_path[1024];
+	char	*hex;
+	int		len;
 
-	if (getcwd(current_path, sizeof(current_path)) != NULL)
-		ft_printf("%s\n", current_path);
+	len = 0;
+	if (uppercase)
+		hex = "0123456789ABCDEF";
 	else
-	{
-		perror("Error retrieving the current directory");
-		return (1);
-	}
-	return (0);
+		hex = "0123456789abcdef";
+	if (num >= 16)
+		len += ft_put_hex(num / 16, uppercase);
+	printf_putchar_fd(hex[num % 16], 1);
+	len += 1;
+	return (len);
 }

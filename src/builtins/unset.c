@@ -63,7 +63,7 @@ int	exec_unset(t_cmd cmd, t_env **envp)
 	{
 		if (!is_valid_env_var(*cmd.args))
 		{
-			printf("unset: `%s': not a valid identifier\n", *cmd.args);
+			ft_printf("unset: `%s': not a valid identifier\n", *cmd.args);
 			status = 1;
 		}
 		else

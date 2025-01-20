@@ -71,7 +71,7 @@ int	exec_builtin(t_cmd cmd, t_shell *shell)
 	else if (ft_strcmp(cmd.args[0], "unset") == 0)
 		ret = exec_unset(cmd, &shell->env);
 	else if (ft_strcmp(cmd.args[0], "pwd") == 0)
-		ret = exec_pwd(cmd);
+		ret = exec_pwd();
 	else if (ft_strcmp(cmd.args[0], "cd") == 0)
 		ret = exec_cd(cmd, shell->env);
 	else if (ft_strcmp(cmd.args[0], "export") == 0)
