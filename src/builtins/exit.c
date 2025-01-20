@@ -35,7 +35,7 @@ int	exec_exit(t_cmd cmd, t_shell *shell)
 	if (!cmd.args[1])
 	{
 		rl_clear_history();
-		//printf("\033[1;32mBye! 👋\033[0m\n");
+		printf("\033[1;32mBye! 👋\033[0m\n");
 		exit(0);
 	}
 	if (!is_numeric(cmd.args[1]))
@@ -49,7 +49,7 @@ int	exec_exit(t_cmd cmd, t_shell *shell)
 		return (printf("minishell: exit: too many arguments\n"));
 	exit_code = ft_atoi(cmd.args[1]) & 255;
 	rl_clear_history();
-	//printf("\033[1;32mBye! 👋\033[0m\n");
+	printf("\033[1;32mBye! 👋\033[0m\n");
 	free_shell(shell);
 	exit(exit_code);
 }

@@ -50,29 +50,6 @@ static void	add_env_var(t_env **env_list, char *key, char *value)
 	*env_list = new_var;
 }
 
-/*static int is_valid_identifier(char *str)
-{
-	int i;
-
-	if (!str || !*str)
-		return (0);
-
-	if (!ft_isalpha(str[0]) && str[0] != '_')
-		return (0);
-
-	i = 1;
-	while (str[i] && str[i] != '=')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-
-	return (1);
-}*/
-
-
-
 static int handle_export_arg(char *arg, t_env **env_list)
 {
 	char	*equal_sign;
@@ -81,10 +58,7 @@ static int handle_export_arg(char *arg, t_env **env_list)
 
 	equal_sign = ft_strchr(arg, '=');
 	if (!equal_sign)
-	{
 		return (0);
-	}
-
 	*equal_sign = '\0';
 	key = arg;
 	value = equal_sign + 1;
@@ -98,17 +72,19 @@ static int handle_export_arg(char *arg, t_env **env_list)
 int	exec_export(t_cmd cmd, t_env **envp)
 {
 	int status;
+	int	i;
 
 	status = 0;
+	i = 1;
 	if (!cmd.args[1] || ft_strcmp(cmd.args[0], "env") == 0)
 		return (print_env(*envp));
-
-	for (int i = 1; cmd.args[i]; i++)
+	while (cmd.args[i])
 	{
 		if (ft_strchr(cmd.args[i], '='))
 			status |= handle_export_arg(cmd.args[i], envp);
 		else
 			add_env_var(envp, cmd.args[i], "");
+		i++;
 	}
 	return (status);
 }
