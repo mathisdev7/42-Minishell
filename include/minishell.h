@@ -73,8 +73,9 @@ char	**env_to_array(t_env *env);
 
 /*----------------------- EXEC.C ---------------------------*/
 int	exec_cmds(t_cmd_line cmd_line, t_shell *shell);
-int	exec_cmd(t_cmd cmd, t_shell *shell, int in_fd, int out_fd);
-int	exec_builtin(t_cmd cmd, t_shell *shell);
+void	execute_pipeline(t_cmd_line cmd_line, t_shell *shell,
+	int *prev_pipe, pid_t *last_pid);
+void	wait_for_processes(pid_t last_pid, int *status);
 /*----------------------- EXEC.C ---------------------------*/
 
 
@@ -119,5 +120,20 @@ void	parse_redirections(t_cmd *cmd, char *cmd_line);
 int	set_in_redir(t_cmd *cmd, int *i, int *redir_index, char *cmd_line);
 int	set_out_redir(t_cmd *cmd, int *i, int *redir_index, char *cmd_line);
 /*----------------------- REDIRECTIONS.C ---------------------------*/
+
+
+/*----------------------- REDIRECTIONS.C ---------------------------*/
+int 	open_redir_file(t_redirection redir);
+int		handle_here_doc(char *delimiter);
+int		handle_redirections(t_cmd cmd);
+/*----------------------- REDIRECTIONS.C ---------------------------*/
+
+
+/*----------------------- CMD.C ---------------------------*/
+void	setup_io_redirections(int in_fd, int out_fd);
+void	handle_cmd_not_found(char *cmd_arg);
+int exec_cmd(t_cmd cmd, t_shell *shell, int in_fd, int out_fd);
+int		exec_builtin(t_cmd cmd, t_shell *shell);
+/*----------------------- CMD.C ---------------------------*/
 
 #endif

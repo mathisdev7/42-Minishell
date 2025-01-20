@@ -210,6 +210,16 @@ char *get_redir_file(char *cmd_line, int start)
 	i = start;
 	while (cmd_line[i] && (cmd_line[i] == ' ' || cmd_line[i] == '\t'))
 		i++;
+	if (!cmd_line[i] || cmd_line[i] == '>' || cmd_line[i] == '<' || cmd_line[i] == '|')
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		if (!cmd_line[i])
+			ft_putstr_fd("newline", 2);
+		else
+			ft_putchar_fd(cmd_line[i], 2);
+		ft_putstr_fd("'\n", 2);
+		return (NULL);
+	}
 	start = i;
 	while (cmd_line[i] && cmd_line[i] != ' ' && cmd_line[i] != '\t' 
 		   && cmd_line[i] != '>' && cmd_line[i] != '<' && cmd_line[i] != '|')
