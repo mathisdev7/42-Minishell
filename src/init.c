@@ -22,31 +22,47 @@ t_shell	*init_shell(char **envp)
 	return (shell);
 }
 
-t_env	*init_env(char **envp)
+t_env *init_env(char **envp)
 {
-	t_env	*env;
-	t_env	*new_node;
-	int		i;
+    t_env *env;
+    t_env *new_node;
+    char *env_str;
+    char *equals_pos;
+    int i;
 
-	i = 0;
 	env = NULL;
-	while (envp[i])
-	{
-		new_node = malloc(sizeof(t_env));
-		if (!new_node)
-			return (NULL);
-		new_node->name = ft_strdup(ft_strtok(envp[i], '='));
-		new_node->value = ft_strdup(ft_strtok(NULL, '='));
-		new_node->next = env;
-		env = new_node;
-		i++;
-	}
-	new_node = malloc(sizeof(t_env));
-	new_node->name = ft_strdup("?");
-	new_node->value = ft_strdup("0");
-	new_node->next = env;
-	env = new_node;
-	return (env);
+	i = 0;
+    while (envp[i])
+    {
+        new_node = malloc(sizeof(t_env));
+        if (!new_node)
+        {
+            free_env(env);
+            return (NULL);
+        }
+        env_str = envp[i];
+        equals_pos = ft_strchr(env_str, '=');
+        if (!equals_pos)
+        {
+            free(new_node);
+            free_env(env);
+            return (NULL);
+        }
+        new_node->name = ft_substr(env_str, 0, equals_pos - env_str);
+        new_node->value = ft_strdup(equals_pos + 1);
+        if (!new_node->name || !new_node->value)
+        {
+            free(new_node->name);
+            free(new_node->value);
+            free(new_node);
+            free_env(env);
+            return (NULL);
+        }
+        new_node->next = env;
+        env = new_node;
+        i++;
+    }
+    return (env);
 }
 
 void	prompt_system(t_shell *shell)
@@ -75,6 +91,32 @@ void	prompt_system(t_shell *shell)
 			exec_cmds(cmd_line, shell);
 		}
 		free(line);
-		
+		free_cmd_line(&cmd_line);
 	}
+}
+
+void	free_cmd_line(t_cmd_line *cmd_line)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+    if (cmd_line->cmds)
+	{
+        while (i < cmd_line->nb_cmds)
+        {
+			j = 0;
+            free_strs(cmd_line->cmds[i].args);
+			while (j < cmd_line->cmds[i].nb_redirections)
+			{
+				free(cmd_line->cmds[i].redirections[j].file);
+				j++;
+			}
+			free(cmd_line->cmds[i].redirections);
+            i++;
+        }
+		i = 0;
+        free(cmd_line->cmds);
+    }
 }

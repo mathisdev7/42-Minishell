@@ -126,7 +126,7 @@ int	exec_builtin(t_cmd cmd, t_shell *shell)
 	else if (ft_strcmp(cmd.args[0], "env") == 0)
 		ret = exec_export(cmd, &shell->env);
 	else if (ft_strcmp(cmd.args[0], "exit") == 0)
-		ret = exec_exit(cmd);
+		ret = exec_exit(cmd, shell);
 	return (ret);
 }
 

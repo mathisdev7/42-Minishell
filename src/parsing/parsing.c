@@ -201,29 +201,40 @@ int	count_redirections(char *cmd_line)
 	return (nb_redirections);
 }
 
-char	*get_redir_file(char *cmd_line, int i)
+char *get_redir_file(char *cmd_line, int start)
 {
-	char	*redir_file;
-	int	file_len;
-	int	j;
+	int len = 0;
+	int i = start;
+	char *file;
 
-	file_len = 0;
-	j = 0;
-	while (cmd_line[i] && (cmd_line[i] == 32 || cmd_line[i] == '\t'))
+	// Skip les espaces initiaux
+	while (cmd_line[i] && (cmd_line[i] == ' ' || cmd_line[i] == '\t'))
 		i++;
-	while (cmd_line[file_len] != 32 && cmd_line[file_len] != '\t')
-		file_len++;
-	redir_file = malloc(sizeof(char) * (file_len + 1));
-	if (!redir_file)
-		return (NULL);
-	while (cmd_line[i] && cmd_line[i] != 32 && cmd_line[i] != '\t')
+	
+	// Calculer la longueur du nom de fichier
+	start = i;
+	while (cmd_line[i] && cmd_line[i] != ' ' && cmd_line[i] != '\t' 
+		   && cmd_line[i] != '>' && cmd_line[i] != '<' && cmd_line[i] != '|')
 	{
-		redir_file[j] = cmd_line[i];
+		len++;
 		i++;
-		j++;
 	}
-	redir_file[j] = '\0';
-	return (redir_file);
+
+	// Allouer la mémoire avec un octet supplémentaire pour le \0
+	file = malloc(len + 1);
+	if (!file)
+		return NULL;
+
+	// Copier le nom de fichier
+	i = 0;
+	while (i < len)
+	{
+		file[i] = cmd_line[start + i];
+		i++;
+	}
+	file[i] = '\0';
+
+	return file;
 }
 
 void	parse_redirections(t_cmd *cmd, char *cmd_line)
@@ -237,10 +248,6 @@ void	parse_redirections(t_cmd *cmd, char *cmd_line)
 	redir_index = 0;
 	in_single_quote = 0;
 	in_double_quote = 0;
-	cmd->nb_redirections = count_redirections(cmd_line);
-	cmd->redirections = malloc(sizeof(t_redirection) * cmd->nb_redirections);
-	if (!cmd->redirections)
-		return ;
 	while (cmd_line[i])
 	{
 		if (cmd_line[i] == '\'' && !in_double_quote)
@@ -254,13 +261,13 @@ void	parse_redirections(t_cmd *cmd, char *cmd_line)
 				if (cmd_line[i + 1] == '>')
 				{
 					i++;
-					cmd->redirections[redir_index].type = 2; // >>
+					cmd->redirections[redir_index].type = 2;
 				}
 				else
-				{
-					cmd->redirections[redir_index].type = 1; // >
-				}
-				cmd->redirections[redir_index].file = remove_quotes_from_str(get_redir_file(cmd_line, ++i));
+					cmd->redirections[redir_index].type = 1;
+				char *tmp = get_redir_file(cmd_line, ++i);
+				cmd->redirections[redir_index].file = remove_quotes_from_str(tmp);
+				free(tmp);
 				redir_index++;
 			}
 			else if (cmd_line[i] == '<')
@@ -268,13 +275,13 @@ void	parse_redirections(t_cmd *cmd, char *cmd_line)
 				if (cmd_line[i + 1] == '<')
 				{
 					i++;
-					cmd->redirections[redir_index].type = 4; // <<
+					cmd->redirections[redir_index].type = 4;
 				}
 				else
-				{
-					cmd->redirections[redir_index].type = 3; // <
-				}
-				cmd->redirections[redir_index].file = remove_quotes_from_str(get_redir_file(cmd_line, ++i));
+					cmd->redirections[redir_index].type = 3;
+				char *tmp = get_redir_file(cmd_line, ++i);
+				cmd->redirections[redir_index].file = remove_quotes_from_str(tmp);
+				free(tmp);
 				redir_index++;
 			}
 		}
@@ -282,34 +289,52 @@ void	parse_redirections(t_cmd *cmd, char *cmd_line)
 	}
 }
 
-t_cmd	parse_cmd(char *cmd_line, t_env *envp, int pipe_presence)
+t_cmd parse_cmd(char *cmd_line, t_env *envp, int pipe_presence)
 {
-	char	**args;
-	t_cmd	cmd;
+	char **args;
+	t_cmd cmd;
+	char *cleaned_line;
+	char *tmp_cmd_line;
 
 	cmd.nb_redirections = count_redirections(cmd_line);
+	cmd.redirections = NULL;
+	cmd.args = NULL;
 	if (cmd.nb_redirections > 0)
 	{
+		cmd.redirections = malloc(sizeof(t_redirection) * cmd.nb_redirections);
+		if (!cmd.redirections)
+			return cmd;
 		parse_redirections(&cmd, cmd_line);
-		cmd_line = remove_redirections(cmd_line);
+		tmp_cmd_line = remove_redirections(cmd_line);
+		if (!tmp_cmd_line)
+		{
+			free(cmd.redirections);
+			return cmd;
+		}
+		cmd_line = tmp_cmd_line;
 	}
-	args = ft_split_args(remove_out_spaces(cmd_line));
+	cleaned_line = remove_out_spaces(cmd_line);
+	if (cmd.nb_redirections > 0)
+		free(tmp_cmd_line);
+	if (!cleaned_line)
+	{
+		if (cmd.redirections)
+			free(cmd.redirections);
+		return cmd;
+	}
+	args = ft_split_args(cleaned_line);
+	free(cleaned_line);
 	parse_env_vars(args, envp);
 	if (!args)
 	{
-		printf("minishell: %s not found!\n", cmd_line);
-		cmd.args = NULL;
-		return (cmd);
+		if (cmd.redirections)
+			free(cmd.redirections);
+		return cmd;
 	}
 	cmd.args = remove_out_quotes(args);
-	if (!cmd.args)
-	{
-		printf("minishell: %s not found!\n", cmd_line);
-		cmd.args = NULL;
-		return (cmd);
-	}
+	free_strs(args);
 	cmd.pipe_presence = pipe_presence;
-	return (cmd);
+	return cmd;
 }
 
 int	is_only_spaces(char *str)
@@ -345,12 +370,18 @@ t_cmd_line	parse_cmd_line(char *line, t_env *envp)
 	if (!splitted_cmds)
 	{
 		printf("minishell: %s not found", line);
+		free_strs(splitted_cmds);
 		return (cmd_line);
 	}
 	cmd_line.nb_cmds = 0;
 	while (splitted_cmds[cmd_line.nb_cmds])
 		cmd_line.nb_cmds++;
 	cmd_line.cmds = malloc(sizeof(t_cmd) * (cmd_line.nb_cmds + 1));
+	if (!cmd_line.cmds)
+	{
+		free_strs(splitted_cmds);
+		return (cmd_line);
+	}
 	while (splitted_cmds[i])
 	{
 		if (i < cmd_line.nb_cmds - 1)
@@ -360,6 +391,7 @@ t_cmd_line	parse_cmd_line(char *line, t_env *envp)
 		
 		i++;
 	}
+	free_strs(splitted_cmds);
 	return (cmd_line);
 }
 

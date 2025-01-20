@@ -103,7 +103,13 @@ int	exec_export(t_cmd cmd, t_env **envp);
 
 
 /*----------------------- EXIT.C ---------------------------*/
-int	exec_exit(t_cmd cmd);
+int	exec_exit(t_cmd cmd, t_shell *shell);
 /*----------------------- EXIT.C ---------------------------*/
+
+/*----------------------- FREE.C ---------------------------*/
+void	free_env(t_env *env);
+void	free_shell(t_shell *shell);
+void	free_cmd_line(t_cmd_line *cmd_line);
+/*----------------------- FREE.C ---------------------------*/
 
 #endif
