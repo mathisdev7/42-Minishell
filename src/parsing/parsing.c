@@ -252,3 +252,4 @@ char	*remove_redirections(char *cmd_line)
 	new_cmd_line[j] = '\0';
 	return (new_cmd_line);
 }
+
