@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 03:47:03 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/20 14:23:01 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:37:16 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_shell		*init_shell(char **envp);
 t_env		*init_env(char **envp);
 void		prompt_system(t_shell *shell);
 void		setup_signals(void);
+char		*create_prompt(char *cwd);
 /*----------------------- INIT.C ---------------------------*/
 
 /*----------------------- FREE.C ---------------------------*/

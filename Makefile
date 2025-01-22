@@ -33,7 +33,7 @@ exec/exec.c builtins/echo.c builtins/cd.c builtins/pwd.c \
 builtins/unset.c builtins/export.c builtins/exit.c utils_env.c utils_args.c \
 utils_cmd.c utils_env2.c parsing/redirections.c exec/redirections.c \
 exec/cmd.c parsing/quotes.c parsing/cmd.c parsing/cmd2.c parsing/env.c \
-parsing/get_redir.c signals.c parsing/pipes.c
+parsing/get_redir.c signals.c parsing/pipes.c prompt.c
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(SRCS:.c=.o)
 PRINTF = $(PRINTF_DIR)/libftprintf.a

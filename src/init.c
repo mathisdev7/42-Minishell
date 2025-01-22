@@ -6,7 +6,7 @@
 /*   By: mazeghou <mazeghou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 03:41:39 by nopareti          #+#    #+#             */
-/*   Updated: 2025/01/20 13:55:02 by mazeghou         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:37:56 by mazeghou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	prompt_system(t_shell *shell)
 	char		*line;
 	char		cwd[1024];
 	t_cmd_line	cmd_line;
+	char		*prompt;
 
 	while (1)
 	{
@@ -71,7 +72,8 @@ void	prompt_system(t_shell *shell)
 			perror("minishell: getcwd error");
 			return ;
 		}
-		line = readline("minishell> ");
+		prompt = create_prompt(cwd);
+		line = readline(prompt);
 		if (!line)
 			return ;
 		add_history(line);
